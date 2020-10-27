@@ -161,6 +161,10 @@ public class LevelHandler {
 		move(Dungeon.keyForDepth(), Messages.get(Mode.class, Mode.RESET.name()), Mode.RESET, Dungeon.depth, null);
 	}
 
+	public static void reload() {
+		move(Dungeon.keyForDepth(), Messages.get(Mode.class, Mode.RESURRECT.name()), Mode.MOVE, Dungeon.depth, null);
+	}
+
 	public static void resurrect() {
 		move(Dungeon.keyForDepth(), Messages.get(Mode.class, Mode.RESURRECT.name()), Mode.RESURRECT, Dungeon.depth, null);
 	}

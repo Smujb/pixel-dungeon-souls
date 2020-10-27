@@ -50,6 +50,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.Buff;
 import com.shatteredpixel.yasd.general.actors.buffs.Combo;
 import com.shatteredpixel.yasd.general.actors.buffs.Drunk;
 import com.shatteredpixel.yasd.general.actors.buffs.Foresight;
+import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.buffs.Hunger;
 import com.shatteredpixel.yasd.general.actors.buffs.Invisibility;
 import com.shatteredpixel.yasd.general.actors.buffs.LimitedAir;
@@ -113,6 +114,7 @@ import com.shatteredpixel.yasd.general.ui.BuffIndicator;
 import com.shatteredpixel.yasd.general.ui.QuickSlotButton;
 import com.shatteredpixel.yasd.general.utils.GLog;
 import com.shatteredpixel.yasd.general.windows.WndHero;
+import com.shatteredpixel.yasd.general.windows.WndRetry;
 import com.shatteredpixel.yasd.general.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -194,10 +196,15 @@ public class Hero extends Char {
 		return lvl;
 	}
 
+	public int trueMaxHP() {
+		return 20 + 5*(lvl-1) + HTBoost;
+	}
+
 	@Override
 	public void updateHT(boolean boostHP) {
 		int preHT = HT;
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = trueMaxHP();
+		HT *= Hollowing.hpFactor(this);
 		heal(HT-preHT);
 		super.updateHT(boostHP);
 	}
@@ -230,25 +237,7 @@ public class Hero extends Char {
 	}
 
 	public void loseMorale(float amount, boolean say) {
-		if (!Constants.MORALE) {
-			return;
-		}
-		if (buff(WellFed.class) != null) amount *= 2/3f;
-		amount *= Dungeon.difficulty.moraleFactor();
-		if (buff(Drunk.class) == null) {//Can't lose Morale when drunk
-			morale -= amount;
-			morale = Math.max(morale, 0);
-			if (this.sprite != null) {
-				this.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Morale.class, "loss"));
-			}
-			if (say) {
-				sayMorale();
-			}
-			if (morale == 0f & isAlive()) {
-				Buff.affect(this, Bleeding.class).set(Math.max(1, this.HP / 6));
-				morale += Random.Float() + 2;
-			}
-		}
+
 	}
 
 	public void gainMorale(float Amount) {
@@ -1009,10 +998,8 @@ public class Hero extends Char {
 				if (shake >= 1/3f) {
 					float divisor = 3 + 12 * ((HP + shielding()) / (float) (HT + shielding()));
 					GameScene.flash((int) (0xFF / divisor) << 16);
-					loseMorale(shake);
 					Sample.INSTANCE.play(Assets.Sounds.HEALTH_CRITICAL, 1/3f + shake * 2f);
 				} else {
-					loseMorale(shake, false);
 					Sample.INSTANCE.play(Assets.Sounds.HEALTH_WARN, shake * 2f);
 				}
 			}
@@ -1410,66 +1397,24 @@ public class Hero extends Char {
 		}
 		
 		Actor.fixTime();
+		Hollowing.die(this);
 		super.die( cause );
 		reallyDie( cause );
 	}
 	
 	public static void reallyDie( DamageSrc cause ) {
-		
-		int length = Dungeon.level.length();
-		KindOfTerrain[] map = Dungeon.level.getMap();
-		boolean[] visited = Dungeon.level.visited;
-		boolean[] discoverable = Dungeon.level.discoverable;
-		
-		for (int i=0; i < length; i++) {
-			
-			KindOfTerrain terr = map[i];
-			
-			if (discoverable[i]) {
-				
-				visited[i] = true;
-				if (terr.secret()) {
-					Dungeon.level.discover( i );
-				}
-			}
-		}
-		
-		Bones.leave();
-		
-		Dungeon.observe();
-		GameScene.updateFog();
-				
-		Dungeon.hero.belongings.identify();
-
-		int pos = Dungeon.hero.pos;
-
-		ArrayList<Integer> passable = new ArrayList<>();
-		for (Integer ofs : PathFinder.NEIGHBOURS8) {
-			int cell = pos + ofs;
-			if ((Dungeon.level.passable(cell) || Dungeon.level.avoid(cell)) && Dungeon.level.heaps.get( cell ) == null) {
-				passable.add( cell );
-			}
-		}
-		Collections.shuffle( passable );
-
-		ArrayList<Item> items = new ArrayList<>(Dungeon.hero.belongings.backpack.items);
-		for (Integer cell : passable) {
-			if (items.isEmpty()) {
-				break;
-			}
-
-			Item item = Random.element( items );
-			Dungeon.level.drop( item, cell ).sprite.drop( pos );
-			items.remove( item );
-		}
 
 		GameScene.gameOver();
 
 		if (cause.getCause() instanceof Hero.Doom) {
 			((Hero.Doom)cause.getCause()).onDeath();
 		}
-		
-		Dungeon.deleteGame( GamesInProgress.curSlot, true );
+		PDSGame.runOnRenderThread(new Callback() {
+			@Override
+			public void call() {
+				PDSGame.scene().addToFront(new WndRetry());
+			}
+		});
 	}
 
 	//effectively cache this buff to prevent having to call buff(Berserk.class) a bunch.

@@ -27,6 +27,7 @@
 
 package com.shatteredpixel.yasd.general.items.potions;
 
+import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.sprites.ItemSpriteSheet;
@@ -43,8 +44,8 @@ public class PotionOfForbiddenKnowledge extends Potion {
 	public void apply( Hero hero ) {
 		setKnown();
 
-		//50 - 60% Morale lost
-		hero.loseMorale(5f + Random.Float());
+		//Maximise hollowing
+		Hollowing.fullyHollow(hero);
 		GLog.n(Messages.get(this, "drink"));
 		hero.distributePoints();
 	}
