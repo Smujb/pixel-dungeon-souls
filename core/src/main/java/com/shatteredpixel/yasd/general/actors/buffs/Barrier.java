@@ -1,0 +1,90 @@
+/*
+ *
+ *  * Pixel Dungeon
+ *  * Copyright (C) 2012-2015 Oleg Dolya
+ *  *
+ *  * Shattered Pixel Dungeon
+ *  * Copyright (C) 2014-2019 Evan Debenham
+ *  *
+ *  * Powered Pixel Dungeon
+ *  * Copyright (C) 2014-2020 Samuel Braithwaite
+ *  *
+ *  * This program is free software: you can redistribute it and/or modify
+ *  * it under the terms of the GNU General Public License as published by
+ *  * the Free Software Foundation, either version 3 of the License, or
+ *  * (at your option) any later version.
+ *  *
+ *  * This program is distributed in the hope that it will be useful,
+ *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  * GNU General Public License for more details.
+ *  *
+ *  * You should have received a copy of the GNU General Public License
+ *  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ *
+ */
+
+package com.shatteredpixel.yasd.general.actors.buffs;
+
+import com.shatteredpixel.yasd.general.actors.Char;
+import com.shatteredpixel.yasd.general.messages.Messages;
+import com.shatteredpixel.yasd.general.sprites.CharSprite;
+import com.shatteredpixel.yasd.general.ui.BuffIndicator;
+import com.watabou.noosa.Image;
+
+public class Barrier extends ShieldBuff {
+	
+	{
+		type = buffType.POSITIVE;
+	}
+	
+	@Override
+	public boolean act() {
+
+		decShield();
+		
+		if (shielding() <= 0){
+			detach();
+		}
+		
+		spend( TICK );
+		
+		return true;
+	}
+	
+	@Override
+	public void fx(boolean on) {
+		if (on) target.sprite.add(CharSprite.State.SHIELDED);
+		else target.sprite.remove(CharSprite.State.SHIELDED);
+	}
+
+	public static int curShield(Char ch) {
+		Barrier barrier;
+		if ( (barrier = ch.buff(Barrier.class)) != null) {
+			return barrier.shielding();
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public int icon() {
+		return BuffIndicator.ARMOR;
+	}
+	
+	@Override
+	public void tintIcon(Image icon) {
+		icon.hardlight(0.5f, 1f, 2f);
+	}
+	
+	@Override
+	public String toString() {
+		return Messages.get(this, "name");
+	}
+	
+	@Override
+	public String desc() {
+		return Messages.get(this, "desc", shielding());
+	}
+}
