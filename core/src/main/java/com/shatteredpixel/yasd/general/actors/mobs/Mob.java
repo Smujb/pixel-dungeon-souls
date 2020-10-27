@@ -356,7 +356,7 @@ public abstract class Mob extends Char {
 		if (hasBelongings()) {
 			return super.impact();
 		} else {
-			return normalImpact(level) * poiseFactor;
+			return normalImpact(level) * impactFactor;
 		}
 	}
 
