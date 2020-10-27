@@ -47,7 +47,8 @@ public class Statistics {
 	public static int spawnersAlive;
 	
 	public static float duration;
-	
+
+	public static int lastBonfireDepth;
 	public static boolean qualifiedForNoKilling = false;
 	public static boolean completedWithNoKilling = false;
 	
@@ -70,7 +71,8 @@ public class Statistics {
 		spawnersAlive   = 0;
 		
 		duration	= 0;
-		
+
+		lastBonfireDepth = -1;
 		qualifiedForNoKilling = false;
 		
 		amuletObtained = false;
@@ -92,8 +94,9 @@ public class Statistics {
 	private static final String SPAWNERS	= "spawnersAlive";
 
 	private static final String DURATION	= "duration";
-	
+
 	private static final String AMULET		= "amuletObtained";
+	private static final String BONFIRE		= "lastBonfire";
 	
 	public static void storeInBundle( Bundle bundle ) {
 		bundle.put( GOLD,		goldCollected );
@@ -113,6 +116,7 @@ public class Statistics {
 		bundle.put( DURATION,	duration );
 		
 		bundle.put( AMULET,		amuletObtained );
+		bundle.put( BONFIRE, lastBonfireDepth );
 	}
 	
 	public static void restoreFromBundle( Bundle bundle ) {
@@ -133,6 +137,7 @@ public class Statistics {
 		duration		= bundle.getFloat( DURATION );
 		
 		amuletObtained	= bundle.getBoolean( AMULET );
+		lastBonfireDepth = bundle.getInt( BONFIRE );
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ){

@@ -11,16 +11,13 @@ import com.shatteredpixel.yasd.general.sprites.ItemSpriteSheet;
 import com.shatteredpixel.yasd.general.ui.RedButton;
 import com.shatteredpixel.yasd.general.ui.RenderedTextBlock;
 import com.shatteredpixel.yasd.general.ui.Window;
-import com.sun.org.apache.bcel.internal.generic.DUP;
-import com.watabou.noosa.Game;
+import com.watabou.utils.Callback;
 
 import java.io.IOException;
 
 public class WndRetry extends Window {
 
     private static void resurrect() {
-        Dungeon.level.reset();
-        Dungeon.hero.pos = Dungeon.level.heroSpawnCell();
         Dungeon.hero.updateHT(false);
         Dungeon.hero.HP = Dungeon.hero.HT;
         Dungeon.hero.live();
@@ -43,7 +40,7 @@ public class WndRetry extends Window {
             protected void onClick() {
                 hide();
                 resurrect();
-                LevelHandler.reload();
+                LevelHandler.lastBonfire(null);
             }
         };
         btnYes.setRect( 0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT );
@@ -54,12 +51,17 @@ public class WndRetry extends Window {
             protected void onClick() {
                 hide();
                 resurrect();
-                try {
-                    Dungeon.saveAll();
-                    PDSGame.switchScene(TitleScene.class);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                LevelHandler.lastBonfire(new Callback() {
+                    @Override
+                    public void call() {
+                        try {
+                            Dungeon.saveAll();
+                            PDSGame.switchScene(TitleScene.class);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
             }
         };
         btnNo.setRect( 0, btnYes.bottom() + GAP, WIDTH, BTN_HEIGHT );

@@ -81,6 +81,8 @@ public class WndInfoItem extends Window {
 			color = ItemSlot.UPGRADED;
 		} else if (item.levelKnown && item.level() < 0) {
 			color = ItemSlot.DEGRADED;
+		} else if (item.broken) {
+			color = ItemSlot.WARNING;
 		}
 
 		IconTitle titlebar = new IconTitle( item );

@@ -89,6 +89,7 @@ public class Item implements Bundlable {
 	public static final float MAXIMUM_DURABILITY = 1000;
 	public float curDurability = MAXIMUM_DURABILITY;
 	public boolean saidAlmostBreak = false;
+	public boolean broken = false;
 	
 	public boolean stackable = false;
 	protected int quantity = 1;
@@ -140,6 +141,7 @@ public class Item implements Bundlable {
 			curDurability += MAXIMUM_DURABILITY/2;
 			curDurability = Math.min(curDurability,MAXIMUM_DURABILITY);
 		}
+		broken = false;
 		saidAlmostBreak = false;
 	}
 
@@ -152,27 +154,20 @@ public class Item implements Bundlable {
 	}
 
 	public void use(float amount, boolean override) {
-		if (curUser == null) {//curUser may be null if activate() has not yet been called (such as on game start). This prevents the next check from throwing an error.
-			curUser = Dungeon.hero;
-		}
-		if (level() < 0 | !(isEquipped(curUser) | override) | cursed) {//Unequipped items should never degrade, as they should not be usable. Exception is the Wand imbued in the Mage's staff, this workaround is made for that.
+		if (broken || level() < 0 || !(isEquipped(curUser) || override) || cursed) {//Unequipped items should never degrade, as they should not be usable. Exception is the Wand imbued in the Mage's staff, this workaround is made for that.
 			return;
 		}
 		curDurability -= amount;
 		if (curDurability <= 0) {
+			curDurability = 0;
 			if (curUser instanceof Hero) {
 				GLog.n(Messages.get(this, "broken"), this.name());
 				Sample.INSTANCE.play(Assets.Sounds.DEGRADE);
 			}
-			fullyRepair();
-			if (level > 0) {
-				degrade();
-			} else {
-				curse();
-			}
+			broken = true;
 
 		} else if (curDurability <= MAXIMUM_DURABILITY*0.2f & !saidAlmostBreak && curUser instanceof Hero) {
-			GLog.w(Messages.get(this,"almost_break",this.name()));
+			GLog.w(Messages.get(this,"almost_break", name()));
 			saidAlmostBreak = true;
 		}
 	}
@@ -216,8 +211,8 @@ public class Item implements Bundlable {
 	}
 
 	//resets an item's properties, to ensure consistency between runs
-	public void reset(){
-		//resets the name incase the language has changed.
+	public void reset() {
+		//resets the name in case the language has changed.
 		name = Messages.get(this, "name");
 	}
 
@@ -411,8 +406,10 @@ public class Item implements Bundlable {
 	protected void onDetach(){}
 
 	//returns the level of the item
-	public int level(){
-		return trueLevel();
+	public int level() {
+		int lvl = trueLevel();
+		if (broken) lvl = Math.min(5, lvl/3);
+		return lvl;
 	}
 
 	//Returns the true level of the item, cannot be overridden.
@@ -606,6 +603,7 @@ public class Item implements Bundlable {
 	private static final String CURSED_KNOWN	= "cursedKnown";
 	private static final String QUICKSLOT		= "quickslotpos";
 	private static final String DURABILITY      = "durability";
+	private static final String BROKEN 	      	= "broken";
 	private static final String GIVEN_NAME      = "given-name";
 	
 	@Override
@@ -617,6 +615,7 @@ public class Item implements Bundlable {
 		bundle.put( CURSED_KNOWN, cursedKnown );
 		bundle.put( DURABILITY, curDurability );
 		bundle.put( GIVEN_NAME, givenName );
+		bundle.put( BROKEN, broken );
 		if (Dungeon.quickslot.contains(this)) {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 		}
@@ -628,6 +627,7 @@ public class Item implements Bundlable {
 		levelKnown	= bundle.getBoolean( LEVEL_KNOWN );
 		cursedKnown	= bundle.getBoolean( CURSED_KNOWN );
 		curDurability = bundle.getFloat( DURABILITY );
+		broken = bundle.getBoolean( BROKEN );
 
 		if (bundle.contains(GIVEN_NAME)) {
 			givenName = bundle.getString(GIVEN_NAME);

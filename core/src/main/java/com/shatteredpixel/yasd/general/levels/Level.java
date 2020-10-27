@@ -1213,18 +1213,16 @@ public abstract class Level implements Bundlable {
 	}
 
 	public int heroSpawnCell() {
-		int pos = getEntrancePos();
 		for (Mob mob : mobs.toArray(new Mob[0])) {
-			if (mob instanceof Bonfire) {
-				for (int i : neighbors9(mob.pos)) {
-					if (passable(i)) {
-						pos = i;
-						break;
+			if (mob instanceof Bonfire && ((Bonfire)mob).lit()) {
+				for (int cell : neighbors9(mob.pos)) {
+					if (passable(cell)) {
+						return cell;
 					}
 				}
 			}
 		}
-		return pos;
+		return -1;
 	}
 	
 	public int randomDestination(Char ch) {

@@ -36,6 +36,7 @@ import com.shatteredpixel.yasd.general.items.DeveloperItem;
 import com.shatteredpixel.yasd.general.items.Generator;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.KindOfWeapon;
+import com.shatteredpixel.yasd.general.items.KindofMisc;
 import com.shatteredpixel.yasd.general.items.WeaponEditor;
 import com.shatteredpixel.yasd.general.items.alcohol.Beer;
 import com.shatteredpixel.yasd.general.items.armor.ChainArmor;
@@ -110,7 +111,10 @@ public enum HeroClass {
 				initHuntress( hero );
 				break;
 		}
-		
+
+		for (KindofMisc misc : hero.belongings.miscs) {
+			if (misc != null) misc.activate(hero);
+		}
 	}
 
 	private static void initCommon( Hero hero ) {

@@ -38,6 +38,7 @@ import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
 import com.shatteredpixel.yasd.general.scenes.TextScene;
 import com.shatteredpixel.yasd.general.ui.GameLog;
+import com.shatteredpixel.yasd.general.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.FileUtils;
@@ -54,6 +55,7 @@ public class LevelHandler {
 	private static boolean fallIntoPit;
 	public static int depth;
 	public static String key;
+	private static Callback callback;
 
 
 	public static String filename(String key, int slot) {
@@ -77,7 +79,7 @@ public class LevelHandler {
 	}
 
 	public enum Mode {
-		DESCEND, ASCEND, CONTINUE, RESURRECT, RETURN, FALL, RESET, MOVE, INIT, DIVE
+		DESCEND, ASCEND, CONTINUE, RESURRECT, RETURN, FALL, RESET, MOVE, INIT, DIVE, LAST_BONFIRE
 	}
 	private static Mode mode;
 	
@@ -161,8 +163,10 @@ public class LevelHandler {
 		move(Dungeon.keyForDepth(), Messages.get(Mode.class, Mode.RESET.name()), Mode.RESET, Dungeon.depth, null);
 	}
 
-	public static void reload() {
-		move(Dungeon.keyForDepth(), Messages.get(Mode.class, Mode.RESURRECT.name()), Mode.MOVE, Dungeon.depth, null);
+	public static void lastBonfire(Callback callback) {
+		int depth = Statistics.lastBonfireDepth;
+		if (depth == -1) depth = 1;
+		move(Dungeon.keyForDepth(depth), Messages.get(Mode.class, Mode.RESURRECT.name()), Mode.LAST_BONFIRE, depth, null, callback);
 	}
 
 	public static void resurrect() {
@@ -227,10 +231,15 @@ public class LevelHandler {
 	}
 
 	public static void move(String key, String msg, Mode mode, int depth, Point pos) {
+		move(key, msg, mode, depth, pos, null);
+	}
+
+	public static void move(String key, String msg, Mode mode, int depth, Point pos, Callback callback) {
 		LevelHandler.depth = depth;
 		LevelHandler.mode = mode;
 		LevelHandler.key = key;
 		LevelHandler.pos = pos;
+		LevelHandler.callback = callback;
 		TextScene.init(msg, Messages.get(LevelHandler.class, "continue"), Dungeon.newLevel( Dungeon.keyForDepth(), false).loadImg(), getSpeed(), 0.67f, new Callback() {
 			@Override
 			public void call() {
@@ -275,7 +284,7 @@ public class LevelHandler {
 		if (mode != Mode.RESET) {
 			level = getLevel(key);
 		}
-		//Dungeon.level = null;
+
 		Actor.clear();
 		if (level == null) {
 
@@ -295,26 +304,46 @@ public class LevelHandler {
 		}
 		Point pos = LevelHandler.pos;
 		if (pos == null) {
-			if (mode == Mode.ASCEND) {
-				pos = level.cellToPoint(level.getExitPos());
-			} else if (mode == Mode.FALL) {
-				pos = level.cellToPoint(level.fallCell(fallIntoPit));
-			} else {
-				pos = level.cellToPoint(level.getEntrancePos());
+			switch (mode) {
+				case ASCEND:
+					pos = level.cellToPoint(level.getExitPos());
+					break;
+				case FALL:
+					pos = level.cellToPoint(level.fallCell(fallIntoPit));
+					break;
+				case LAST_BONFIRE:
+					int cell = level.heroSpawnCell();
+					if (cell == -1) {
+						cell = level.getEntrancePos();
+					}
+					pos = level.cellToPoint(cell);
+					break;
+				default:
+					pos = level.cellToPoint(level.getEntrancePos());
+					break;
 			}
 		}
-		if (mode == Mode.FALL) {
-			Buff.affect( Dungeon.hero, Chasm.Falling.class );
+		switch (mode) {
+			case FALL:
+				Buff.affect(Dungeon.hero, Chasm.Falling.class);
+				break;
+			case DIVE:
+				if (Dungeon.underwater()) {
+					pos.scale(UnderwaterLevel.SIZE_FACTOR);
+				} else {
+					pos.scale(1 / UnderwaterLevel.SIZE_FACTOR);
+				}
+				break;
+			case LAST_BONFIRE:
+				level.reset();
+				break;
 		}
-		if (mode == Mode.DIVE) {
-			if (Dungeon.underwater()) {
-				pos.scale(UnderwaterLevel.SIZE_FACTOR);
-			} else {
-				pos.scale(1/UnderwaterLevel.SIZE_FACTOR);
-			}
+		if (callback == null) {
+			Dungeon.switchLevel(level, pos);
+		} else {
+			callback.call();
+			callback = null;
 		}
-
-		Dungeon.switchLevel(level, pos);
 	}
 
 	private static void restore() throws IOException {
