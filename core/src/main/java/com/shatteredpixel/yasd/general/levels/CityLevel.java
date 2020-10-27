@@ -72,17 +72,17 @@ public class CityLevel extends RegularLevel {
 		minScaleFactor = 19;
 		maxScaleFactor = 24;
 	}
-	
+
 	@Override
 	protected int standardRooms() {
-		//7 to 10, average 7.9
-		return 7+Random.chances(new float[]{4, 3, 2, 1});
+		//6 to 8, average 6.66
+		return 25+Random.chances(new float[]{4, 2, 2})*2;
 	}
-	
+
 	@Override
 	protected int specialRooms() {
-		//2 to 3, average 2.33
-		return 2 + Random.chances(new float[]{2, 1});
+		//1 to 3, average 1.83
+		return 4+Random.chances(new float[]{3, 4, 3})*2;
 	}
 
 	@Override

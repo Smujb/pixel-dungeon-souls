@@ -79,17 +79,17 @@ public class CavesLevel extends RegularLevel {
 	protected ArrayList<Room> initRooms() {
 		return Blacksmith.Quest.spawn(super.initRooms());
 	}
-	
+
 	@Override
 	protected int standardRooms() {
-		//6 to 9, average 7.333
-		return 6+Random.chances(new float[]{2, 3, 3, 1});
+		//6 to 8, average 6.66
+		return 23+Random.chances(new float[]{4, 2, 2})*2;
 	}
-	
+
 	@Override
 	protected int specialRooms() {
-		//1 to 3, average 2.2
-		return 1+Random.chances(new float[]{2, 4, 4});
+		//1 to 3, average 1.83
+		return 4+Random.chances(new float[]{3, 4, 3})*2;
 	}
 	
 	@Override

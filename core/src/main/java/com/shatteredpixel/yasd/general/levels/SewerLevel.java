@@ -78,13 +78,13 @@ public class SewerLevel extends RegularLevel {
 	@Override
 	protected int standardRooms() {
 		//5 to 7, average 5.57
-		return 5+Random.chances(new float[]{4, 2, 1});
+		return 20+Random.chances(new float[]{4, 2, 1})*2;
 	}
 	
 	@Override
 	protected int specialRooms() {
 		//1 to 3, average 1.67
-		return 1+Random.chances(new float[]{4, 4, 2});
+		return 4+Random.chances(new float[]{4, 4, 2})*2;
 	}
 	
 	@Override
