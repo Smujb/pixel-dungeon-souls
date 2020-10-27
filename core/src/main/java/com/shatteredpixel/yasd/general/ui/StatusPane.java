@@ -62,6 +62,7 @@ public class StatusPane extends Component {
 
 	private Image rawShielding;
 	private Image hp;
+	private Image healthFG;
 	private Image air;
 	private Image stamina;
 	private Image exp;
@@ -125,6 +126,9 @@ public class StatusPane extends Component {
 		hp = new Image( Assets.Interfaces.HP_BAR );
 		add( hp );
 
+		healthFG = new Image( Assets.Interfaces.HP_FG );
+		add( healthFG );
+
 		rawShielding = new Image( Assets.Interfaces.SHLD_BAR );
 		add(rawShielding);
 
@@ -187,8 +191,8 @@ public class StatusPane extends Component {
 		compass.y = avatar.y + avatar.height / 2f - compass.origin.y;
 		PixelScene.align(compass);
 
-		hp.x = rawShielding.x = stamina.x = 30;
-		hp.y = rawShielding.y = 5;
+		hp.x = rawShielding.x = healthFG.x = stamina.x = 30;
+		hp.y = healthFG.y = rawShielding.y = 5;
 
 		stamina.y = 12;
 
@@ -227,22 +231,24 @@ public class StatusPane extends Component {
 		
 		float health = Dungeon.hero.HP;
 		float shield = Dungeon.hero.shielding();
-		float max = Dungeon.hero.HT;
+		float trueMax = Dungeon.hero.trueMaxHP();
+		float curCap = Dungeon.hero.HT;
 		float maxStamina = Dungeon.hero.maxStamina();
 		float staminaAmt = Dungeon.hero.stamina;
 
 		if (!Dungeon.hero.isAlive()) {
 			avatar.tint(0x000000, 0.5f);
-		} else if ((health/max) < 0.3f) {
-			warning += Game.elapsed * 5f *(0.4f - (health/max));
+		} else if ((health/trueMax) < 0.3f) {
+			warning += Game.elapsed * 5f *(0.4f - (health/trueMax));
 			warning %= 1f;
 			avatar.tint(ColorMath.interpolate(warning, warningColors), 0.5f );
 		} else {
 			avatar.resetColor();
 		}
 
-		hp.scale.x = Math.max( 0, health/max);
-		rawShielding.scale.x = shield/max;
+		hp.scale.x = Math.max( 0, health/trueMax);
+		healthFG.scale.x = curCap/trueMax;
+		rawShielding.scale.x = shield/trueMax;
 		stamina.scale.x = staminaAmt/maxStamina;
 
 		air.scale.x = LimitedAir.percentage(Dungeon.hero);

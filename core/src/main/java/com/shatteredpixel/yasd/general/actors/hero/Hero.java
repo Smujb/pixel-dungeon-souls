@@ -1401,6 +1401,16 @@ public class Hero extends Char {
 		super.die( cause );
 		reallyDie( cause );
 	}
+
+	@Override
+	protected synchronized void onRemove() {
+		for (Buff buff : buffs().toArray(new Buff[0])) {
+			//Hollowing is preserved
+			if (!(buff instanceof Hollowing)) {
+				buff.detach();
+			}
+		}
+	}
 	
 	public static void reallyDie( DamageSrc cause ) {
 
