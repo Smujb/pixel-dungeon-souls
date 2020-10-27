@@ -216,7 +216,7 @@ public abstract class Mob extends Char {
 	}
 
 	private static int normalHP(int level) {
-		return 8 + 4 * level;
+		return 10 + 5 * level;
 	}
 
 	private static int normalAttackSkill(int level) {
@@ -236,8 +236,8 @@ public abstract class Mob extends Char {
 	}
 
 	private static int normalDamageRoll(int level) {
-		int max = 3 + Math.round(level * 0.5f);
-		int min = Math.round(level * 0.25f);
+		int max = 5 + level;
+		int min = 1 + level/2;
 		return Random.NormalIntRange(min, max);
 	}
 
