@@ -283,5 +283,6 @@ public class Assets {
 		public static final String THORNVINE= "sprites/thornvine.png";
 		public static final String LIGHTNING_TOWER = "sprites/littower.png";
 		public static final String LOTUS	= "sprites/lotus.png";
+		public static final String BONFIRE	= "sprites/bonfire.png";
 	}
 }

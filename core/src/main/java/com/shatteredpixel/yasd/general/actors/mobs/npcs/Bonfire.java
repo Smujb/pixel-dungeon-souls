@@ -11,6 +11,7 @@ import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
+import com.shatteredpixel.yasd.general.sprites.BonfireSprite;
 import com.shatteredpixel.yasd.general.sprites.CharSprite;
 import com.shatteredpixel.yasd.general.sprites.StatueSprite;
 import com.shatteredpixel.yasd.general.utils.GLog;
@@ -24,13 +25,10 @@ import com.watabou.utils.Callback;
 public class Bonfire extends NPC {
 
     {
-        //FIXME actual sprite
-        spriteClass = StatueSprite.class;
+        spriteClass = BonfireSprite.class;
     }
 
     private boolean lit = false;
-
-
 
     @Override
     public boolean reset() {
