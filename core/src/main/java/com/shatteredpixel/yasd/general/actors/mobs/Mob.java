@@ -253,6 +253,11 @@ public abstract class Mob extends Char {
 		return 0.6f + 0.075f*level;
 	}
 
+	@Override
+	public float maxStamina() {
+		return 10;
+	}
+
 	public static <T extends Mob> T create(Class<T> type, int level) {
 		T mob;
 		try {

@@ -63,7 +63,7 @@ public class StatusPane extends Component {
 	private Image rawShielding;
 	private Image hp;
 	private Image air;
-	private Image morale;
+	private Image stamina;
 	private Image exp;
 	private Image difficulty;
 	private Emitter bubbles;
@@ -128,7 +128,7 @@ public class StatusPane extends Component {
 		rawShielding = new Image( Assets.Interfaces.SHLD_BAR );
 		add(rawShielding);
 
-		air = new Image( Assets.Interfaces.MORALE_BAR, 0, 0, 21, 3 );
+		air = new Image( Assets.Interfaces.STAMINA_BAR, 0, 0, 21, 3 );
 		add( air );
 
 		bubbles = new Emitter();
@@ -138,8 +138,8 @@ public class StatusPane extends Component {
 		bubbles.on = false;
 		add( bubbles );
 
-		morale = new Image( Assets.Interfaces.MORALE_BAR );
-		add( morale );
+		stamina = new Image( Assets.Interfaces.STAMINA_BAR);
+		add(stamina);
 
 		exp = new Image( Assets.Interfaces.XP_BAR );
 		add( exp );
@@ -187,10 +187,10 @@ public class StatusPane extends Component {
 		compass.y = avatar.y + avatar.height / 2f - compass.origin.y;
 		PixelScene.align(compass);
 
-		hp.x = rawShielding.x = morale.x = 30;
+		hp.x = rawShielding.x = stamina.x = 30;
 		hp.y = rawShielding.y = 5;
 
-		morale.y = 12;
+		stamina.y = 12;
 
 		air.x = 1;
 		air.y = 31;
@@ -228,8 +228,8 @@ public class StatusPane extends Component {
 		float health = Dungeon.hero.HP;
 		float shield = Dungeon.hero.shielding();
 		float max = Dungeon.hero.HT;
-		float maxMorale = Dungeon.hero.MAX_MORALE;
-		float moraleAmt = Dungeon.hero.morale;
+		float maxStamina = Dungeon.hero.maxStamina();
+		float staminaAmt = Dungeon.hero.stamina;
 
 		if (!Dungeon.hero.isAlive()) {
 			avatar.tint(0x000000, 0.5f);
@@ -243,7 +243,7 @@ public class StatusPane extends Component {
 
 		hp.scale.x = Math.max( 0, health/max);
 		rawShielding.scale.x = shield/max;
-		morale.scale.x = moraleAmt/maxMorale;
+		stamina.scale.x = staminaAmt/maxStamina;
 
 		air.scale.x = LimitedAir.percentage(Dungeon.hero);
 

@@ -313,8 +313,8 @@ public class Hero extends Char {
 	}
 
 	@Override
-	public float resist(Element effect) {
-		return super.resist(effect);
+	public float maxStamina() {
+		return 10f;
 	}
 
 	private static final String ATTACK		= "attackSkill";

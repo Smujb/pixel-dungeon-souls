@@ -74,6 +74,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.ShieldBuff;
 import com.shatteredpixel.yasd.general.actors.buffs.Slow;
 import com.shatteredpixel.yasd.general.actors.buffs.Speed;
 import com.shatteredpixel.yasd.general.actors.buffs.Stamina;
+import com.shatteredpixel.yasd.general.actors.buffs.StaminaRegen;
 import com.shatteredpixel.yasd.general.actors.buffs.Terror;
 import com.shatteredpixel.yasd.general.actors.buffs.Vertigo;
 import com.shatteredpixel.yasd.general.actors.buffs.Vulnerable;
@@ -129,7 +130,6 @@ public abstract class Char extends Actor {
 
 	public Belongings belongings = null;
 	public int STR;
-	//public boolean hasBelongings = false;
 
 	protected int numTypes = 1;
 
@@ -137,6 +137,8 @@ public abstract class Char extends Actor {
 
 	public int HT;
 	public int HP;
+	public float stamina = maxStamina();
+	public static final float REQ_STAMINA = 1f;
 
 	protected float baseSpeed = 1;
 	protected PathFinder.Path path;
@@ -211,6 +213,8 @@ public abstract class Char extends Actor {
 			return false;
 		}
 
+		if (stamina < REQ_STAMINA) return false;
+
 		//can always attack adjacent enemies
 		if (Dungeon.level.adjacent(pos, enemy.pos)) {
 			return true;
@@ -240,6 +244,8 @@ public abstract class Char extends Actor {
 		}
 		HP = Math.min(HP, HT);
 	}
+
+	public abstract float maxStamina();
 
 	@Override
 	protected boolean act() {
@@ -310,12 +316,9 @@ public abstract class Char extends Actor {
 	}
 
 	public void live() {
-		if (buff(Armor.Defense.class) == null) {
-			Buff.affect(this, Armor.Defense.class).setToMax(this);
-		}
-		if (buff(Regeneration.class) == null) {
-			Buff.affect(this, Regeneration.class);
-		}
+		if (buff(Armor.Defense.class) == null) Buff.affect(this, Armor.Defense.class).setToMax(this);
+		if (buff(Regeneration.class) == null) Buff.affect(this, Regeneration.class);
+		if (buff(StaminaRegen.class) == null) Buff.affect(this, StaminaRegen.class);
 	}
 
 	protected static final String POS = "pos";
@@ -377,6 +380,8 @@ public abstract class Char extends Actor {
 		if (hasBelongings()) {
 			belongings.nextWeapon();
 		}
+
+		stamina -= REQ_STAMINA;
 
 		if (enemy == null || enemy == this) return false;
 
