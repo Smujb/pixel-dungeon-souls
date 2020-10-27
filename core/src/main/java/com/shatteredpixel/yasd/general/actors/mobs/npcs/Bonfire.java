@@ -3,8 +3,10 @@ package com.shatteredpixel.yasd.general.actors.mobs.npcs;
 import com.shatteredpixel.yasd.general.Assets;
 import com.shatteredpixel.yasd.general.Badges;
 import com.shatteredpixel.yasd.general.Dungeon;
+import com.shatteredpixel.yasd.general.LevelHandler;
 import com.shatteredpixel.yasd.general.PDSGame;
 import com.shatteredpixel.yasd.general.Statistics;
+import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
@@ -20,6 +22,7 @@ import com.shatteredpixel.yasd.general.windows.WndOptions;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Scene;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 
 public class Bonfire extends NPC {
@@ -37,30 +40,40 @@ public class Bonfire extends NPC {
 
     @Override
     public boolean interact(Char ch) {
-        Dungeon.level.reset();
-        Statistics.lastBonfireDepth = Dungeon.depth;
-        PDSGame.seamlessResetScene(new Game.SceneChangeCallback() {
+        new Thread() {
             @Override
-            public void beforeCreate() {
+            public void run() {
+                super.run();
+                Actor.fixTime();
+                Actor.clear();
+                Dungeon.level.reset();
+                Actor.init();
+                light();
+                Statistics.lastBonfireDepth = Dungeon.depth;
+                PDSGame.seamlessResetScene(new Game.SceneChangeCallback() {
+                    @Override
+                    public void beforeCreate() {
 
-            }
+                    }
 
-            @Override
-            public void afterCreate() {
-                if (lit()) {
-                    ch.heal(ch.HT, false, true);
-                    PDSGame.runOnRenderThread(new Callback() {
-                        @Override
-                        public void call() {
-                            PDSGame.scene().addToFront(new WndBonfire());
+                    @Override
+                    public void afterCreate() {
+                        if (lit()) {
+                            ch.heal(ch.HT, false, true);
+                            PDSGame.runOnRenderThread(new Callback() {
+                                @Override
+                                public void call() {
+                                    PDSGame.scene().addToFront(new WndBonfire());
+                                }
+                            });
+                        } else {
+                            sprite.showStatus(CharSprite.POSITIVE, Messages.get(Bonfire.this, "bonfire_lit"));
                         }
-                    });
-                } else {
-                    sprite.showStatus(CharSprite.POSITIVE, Messages.get(Bonfire.this, "bonfire_lit"));
-                    light();
-                }
+                    }
+                });
             }
-        });
+        }.start();
+
         return true;
     }
 
@@ -70,6 +83,20 @@ public class Bonfire extends NPC {
 
     public void light() {
         lit = true;
+    }
+
+    public static final String LIT = "lit";
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(LIT, lit);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        lit = bundle.getBoolean(LIT);
     }
 
     public static class WndBonfire extends WndOptions {

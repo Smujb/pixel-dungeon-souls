@@ -243,7 +243,7 @@ public abstract class RegularLevel extends Level {
 			}
 			
 			Room room = randomRoom( StandardRoom.class );
-			if (room == null || room == roomEntrance) {
+			if (room == null || room == roomEntrance || room == roomExit) {
 				continue;
 			}
 
