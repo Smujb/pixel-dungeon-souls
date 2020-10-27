@@ -275,13 +275,18 @@ public class Belongings implements Iterable<Item> {
 		return regen;
 	}
 
-	//TODO make poise and impact depend on equipment
+	//TODO make poise depend on equipment
 	public float poise() {
 		return 0.2f;
 	}
 
 	public float impact() {
-		return 0.6f;
+		KindOfWeapon weapon = getCurrentWeapon();
+		if (weapon instanceof MeleeWeapon) {
+			return ((MeleeWeapon)weapon).impact();
+		} else {
+			return 0f;
+		}
 	}
 
 	public int defense() {

@@ -62,6 +62,7 @@ public class RandomMeleeWeapon extends MeleeWeapon implements Randomisable {
         degradeFactor = 1f;
         defenseMultiplier = 0f;
         RCH = 1;
+        impactFactor = 1f;
         properties = new ArrayList<>();
         return this;
     }
@@ -71,7 +72,7 @@ public class RandomMeleeWeapon extends MeleeWeapon implements Randomisable {
     public RandomMeleeWeapon rollStats() {
         resetStats();
         KindOfWeapon.Property[] basicProps = Property.values();
-        int nProps = basicProps.length + 5;
+        int nProps = basicProps.length + 6;
         int maxProps = 0;
         while (maxProps < 4 && Random.Float() < (0.75f * Math.pow(0.5, maxProps))) {
             maxProps++;
@@ -108,6 +109,9 @@ public class RandomMeleeWeapon extends MeleeWeapon implements Randomisable {
                         break;
                     case 4:
                         RCH = Random.NormalIntRange(1, 3);
+                        break;
+                    case 5:
+                        impactFactor = Randomisable.randomStat();
                         break;
                 }
             }

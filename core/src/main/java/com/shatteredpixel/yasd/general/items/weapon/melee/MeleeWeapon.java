@@ -46,8 +46,8 @@ public class MeleeWeapon extends Weapon {
 	public int tier = 1;
 
 	public float defenseMultiplier = 0f;
-
 	public float degradeFactor = 1f;
+	public float impactFactor = 1f;
 
 	@Override
 	public boolean canDegrade() {
@@ -76,7 +76,7 @@ public class MeleeWeapon extends Weapon {
 
 	//TODO variable impact
 	public float impact() {
-		return 0.3f;
+		return 0.6f * DLY * impactFactor;
 	}
 
 	public int STRReq(int lvl){
@@ -132,7 +132,8 @@ public class MeleeWeapon extends Weapon {
 		multiplier *= DLY;
 		multiplier *= degradeFactor;
 		multiplier *= 1/ACC;
-		multiplier *= 1/ (1 + defenseMultiplier);
+		multiplier *= 1/impactFactor;
+		multiplier *= 1/(1+defenseMultiplier);
 		multiplier *= 3/(RCH+2f);
 		if (properties.contains(Property.DUAL_HANDED)) {
 			multiplier *= 1.2f;
@@ -199,6 +200,12 @@ public class MeleeWeapon extends Weapon {
 				info += "\n" + Messages.get(MeleeWeapon.class, "degrade_increase", Math.round((degradeFactor-1f)*100));
 			} else if (degradeFactor < 1f) {
 				info += "\n" + Messages.get(MeleeWeapon.class, "degrade_decrease", Math.round((1f-degradeFactor)*100));
+			}
+
+			if (impactFactor > 1f) {
+				info += "\n" + Messages.get(MeleeWeapon.class, "impact_increase", Math.round((impactFactor-1f)*100));
+			} else if (impactFactor < 1f) {
+				info += "\n" + Messages.get(MeleeWeapon.class, "impact_decrease", Math.round((1f-impactFactor)*100));
 			}
 
 			if (ACC > 1f) {
