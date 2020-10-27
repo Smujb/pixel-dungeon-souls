@@ -112,14 +112,14 @@ public class DesktopLauncher {
         String basePath = "";
         if (SharedLibraryLoader.isWindows) {
             if (System.getProperties().getProperty("os.name").equals("Windows XP")) {
-                basePath = "Application Data/.smujb/Powered Pixel Dungeon/";
+                basePath = "Application Data/.smujb/Pixel Dungeon Souls/";
             } else {
-                basePath = "AppData/Roaming/.smujb/Powered Pixel Dungeon/";
+                basePath = "AppData/Roaming/.smujb/Pixel Dungeon Souls/";
             }
         } else if (SharedLibraryLoader.isMac) {
-            basePath = "Library/Application Support/Powered Pixel Dungeon/";
+            basePath = "Library/Application Support/Pixel Dungeon Souls/";
         } else if (SharedLibraryLoader.isLinux) {
-            basePath = ".smujb/yet-another-shattered-dungeon/";
+            basePath = ".smujb/pixel-dungeon-souls/";
         }
 
         //copy over prefs from old file location from legacy desktop codebase
