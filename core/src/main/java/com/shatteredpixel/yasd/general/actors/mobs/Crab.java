@@ -45,6 +45,8 @@ public class Crab extends Mob {
 		damageFactor = 2f;
 		perceptionFactor = 2f;
 		stealthFactor = 0.5f;
+		poiseFactor = 0.5f;
+		impactFactor = 1.6f;
 
 		EXP = 4;
 		

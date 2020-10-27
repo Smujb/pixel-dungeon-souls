@@ -68,6 +68,9 @@ public class Mimic extends Mob {
 		damageFactor = 1.5f;
 		accuracyFactor = 1.5f;
 		evasionFactor = 0.6f;
+		//Mimcs are incredibly sturdy and hit hard
+		poiseFactor = 2f;
+		impactFactor = 1.5f;
 
 		EXP = 0;
 

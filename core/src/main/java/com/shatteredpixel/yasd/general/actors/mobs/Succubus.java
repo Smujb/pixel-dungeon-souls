@@ -61,6 +61,7 @@ public class Succubus extends Mob {
 		damageFactor = 1.2f;
 		accuracyFactor = 1.5f;
 		perceptionFactor = 1.5f;
+		impactFactor = 1.5f;
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 12;

@@ -54,7 +54,8 @@ public class RipperDemon extends Mob {
 		viewDistance = Light.DISTANCE;
 
 		healthFactor = 0.5f;
-		damageFactor = 1.6f;
+		damageFactor = 1.3f;
+		impactFactor = 1.5f;
 		accuracyFactor = 2f;
 		attackDelay = 0.5f;
 

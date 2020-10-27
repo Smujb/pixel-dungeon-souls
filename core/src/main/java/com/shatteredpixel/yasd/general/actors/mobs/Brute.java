@@ -50,9 +50,10 @@ public class Brute extends Mob {
 	{
 		spriteClass = BruteSprite.class;
 
-		damageFactor = 1.2f;
 		stealthFactor = 2/3f;
 		evasionFactor = 0.75f;
+		impactFactor = 1.5f;
+		poiseFactor = 2f;
 		
 		EXP = 8;
 		

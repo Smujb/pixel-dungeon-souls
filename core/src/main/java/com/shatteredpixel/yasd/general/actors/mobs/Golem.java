@@ -49,8 +49,11 @@ public class Golem extends Mob {
 		spriteClass = GolemSprite.class;
 
 
-		healthFactor = 2f;
-		damageFactor = 1.5f;
+		healthFactor = 1.3f;
+		damageFactor = 1.3f;
+		//Incredibly hard to stagger and incredibly good at doing it
+		impactFactor = 2f;
+		poiseFactor = 2f;
 		
 		EXP = 12;
 		

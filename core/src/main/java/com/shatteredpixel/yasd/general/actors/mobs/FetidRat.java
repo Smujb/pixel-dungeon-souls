@@ -44,6 +44,10 @@ public class FetidRat extends Rat {
 
 		EXP = 4;
 
+		//I'll be nice, the paralysis is bad enough
+		impactFactor = 0.7f;
+		poiseFactor = 1.6f;
+
 		state = WANDERING;
 
 		properties.add(Property.MINIBOSS);

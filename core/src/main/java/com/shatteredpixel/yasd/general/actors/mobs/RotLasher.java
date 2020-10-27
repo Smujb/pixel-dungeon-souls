@@ -45,8 +45,7 @@ public class RotLasher extends Mob {
 
 		healthFactor = 2/3f;
 		damageFactor = 1.5f;
-		//HP = HT = 40;
-		//defenseSkill = 0;
+		impactFactor = 1.3f;
 
 		EXP = 1;
 

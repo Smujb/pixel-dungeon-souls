@@ -75,6 +75,7 @@ public class DwarfKing extends Mob {
 		spriteClass = KingSprite.class;
 
 		healthFactor = 1.3f;
+		impactFactor = 1.3f;
 
 		properties.add(Property.BOSS);
 	}

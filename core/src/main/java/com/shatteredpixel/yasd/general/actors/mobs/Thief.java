@@ -44,6 +44,7 @@ public class Thief extends Mob {
 		spriteClass = ThiefSprite.class;
 
 		evasionFactor = 1.2f;
+		impactFactor = 0.7f;
 		range = 3;
 		
 		EXP = 2;

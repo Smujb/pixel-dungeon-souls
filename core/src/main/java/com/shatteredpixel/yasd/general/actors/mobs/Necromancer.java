@@ -57,8 +57,6 @@ public class Necromancer extends Mob {
 		spriteClass = NecromancerSprite.class;
 
 		healthFactor = 0.8f;
-		//HP = HT = 40;
-		//defenseSkill = 13;
 		
 		EXP = 7;
 

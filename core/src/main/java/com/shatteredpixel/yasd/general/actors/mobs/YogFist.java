@@ -186,6 +186,9 @@ public abstract class YogFist extends Mob {
 
 		{
 			spriteClass = FistSprite.Soiled.class;
+
+			damageFactor = 0.8f;
+			poiseFactor = 1.3f;
 		}
 
 		@Override

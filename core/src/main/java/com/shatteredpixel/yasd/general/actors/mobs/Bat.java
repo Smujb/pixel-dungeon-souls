@@ -38,13 +38,15 @@ public class Bat extends Mob {
 	{
 		spriteClass = BatSprite.class;
 
-		healthFactor = 0.6f;
+		healthFactor = 0.7f;
 		evasionFactor = 1.3f;
 		baseSpeed = 2f;
 
 		drFactor = 0.5f;
 		accuracyFactor = 0.8f;
-		damageFactor = 0.75f;
+		damageFactor = 1.25f;
+		poiseFactor = 0f;
+		impactFactor = 0.5f;
 		
 		EXP = 7;
 		

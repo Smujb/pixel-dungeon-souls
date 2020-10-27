@@ -47,6 +47,7 @@ public class Eye extends Mob {
 
 		healthFactor = 1.8f;
 		damageFactor = 0.7f;
+		poiseFactor = 0f;
 
 		viewDistance = Light.DISTANCE;
 

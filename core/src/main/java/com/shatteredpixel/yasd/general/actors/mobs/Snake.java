@@ -42,6 +42,8 @@ public class Snake extends Mob {
 		healthFactor = 0.4f;
 		numTypes = 2;
 		evasionFactor = 2f;
+		poiseFactor = 0.5f;
+		impactFactor = 1.2f;
 		
 		EXP = 2;
 		

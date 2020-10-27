@@ -42,6 +42,7 @@ public class Rat extends Mob {
 		accuracyFactor = 0.8f;
 		healthFactor = 0.7f;
 		damageFactor = 0.8f;
+		poiseFactor = impactFactor = 0.6f;
 	}
 
 	public static class Albino extends Rat {
@@ -50,6 +51,7 @@ public class Rat extends Mob {
 			spriteClass = AlbinoSprite.class;
 
 			healthFactor = 1.2f;
+			poiseFactor = impactFactor = 1f;
 			EXP = 2;
 
 			loot = new MysteryMeat();

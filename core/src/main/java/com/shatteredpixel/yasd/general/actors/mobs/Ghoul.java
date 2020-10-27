@@ -51,6 +51,8 @@ public class Ghoul extends Mob {
 
 		healthFactor = 0.7f;
 		damageFactor = 0.8f;
+		impactFactor = 0.8f;
+		poiseFactor = 0.8f;
 
 		EXP = 5;
 

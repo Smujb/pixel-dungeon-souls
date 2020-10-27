@@ -99,6 +99,8 @@ public abstract class Mob extends Char {
 	public float evasionFactor = 1f;
 	public float perceptionFactor = 1f;
 	public float stealthFactor = 1f;
+	public float poiseFactor = 1f;
+	public float impactFactor = 1f;
 
 	public int range = 1;
 	public boolean hasMeleeAttack = true;
@@ -213,34 +215,42 @@ public abstract class Mob extends Char {
 		super.updateHT(boostHP);
 	}
 
-	private int normalHP(int level) {
+	private static int normalHP(int level) {
 		return 8 + 4 * level;
 	}
 
-	private int normalAttackSkill(int level) {
+	private static int normalAttackSkill(int level) {
 		return 9 + level;
 	}
 
-	private int normalDefenseSkill(int level) {
+	private static int normalDefenseSkill(int level) {
 		return 3 + level;
 	}
 
-	private int normalPerception(int level) {
+	private static int normalPerception(int level) {
 		return 5 + level;
 	}
 
-	private int normalStealth(int level) {
+	private static int normalStealth(int level) {
 		return 5 + level;
 	}
 
-	private int normalDamageRoll(int level) {
+	private static int normalDamageRoll(int level) {
 		int max = 3 + Math.round(level * 0.5f);
 		int min = Math.round(level * 0.25f);
 		return Random.NormalIntRange(min, max);
 	}
 
-	private int normalDefense(int level) {
+	private static int normalDefense(int level) {
 		return 2 + level/4;
+	}
+
+	private static float normalPoise(int level) {
+		return 0.2f + 0.025f*level;
+	}
+
+	private static float normalImpact(int level) {
+		return 0.6f + 0.075f*level;
 	}
 
 	public static <T extends Mob> T create(Class<T> type, int level) {
@@ -332,15 +342,22 @@ public abstract class Mob extends Char {
 		return perception;
 	}
 
-	//TODO poise and impact vary by mob
 	@Override
 	public float poise() {
-		return 0.2f;
+		if (hasBelongings()) {
+			return super.poise();
+		} else {
+			return normalPoise(level) * poiseFactor;
+		}
 	}
 
 	@Override
 	public float impact() {
-		return 0.6f;
+		if (hasBelongings()) {
+			return super.impact();
+		} else {
+			return normalImpact(level) * poiseFactor;
+		}
 	}
 
 	public CharSprite sprite() {

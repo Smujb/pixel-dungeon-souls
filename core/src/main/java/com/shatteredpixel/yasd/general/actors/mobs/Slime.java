@@ -44,8 +44,10 @@ public class Slime extends Mob {
 	{
 		spriteClass = SlimeSprite.class;
 
-		healthFactor = 1 + 2/3f;
+		healthFactor = 5/3f;
 		damageFactor = 2/3f;
+		impactFactor = 0.5f;
+		poiseFactor = 2f;
 		
 		EXP = 4;
 

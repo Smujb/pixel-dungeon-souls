@@ -61,10 +61,10 @@ import org.jetbrains.annotations.NotNull;
 public class Goo extends Mob {
 
 	{
-		//HP = HT = 100;
 		EXP = 10;
-		//defenseSkill = 8;
 		spriteClass = GooSprite.class;
+
+		poiseFactor = 0.7f;
 
 		properties.add(Property.BOSS);
 		properties.add(Property.DEMONIC);
@@ -86,6 +86,15 @@ public class Goo extends Mob {
 			return super.damageRoll() * 3;
 		} else {
 			return super.damageRoll();
+		}
+	}
+
+	@Override
+	public float impact() {
+		if (pumpedUp > 1) {
+			return super.impact() * 3;
+		} else {
+			return super.impact();
 		}
 	}
 

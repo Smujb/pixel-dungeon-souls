@@ -40,6 +40,7 @@ public class Piranha extends WaterMob {
 		healthFactor = 1.2f;
 		accuracyFactor = 2f;
 		damageFactor = 1f;
+		poiseFactor = impactFactor = 1.2f;
 
 		baseSpeed = 2f;
 		

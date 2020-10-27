@@ -55,8 +55,9 @@ public class Guard extends Mob {
 
 		healthFactor = 2f;
 		damageFactor = 2/3f;
-
 		elementalResist = 1.5f;
+		poiseFactor = 2f;
+		impactFactor = 0.5f;
 
 		EXP = 7;
 

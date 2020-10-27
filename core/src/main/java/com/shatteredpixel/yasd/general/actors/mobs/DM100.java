@@ -39,6 +39,7 @@ public class DM100 extends Mob {
 
 		healthFactor = 0.7f;
 		damageFactor = 1.2f;
+		poiseFactor = 0.7f;
 
 		numTypes = 4;
 

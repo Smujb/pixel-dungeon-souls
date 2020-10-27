@@ -55,7 +55,9 @@ public class DM200 extends Mob {
 
 		evasionFactor = 0.6f;
 		damageFactor = 1.5f;
-		healthFactor = 2f;
+		healthFactor = 1.5f;
+		impactFactor = 1.5f;
+		poiseFactor = 1.5f;
 
 		EXP = 9;
 
