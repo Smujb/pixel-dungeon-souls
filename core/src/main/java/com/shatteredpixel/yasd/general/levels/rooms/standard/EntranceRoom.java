@@ -27,7 +27,9 @@
 
 package com.shatteredpixel.yasd.general.levels.rooms.standard;
 
+import com.shatteredpixel.yasd.general.Bones;
 import com.shatteredpixel.yasd.general.Dungeon;
+import com.shatteredpixel.yasd.general.actors.mobs.npcs.Bonfire;
 import com.shatteredpixel.yasd.general.items.journal.GuidePage;
 import com.shatteredpixel.yasd.general.journal.Document;
 import com.shatteredpixel.yasd.general.levels.Level;

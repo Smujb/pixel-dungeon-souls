@@ -63,11 +63,6 @@ public class ScrollOfPolymorph extends ExoticScroll {
 					sheep.lifespan = 10;
 					sheep.pos = mob.pos;
 					
-					//awards half exp for each sheep-ified mob
-					//50% chance to round up, 50% to round down
-					if (mob.EXP % 2 == 1) mob.EXP += Random.Int(2);
-					mob.EXP /= 2;
-					
 					mob.destroy();
 					mob.sprite.killAndErase();
 					Dungeon.level.mobs.remove(mob);

@@ -327,16 +327,14 @@ public class Belongings implements Iterable<Item> {
 				wep.use();
 			}
 			dmg = wep.damageRoll(owner);
-			//if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(owner);
 		} else {
 			int level = 0;
 			if (owner instanceof Mob) {
-				level = ((Mob) owner).EXP;
+				level = ((Mob) owner).getLevel();
 			} else if (owner instanceof Hero) {
 				level = ((Hero)owner).lvl/2;
 			}
 			dmg = Random.Int(1, level);
-			//dmg = RingOfForce.damageRoll(owner);
 		}
 		if (dmg < 0) dmg = 0;
 

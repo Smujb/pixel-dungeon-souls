@@ -51,9 +51,7 @@ public class Eye extends Mob {
 
 		viewDistance = Light.DISTANCE;
 
-		EXP = 13;
-
-		flying = true;
+        flying = true;
 
 		HUNTING = new Hunting();
 

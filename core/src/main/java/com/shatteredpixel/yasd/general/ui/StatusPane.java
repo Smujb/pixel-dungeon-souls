@@ -253,8 +253,6 @@ public class StatusPane extends Component {
 
 		air.scale.x = LimitedAir.percentage(Dungeon.hero);
 
-		exp.scale.x = (width / exp.width) * Dungeon.hero.exp / Dungeon.hero.maxExp();
-
 		if (Dungeon.hero.lvl != lastLvl) {
 
 			if (lastLvl != -1) {

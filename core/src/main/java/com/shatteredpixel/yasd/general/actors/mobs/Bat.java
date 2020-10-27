@@ -47,10 +47,8 @@ public class Bat extends Mob {
 		damageFactor = 1.25f;
 		poiseFactor = 0f;
 		impactFactor = 0.5f;
-		
-		EXP = 7;
-		
-		flying = true;
+
+        flying = true;
 		
 		loot = new PotionOfHealing();
 		lootChance = 0.1667f; //by default, see rollToDropLoot()

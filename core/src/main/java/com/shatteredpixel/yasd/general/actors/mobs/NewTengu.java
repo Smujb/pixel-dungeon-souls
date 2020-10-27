@@ -85,9 +85,7 @@ public class NewTengu extends Mob {
 	{
 		spriteClass = TenguSprite.class;
 
-		EXP = 20;
-		
-		HUNTING = new Hunting();
+        HUNTING = new Hunting();
 		
 		flying = true; //doesn't literally fly, but he is fleet-of-foot enough to avoid hazards
 		

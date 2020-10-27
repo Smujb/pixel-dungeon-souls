@@ -54,8 +54,6 @@ public class Ghoul extends Mob {
 		impactFactor = 0.8f;
 		poiseFactor = 0.8f;
 
-		EXP = 5;
-
         SLEEPING = new Sleeping();
 		WANDERING = new Wandering();
 		state = SLEEPING;

@@ -54,10 +54,8 @@ public class Brute extends Mob {
 		evasionFactor = 0.75f;
 		impactFactor = 1.5f;
 		poiseFactor = 2f;
-		
-		EXP = 8;
-		
-		loot = Gold.class;
+
+        loot = Gold.class;
 		lootChance = 0.5f;
 	}
 

@@ -48,9 +48,7 @@ public class Crab extends Mob {
 		poiseFactor = 0.5f;
 		impactFactor = 1.6f;
 
-		EXP = 4;
-		
-		loot = new PotionOfHealing();
+        loot = new PotionOfHealing();
 		lootChance = 0.5f;
 
 		properties.add(Property.WATERY);//Can't drown.

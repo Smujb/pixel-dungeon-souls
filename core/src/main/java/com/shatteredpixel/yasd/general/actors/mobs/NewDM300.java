@@ -52,9 +52,7 @@ public class NewDM300 extends Mob {
 		perceptionFactor = 3f;
 		poiseFactor = impactFactor = 2f;
 
-		EXP = 30;
-
-		properties.add(Property.BOSS);
+        properties.add(Property.BOSS);
 		properties.add(Property.INORGANIC);
 		properties.add(Property.LARGE);
 	}

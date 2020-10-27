@@ -48,8 +48,6 @@ public class Slime extends Mob {
 		damageFactor = 2/3f;
 		impactFactor = 0.5f;
 		poiseFactor = 2f;
-		
-		EXP = 4;
 
         lootChance = 0.2f; //by default, see rollToDropLoot()
 	}

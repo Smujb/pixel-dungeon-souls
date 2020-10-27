@@ -54,8 +54,6 @@ public class Monk extends Mob {
 		poiseFactor = 2.5f;
 		impactFactor = 0.8f;
 
-		EXP = 11;
-
         attackDelay = 0.5f;
 
 		loot = new Food();

@@ -36,8 +36,6 @@ import com.shatteredpixel.yasd.general.actors.buffs.Cripple;
 import com.shatteredpixel.yasd.general.items.Generator;
 import com.shatteredpixel.yasd.general.sprites.RotLasherSprite;
 
-import org.jetbrains.annotations.NotNull;
-
 public class RotLasher extends Mob {
 
 	{
@@ -47,9 +45,7 @@ public class RotLasher extends Mob {
 		damageFactor = 1.5f;
 		impactFactor = 1.3f;
 
-		EXP = 1;
-
-		loot = Generator.Category.SEED;
+        loot = Generator.Category.SEED;
 		lootChance = 1f;
 
 		state = WANDERING = new Waiting();

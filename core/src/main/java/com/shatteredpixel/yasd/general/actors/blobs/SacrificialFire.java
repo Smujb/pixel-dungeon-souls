@@ -49,7 +49,6 @@ import com.shatteredpixel.yasd.general.ui.BuffIndicator;
 import com.shatteredpixel.yasd.general.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Random;
 
 public class SacrificialFire extends Blob {
 
@@ -113,9 +112,9 @@ public class SacrificialFire extends Blob {
 
             int exp = 0;
             if (ch instanceof Mob) {
-                exp = ((Mob)ch).EXP * Random.IntRange( 1, 3 );
+                exp = ((Mob)ch).souls()/10;
             } else if (ch instanceof Hero) {
-                exp = ((Hero)ch).maxExp();
+                exp = ((Hero)ch).soulsToLevelUp();
             }
 
             if (exp > 0) {

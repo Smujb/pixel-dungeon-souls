@@ -20,7 +20,7 @@ public class WndRetry extends Window {
 
     private static void resurrect() {
         Dungeon.level.reset();
-        Dungeon.hero.pos = Dungeon.level.getEntrancePos();
+        Dungeon.hero.pos = Dungeon.level.heroSpawnCell();
         Dungeon.hero.updateHT(false);
         Dungeon.hero.HP = Dungeon.hero.HT;
         Dungeon.hero.live();

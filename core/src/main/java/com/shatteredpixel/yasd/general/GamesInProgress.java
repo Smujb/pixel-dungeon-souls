@@ -141,7 +141,7 @@ public class GamesInProgress {
 		
 		info.level = hero.lvl;
 		info.str = hero.STR;
-		info.exp = hero.exp;
+		info.souls = hero.souls;
 		info.hp = hero.HP;
 		info.ht = hero.HT;
 		info.shld = hero.shielding();
@@ -173,7 +173,7 @@ public class GamesInProgress {
 		
 		public int level;
 		public int str;
-		public int exp;
+		public int souls;
 		public int hp;
 		public int ht;
 		public int shld;

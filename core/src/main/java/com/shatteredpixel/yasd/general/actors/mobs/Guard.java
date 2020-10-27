@@ -59,9 +59,7 @@ public class Guard extends Mob {
 		poiseFactor = 2f;
 		impactFactor = 0.5f;
 
-		EXP = 7;
-
-		loot = Generator.Category.ARMOR;
+        loot = Generator.Category.ARMOR;
 		lootChance = 0.2f; //by default, see rollToDropLoot()
 
 		properties.add(Property.UNDEAD);

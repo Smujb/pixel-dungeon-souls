@@ -81,11 +81,12 @@ public class Corrupting extends Weapon.Enchantment {
 			Statistics.enemiesSlain++;
 			Badges.validateMonstersSlain();
 			Statistics.qualifiedForNoKilling = false;
-			if (enemy.EXP > 0) {
-				hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(enemy, "exp", enemy.EXP));
-				hero.earnExp(enemy.EXP, enemy.getClass());
+			int souls = enemy.souls();
+			if (souls > 0) {
+				hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(enemy, "souls", souls));
+				hero.gainSouls(souls, enemy.getClass());
 			} else {
-				hero.earnExp(0, enemy.getClass());
+				hero.gainSouls(0, enemy.getClass());
 			}
 			
 			return 0;

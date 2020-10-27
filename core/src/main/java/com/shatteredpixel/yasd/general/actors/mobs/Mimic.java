@@ -72,9 +72,7 @@ public class Mimic extends Mob {
 		poiseFactor = 2f;
 		impactFactor = 1.5f;
 
-		EXP = 0;
-
-		//mimics are neutral when hidden
+        //mimics are neutral when hidden
 		alignment = Alignment.NEUTRAL;
 		state = PASSIVE;
 	}

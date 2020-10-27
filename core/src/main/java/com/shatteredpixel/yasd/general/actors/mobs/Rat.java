@@ -52,9 +52,8 @@ public class Rat extends Mob {
 
 			healthFactor = 1.2f;
 			poiseFactor = impactFactor = 1f;
-			EXP = 2;
 
-			loot = new MysteryMeat();
+            loot = new MysteryMeat();
 			lootChance = 1f;
 		}
 

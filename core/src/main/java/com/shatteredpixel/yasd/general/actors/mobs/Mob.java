@@ -118,8 +118,10 @@ public abstract class Mob extends Char {
 	public Class<? extends CharSprite> spriteClass;
 	
 	protected int target = -1;
-	
-	public int EXP = 1;
+
+	public int souls() {
+		return 40 + level * 5;
+	}
 
 	protected Char enemy;
 	public boolean enemySeen;
@@ -876,11 +878,11 @@ public abstract class Mob extends Char {
 				Badges.validateMonstersSlain();
 				Statistics.qualifiedForNoKilling = false;
 				
-				int exp = Dungeon.hero.lvl <= Dungeon.getScaleFactor() + 2 ? EXP : 0;
+				int exp = Dungeon.hero.lvl <= Dungeon.getScaleFactor() + 2 ? souls() : 0;
 				if (exp > 0) {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 				}
-				Dungeon.hero.earnExp(exp, getClass());
+				Dungeon.hero.gainSouls(exp, getClass());
 			}
 		}
 	}
@@ -891,12 +893,6 @@ public abstract class Mob extends Char {
 		if (hitWithRanged){
 			Statistics.thrownAssists++;
 			Badges.validateHuntressUnlock();
-		}
-		
-		if (cause.getCause() == Chasm.class){
-			//50% chance to round up, 50% to round down
-			if (EXP % 2 == 1) EXP += Random.Int(2);
-			EXP /= 2;
 		}
 
 		if (alignment == Alignment.ENEMY && Dungeon.hero != null){
@@ -937,7 +933,7 @@ public abstract class Mob extends Char {
 
 	public float corruptionResistance() {
 		//base enemy resistance is usually based on their exp, but in special cases it is based on other criteria
-		float enemyResist = 1 + this.EXP;
+		float enemyResist = 1 + this.souls()/10f;
 		if (this instanceof Mimic || this instanceof Statue || this instanceof Wraith){
 			enemyResist = 3 + Dungeon.getScaleFactor() *2;
 		} else if (this instanceof Piranha || this instanceof Bee) {
@@ -948,7 +944,7 @@ public abstract class Mob extends Char {
 			enemyResist = 1 + 5;
 		} else if (this instanceof Swarm){
 			//child swarms don't give exp, so we force this here.
-			enemyResist = 1 + new Swarm().EXP;
+			enemyResist = 1 + new Swarm().souls()/10f;
 		}
 		//100% health: 5x resist   75%: 3.25x resist   50%: 2x resist   25%: 1.25x resist
 		enemyResist *= 1 + 4*Math.pow(enemy.HP/(float)enemy.HT, 2);

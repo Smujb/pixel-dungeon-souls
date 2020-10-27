@@ -29,11 +29,9 @@ package com.shatteredpixel.yasd.general.actors.hero;
 
 import com.shatteredpixel.yasd.general.Assets;
 import com.shatteredpixel.yasd.general.Badges;
-import com.shatteredpixel.yasd.general.Bones;
 import com.shatteredpixel.yasd.general.Challenges;
 import com.shatteredpixel.yasd.general.Constants;
 import com.shatteredpixel.yasd.general.Dungeon;
-import com.shatteredpixel.yasd.general.Element;
 import com.shatteredpixel.yasd.general.GamesInProgress;
 import com.shatteredpixel.yasd.general.LevelHandler;
 import com.shatteredpixel.yasd.general.PDSGame;
@@ -44,11 +42,8 @@ import com.shatteredpixel.yasd.general.actors.buffs.Amok;
 import com.shatteredpixel.yasd.general.actors.buffs.Awareness;
 import com.shatteredpixel.yasd.general.actors.buffs.Barkskin;
 import com.shatteredpixel.yasd.general.actors.buffs.Berserk;
-import com.shatteredpixel.yasd.general.actors.buffs.Bleeding;
-import com.shatteredpixel.yasd.general.actors.buffs.Bless;
 import com.shatteredpixel.yasd.general.actors.buffs.Buff;
 import com.shatteredpixel.yasd.general.actors.buffs.Combo;
-import com.shatteredpixel.yasd.general.actors.buffs.Drunk;
 import com.shatteredpixel.yasd.general.actors.buffs.Foresight;
 import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.buffs.Hunger;
@@ -60,7 +55,6 @@ import com.shatteredpixel.yasd.general.actors.buffs.Paralysis;
 import com.shatteredpixel.yasd.general.actors.buffs.Preparation;
 import com.shatteredpixel.yasd.general.actors.buffs.SnipersMark;
 import com.shatteredpixel.yasd.general.actors.buffs.Vertigo;
-import com.shatteredpixel.yasd.general.actors.buffs.WellFed;
 import com.shatteredpixel.yasd.general.actors.mobs.Mob;
 import com.shatteredpixel.yasd.general.effects.CheckedCell;
 import com.shatteredpixel.yasd.general.items.Ankh;
@@ -86,7 +80,6 @@ import com.shatteredpixel.yasd.general.items.keys.SkeletonKey;
 import com.shatteredpixel.yasd.general.items.potions.Potion;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfExperience;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfForbiddenKnowledge;
-import com.shatteredpixel.yasd.general.items.potions.elixirs.ElixirOfMight;
 import com.shatteredpixel.yasd.general.items.rings.RingOfElements;
 import com.shatteredpixel.yasd.general.items.rings.RingOfEvasion;
 import com.shatteredpixel.yasd.general.items.rings.RingOfFocus;
@@ -128,7 +121,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Hero extends Char {
 
@@ -171,7 +163,7 @@ public class Hero extends Char {
 	public boolean resting = false;
 
 	public int lvl = 1;
-	public int exp = 0;
+	public int souls = 0;
 	
 	public int HTBoost = 0;
 	
@@ -211,33 +203,8 @@ public class Hero extends Char {
 
 	private static class Morale {}
 
-	private void sayMorale() {
-		int choice = Random.Int(3);
-		if (morale > MAX_MORALE*0.67) {
-			String messageTitle = "med_" + choice;
-			sprite.showStatus(CharSprite.NEUTRAL, Messages.get(Morale.class, messageTitle));
-
-		} else if (morale > MAX_MORALE*0.33) {
-			String messageTitle = "low_" + choice;
-			sprite.showStatus(CharSprite.WARNING, Messages.get(Morale.class, messageTitle));
-
-		} else {
-			String messageTitle = "very_low_" + choice;
-			sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Morale.class, messageTitle));
-
-		}
-	}
-
 	public boolean lowMorale() {
 		return morale < MAX_MORALE * 0.5f;
-	}
-
-	public void loseMorale(float amount) {
-		loseMorale(amount, true);
-	}
-
-	public void loseMorale(float amount, boolean say) {
-
 	}
 
 	public void gainMorale(float Amount) {
@@ -310,7 +277,7 @@ public class Hero extends Char {
 	private static final String DEFENSE		= "evasion";
 	private static final String STRENGTH	= "STR";
 	private static final String LEVEL		= "lvl";
-	private static final String EXPERIENCE	= "exp";
+	private static final String SOULS		= "souls";
 	private static final String HTBOOST     = "htboost";
 	private static final String MORALE      = "morale";
 	private static final String POWER       = "power";
@@ -333,7 +300,7 @@ public class Hero extends Char {
 		bundle.put( STRENGTH, STR );
 		
 		bundle.put( LEVEL, lvl );
-		bundle.put( EXPERIENCE, exp );
+		bundle.put(SOULS, souls );
 		
 		bundle.put( HTBOOST, HTBoost );
 
@@ -362,7 +329,7 @@ public class Hero extends Char {
 		STR = bundle.getInt( STRENGTH );
 		
 		lvl = bundle.getInt( LEVEL );
-		exp = bundle.getInt( EXPERIENCE );
+		souls = bundle.getInt(SOULS);
 		
 		HTBoost = bundle.getInt(HTBOOST);
 
@@ -408,7 +375,7 @@ public class Hero extends Char {
 	public static void preview(GamesInProgress.Info info, Bundle bundle ) {
 		info.level = bundle.getInt( LEVEL );
 		info.str = bundle.getInt( STRENGTH );
-		info.exp = bundle.getInt( EXPERIENCE );
+		info.souls = bundle.getInt(SOULS);
 		info.hp = bundle.getInt( Char.TAG_HP );
 		info.ht = bundle.getInt( Char.TAG_HT );
 		info.shld = bundle.getInt( Char.TAG_SHLD );
@@ -1256,10 +1223,10 @@ public class Hero extends Char {
 		return true;
 	}
 	
-	public void earnExp( int exp, Class source ) {
+	public void gainSouls(int exp, Class source ) {
 		
-		this.exp += exp;
-		float percent = exp/(float)maxExp();
+		this.souls += exp;
+		float percent = exp/(float) soulsToLevelUp();
 
 		EtherealChains.chainsRecharge chains = buff(EtherealChains.chainsRecharge.class);
 		if (chains != null) chains.gainExp(percent);
@@ -1278,46 +1245,6 @@ public class Hero extends Char {
 				i.onHeroGainExp(percent, this);
 			}
 		}
-		
-		boolean levelUp = false;
-		while (this.exp >= maxExp()) {
-			this.exp -= maxExp();
-			if (lvl < Constants.HERO_EXP_CAP) {
-				lvl++;
-				levelUp = true;
-				
-				if (buff(ElixirOfMight.HTBoost.class) != null){
-					buff(ElixirOfMight.HTBoost.class).onLevelUp();
-				}
-				
-				updateHT( true );
-
-			} else {
-				Buff.prolong(this, Bless.class, Bless.DURATION);
-				this.exp = 0;
-
-				GLog.newLine();
-				GLog.p( Messages.get(this, "level_cap"));
-				Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
-			}
-			
-		}
-		
-		if (levelUp) {
-			
-			if (sprite != null) {
-				GLog.newLine();
-				GLog.p( Messages.get(this, "new_level"), lvl );
-				sprite.showStatus( CharSprite.POSITIVE, Messages.get(Hero.class, "level_up") );
-				Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
-				float missingMoralePercent = (float) (1f - (morale/MAX_MORALE)*0.1);
-				gainMorale(missingMoralePercent*0.5f);//Gains more Morale on level up when on low Morale (up to 1)
-			}
-			distributePoints();
-			Item.updateQuickslot();
-			
-			Badges.validateLevelReached();
-		}
 	}
 
 	public void distributePoints() {
@@ -1332,13 +1259,13 @@ public class Hero extends Char {
 		});
 	}
 	
-	public int maxExp() {
-		return maxExp( lvl );
+	public int soulsToLevelUp() {
+		return soulsToLevelUp( lvl );
 	}
 	
 	@Contract(pure = true)
-	public static int maxExp(int lvl ){
-		return 5 + lvl * 5;
+	public static int soulsToLevelUp(int lvl ){
+		return 1750 + lvl * 250;
 	}
 	
 	public boolean isStarving() {
@@ -1677,7 +1604,6 @@ public class Hero extends Char {
 		
 		HP = HT;
 		Dungeon.gold = 0;
-		exp = 0;
 		
 		belongings.resurrect( resetLevel );
 

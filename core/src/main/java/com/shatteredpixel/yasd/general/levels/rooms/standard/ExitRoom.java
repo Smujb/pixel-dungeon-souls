@@ -27,6 +27,7 @@
 
 package com.shatteredpixel.yasd.general.levels.rooms.standard;
 
+import com.shatteredpixel.yasd.general.actors.mobs.npcs.Bonfire;
 import com.shatteredpixel.yasd.general.levels.Level;
 import com.shatteredpixel.yasd.general.levels.terrain.Terrain;
 import com.shatteredpixel.yasd.general.levels.painters.Painter;
@@ -53,10 +54,17 @@ public class ExitRoom extends StandardRoom {
 		for (Room.Door door : connected.values()) {
 			door.set( Room.Door.Type.REGULAR );
 		}
-		
+
+		int npcCell;
+		do {
+			npcCell = level.pointToCell(random(1));
+		} while (level.findMob(npcCell) != null);
+		Bonfire bonfire = new Bonfire();
+		bonfire.pos = npcCell;
+		level.mobs.add(bonfire);
+
 		int exit = level.pointToCell(random( 2 ));
 		level.setExit(exit);
-		//level.interactiveAreas.add(new Exit().setPos(level, exit));
 	}
 	
 	@Override

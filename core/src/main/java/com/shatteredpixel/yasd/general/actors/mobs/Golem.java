@@ -54,10 +54,8 @@ public class Golem extends Mob {
 		//Incredibly hard to stagger and incredibly good at doing it
 		impactFactor = 2f;
 		poiseFactor = 2f;
-		
-		EXP = 12;
-		
-		properties.add(Property.INORGANIC);
+
+        properties.add(Property.INORGANIC);
 		properties.add(Property.LARGE);
 
 		WANDERING = new Wandering();

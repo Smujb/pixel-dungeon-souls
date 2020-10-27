@@ -43,16 +43,12 @@ import com.shatteredpixel.yasd.general.sprites.GnollTricksterSprite;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
-import org.jetbrains.annotations.NotNull;
-
 public class GnollTrickster extends Gnoll {
 
 	{
 		spriteClass = GnollTricksterSprite.class;
 
-		EXP = 5;
-
-		range = 4;
+        range = 4;
 		hasMeleeAttack = false;
 
 		state = WANDERING;

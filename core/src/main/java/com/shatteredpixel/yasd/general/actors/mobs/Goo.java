@@ -61,8 +61,7 @@ import org.jetbrains.annotations.NotNull;
 public class Goo extends Mob {
 
 	{
-		EXP = 10;
-		spriteClass = GooSprite.class;
+        spriteClass = GooSprite.class;
 
 		poiseFactor = 0.7f;
 

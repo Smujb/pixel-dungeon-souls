@@ -57,8 +57,6 @@ public class Necromancer extends Mob {
 		spriteClass = NecromancerSprite.class;
 
 		healthFactor = 0.8f;
-		
-		EXP = 7;
 
         loot = new PotionOfHealing();
 		lootChance = 0.2f; //see createloot

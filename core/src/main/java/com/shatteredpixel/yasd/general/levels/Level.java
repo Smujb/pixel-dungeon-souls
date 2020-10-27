@@ -56,6 +56,7 @@ import com.shatteredpixel.yasd.general.actors.mobs.Mimic;
 import com.shatteredpixel.yasd.general.actors.mobs.Mob;
 import com.shatteredpixel.yasd.general.actors.mobs.Wraith;
 import com.shatteredpixel.yasd.general.actors.mobs.YogFist;
+import com.shatteredpixel.yasd.general.actors.mobs.npcs.Bonfire;
 import com.shatteredpixel.yasd.general.actors.mobs.npcs.Lotus;
 import com.shatteredpixel.yasd.general.actors.mobs.npcs.Sheep;
 import com.shatteredpixel.yasd.general.effects.particles.FlowParticle;
@@ -1209,6 +1210,21 @@ public abstract class Level implements Bundlable {
 				|| !Char.canOccupy(ch, this, cell)
 				|| Actor.findChar(cell) != null);
 		return cell;
+	}
+
+	public int heroSpawnCell() {
+		int pos = getEntrancePos();
+		for (Mob mob : mobs.toArray(new Mob[0])) {
+			if (mob instanceof Bonfire) {
+				for (int i : neighbors9(mob.pos)) {
+					if (passable(i)) {
+						pos = i;
+						break;
+					}
+				}
+			}
+		}
+		return pos;
 	}
 	
 	public int randomDestination(Char ch) {
