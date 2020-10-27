@@ -86,6 +86,7 @@ public class Armor extends KindofMisc {
 	public float magicDamageFactor = 1f;
 	public float physicalDamageFactor = 1f;
 	public float regenFactor = 1f;
+	public float poiseFactor = 1f;
 
 	protected static final String AC_DETACH       = "DETACH";
 	
@@ -186,9 +187,8 @@ public class Armor extends KindofMisc {
 		seal = null;
 	}
 
-	//TODO variable poise
 	public float poise() {
-		return 0.1f;
+		return (0.2f + 0.03f * level() * tier) * poiseFactor;
 	}
 
 	@Override
@@ -238,6 +238,7 @@ public class Armor extends KindofMisc {
 		DRfactor *= 1/regenFactor;
 		DRfactor *= magicDamageFactor;
 		DRfactor *= physicalDamageFactor;
+		DRfactor *= 1/poiseFactor;
 		return DRfactor;
 	}
 
@@ -426,6 +427,12 @@ public class Armor extends KindofMisc {
 				info += "\n" + Messages.get(Armor.class, "physical_weak", Math.round((physicalDamageFactor -1f)*100));
 			} else if (physicalDamageFactor < 1f) {
 				info += "\n" + Messages.get(Armor.class, "physical_resist", Math.round((1f- physicalDamageFactor)*100));
+			}
+
+			if (poiseFactor > 1f) {
+				info += "\n" + Messages.get(Armor.class, "poise_increase", Math.round((poiseFactor-1f)*100));
+			} else if (poiseFactor < 1f) {
+				info += "\n" + Messages.get(Armor.class, "poise_decrease", Math.round((1f-poiseFactor)*100));
 			}
 
 			if (EVA > 1f) {

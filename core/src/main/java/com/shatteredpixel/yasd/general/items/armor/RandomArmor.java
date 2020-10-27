@@ -59,13 +59,14 @@ public class RandomArmor extends Armor implements Randomisable {
         magicDamageFactor = 1f;
         physicalDamageFactor = 1f;
         regenFactor = 1f;
+        poiseFactor = 1f;
         return this;
     }
 
     @Override
     public RandomArmor rollStats() {
         resetStats();
-        final int nProps = 6;
+        final int nProps = 7;
         int maxProps = 0;
         while (maxProps < 4 && Random.Float() < (0.75f * Math.pow(0.5, maxProps))) {
             maxProps++;
@@ -98,6 +99,9 @@ public class RandomArmor extends Armor implements Randomisable {
                         break;
                     case 5:
                         magicDamageFactor = Random.NormalFloat(0.5f, 1);
+                        break;
+                    case 6:
+                        poiseFactor = Randomisable.randomStat();
                         break;
                 }
             }

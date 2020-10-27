@@ -275,9 +275,13 @@ public class Belongings implements Iterable<Item> {
 		return regen;
 	}
 
-	//TODO make poise depend on equipment
 	public float poise() {
-		return 0.2f;
+		float poise = 0;
+		ArrayList<Armor> armors = getArmors();
+		for (Armor armor : armors) {
+			poise += armor.poise();
+		}
+		return poise;
 	}
 
 	public float impact() {

@@ -74,9 +74,8 @@ public class MeleeWeapon extends Weapon {
 				lvl*(tier*2))*damageMultiplier);   //level scaling
 	}
 
-	//TODO variable impact
 	public float impact() {
-		return 0.6f * DLY * impactFactor;
+		return (0.6f + 0.1f * level() * tier) * DLY * impactFactor;
 	}
 
 	public int STRReq(int lvl){
