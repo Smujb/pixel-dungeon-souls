@@ -22,19 +22,15 @@ public class Hollowing extends Buff {
         Buff.affect(hero, Hollowing.class).fullyHollow();
     }
 
-    public static void setLevel(Hero hero, int lvl) {
-        Buff.affect(hero, Hollowing.class).setLevel(lvl);
-    }
-
-    public static int getLevel(Hero hero) {
-        return Buff.affect(hero, Hollowing.class).getLevel();
+    public static void retrieveHumanity(Hero hero) {
+        Buff.affect(hero, Hollowing.class).retrieveHumanity();
     }
 
     private int level = 0;
 
-    //-2.5% HP each death, down to a maximum reduction of 25%
+    //-5% HP each death, down to a maximum reduction of 50%
     private float hpFactor() {
-        return (float) Math.max(0.75f, 1f - 0.025f*level);
+        return (float) Math.max(0.5f, 1f - 0.05f*level);
     }
 
     private void die() {
@@ -49,12 +45,8 @@ public class Hollowing extends Buff {
         level = Math.max(level, 10);
     }
 
-    private void setLevel(int lvl) {
-        level = lvl;
-    }
-
-    private int getLevel() {
-        return level;
+    private void retrieveHumanity() {
+        level--;
     }
 
     @Override

@@ -24,6 +24,11 @@ public class WndRetry extends Window {
     }
 
     public WndRetry() {
+        try {
+            Dungeon.saveAll();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         IconTitle titlebar = new IconTitle();
         titlebar.icon( new ItemSprite(ItemSpriteSheet.SKULL, null ) );
         titlebar.label( Messages.get(this, "retry") );
@@ -50,12 +55,7 @@ public class WndRetry extends Window {
             @Override
             protected void onClick() {
                 hide();
-                try {
-                    Dungeon.saveAll();
-                    PDSGame.switchScene(TitleScene.class);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                PDSGame.switchScene(TitleScene.class);
             }
         };
         btnNo.setRect( 0, btnYes.bottom() + GAP, WIDTH, BTN_HEIGHT );

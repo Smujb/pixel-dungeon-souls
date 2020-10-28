@@ -30,6 +30,7 @@ package com.shatteredpixel.yasd.general;
 import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.buffs.Buff;
 import com.shatteredpixel.yasd.general.actors.mobs.Mob;
+import com.shatteredpixel.yasd.general.actors.mobs.Phantom;
 import com.shatteredpixel.yasd.general.levels.DeadEndLevel;
 import com.shatteredpixel.yasd.general.levels.Level;
 import com.shatteredpixel.yasd.general.levels.UnderwaterLevel;
@@ -336,6 +337,7 @@ public class LevelHandler {
 				break;
 			case LAST_BONFIRE:
 				level.reset();
+				level.mobs.add(Phantom.createFromHero(Dungeon.hero, level));
 				break;
 		}
 		if (callback == null) {
