@@ -133,7 +133,7 @@ public class Bonfire extends NPC {
                     GameScene.selectItem(listener, WndBag.Mode.REPAIRABLE, Messages.get(Bonfire.class, "choose_item_repair"));
                     break;
                 case 2:
-                    //Hollowing.regainHumanity(Dungeon.hero);
+                    GLog.n(Messages.get(Bonfire.class, "no_humanity"));
                     break;
             }
         }
