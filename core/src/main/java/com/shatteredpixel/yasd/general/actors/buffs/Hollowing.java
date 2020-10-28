@@ -26,6 +26,7 @@ public class Hollowing extends Buff {
         Buff.affect(hero, Hollowing.class).retrieveHumanity();
     }
 
+    private static final int FULL_HOLLOW = 10;
     private int level = 0;
 
     //-5% HP each death, down to a maximum reduction of 50%
@@ -42,11 +43,11 @@ public class Hollowing extends Buff {
     }
 
     private void fullyHollow() {
-        level = Math.max(level, 10);
+        level = Math.max(level, FULL_HOLLOW);
     }
 
     private void retrieveHumanity() {
-        level--;
+        level = Math.min(FULL_HOLLOW-1, level-1);
     }
 
     @Override
