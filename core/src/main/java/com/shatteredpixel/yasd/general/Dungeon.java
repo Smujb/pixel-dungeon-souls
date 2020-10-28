@@ -415,6 +415,10 @@ public class Dungeon {
 		//return level != null && level.bossLevel;
 		return depth % Constants.CHAPTER_LENGTH == 0;
 	}
+
+	public static boolean bonfireOnDepth( int depth ) {
+		return depth % (Constants.CHAPTER_LENGTH/2) == 1;
+	}
 	
 	public static void switchLevel( final Level level, Point pos ) {
 
