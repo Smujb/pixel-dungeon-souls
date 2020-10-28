@@ -309,9 +309,6 @@ public abstract class RegularPainter extends Painter {
 				}
 			}
 		}
-		for (int i = 0; i < l.length(); i ++) {
-			l.set(i, l.swapWaterAlts(i));
-		}
 	}
 
 	

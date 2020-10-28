@@ -910,24 +910,6 @@ public abstract class Level implements Bundlable {
 		}
 	}
 
-	public KindOfTerrain swapWaterAlts(int pos) {
-		int above = pos + PathFinder.CIRCLE4[0];
-		int right = pos + PathFinder.CIRCLE4[1];
-		int below = pos + PathFinder.CIRCLE4[2];
-		int left = pos + PathFinder.CIRCLE4[3];
-		try {
-			if (getTerrain(pos) == WATER &&
-					DungeonTileSheet.deepWaterStitchable(map[above]) &
-							DungeonTileSheet.deepWaterStitchable(map[below]) &
-							DungeonTileSheet.deepWaterStitchable(map[left]) &
-							DungeonTileSheet.deepWaterStitchable(map[right])) {
-				return DEEP_WATER;
-
-			}
-		} catch (IndexOutOfBoundsException ignored) {}
-		return getTerrain(pos);
-	}
-
 	public int width() {
 		return width;
 	}
