@@ -44,7 +44,7 @@ allprojects {
         appPackageName = 'com.smujamesb.soulpd'
 
         appVersionCode = 455
-        appVersionName = '0.4.12'
+        appVersionName = '0.1.0'
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
         appAndroidCompileSDK = 29
