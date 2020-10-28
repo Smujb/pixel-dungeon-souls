@@ -36,6 +36,14 @@ public class Bonfire extends NPC {
     private boolean lit = false;
 
     @Override
+    public void damage(int dmg, DamageSrc src) {}
+
+    @Override
+    public int defenseSkill(Char enemy) {
+        return Char.INFINITE_EVASION;
+    }
+
+    @Override
     public boolean reset() {
         return true;
     }
