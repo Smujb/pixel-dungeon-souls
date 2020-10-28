@@ -63,19 +63,19 @@ public class StatusPane extends Component {
 	private Image rawShielding;
 	private Image hp;
 	private Image healthFG;
-	private Image air;
 	private Image stamina;
 	private Image exp;
 	private Image difficulty;
-	private Emitter bubbles;
 
 	private BossHealthBar bossHP;
 	//private AirBar airBar;
 
 	private int lastLvl = -1;
+	private int lastSouls = -1;
 
 	private BitmapText level;
 	private BitmapText depth;
+	private BitmapText souls;
 
 	private DangerIndicator danger;
 	private BuffIndicator buffs;
@@ -92,7 +92,7 @@ public class StatusPane extends Component {
 	@Override
 	protected void createChildren() {
 
-		bg = new NinePatch( Assets.Interfaces.STATUS, 0, 0, 128, 36, 85, 0, 45, 0 );
+		bg = new NinePatch( Assets.Interfaces.STATUS, 0, 0, 128, 38, 85, 0, 45, 0 );
 		add( bg );
 
 
@@ -132,16 +132,6 @@ public class StatusPane extends Component {
 		rawShielding = new Image( Assets.Interfaces.SHLD_BAR );
 		add(rawShielding);
 
-		air = new Image( Assets.Interfaces.STAMINA_BAR, 0, 0, 21, 3 );
-		add( air );
-
-		bubbles = new Emitter();
-		bubbles.pos(air);
-		bubbles.pour(Speck.factory(Speck.BUBBLE), Math.max(0.05f, LimitedAir.percentage(Dungeon.hero)));
-		bubbles.autoKill = false;
-		bubbles.on = false;
-		add( bubbles );
-
 		stamina = new Image( Assets.Interfaces.STAMINA_BAR);
 		add(stamina);
 
@@ -151,9 +141,6 @@ public class StatusPane extends Component {
 		bossHP = new BossHealthBar();
 		add( bossHP );
 
-		//airBar = new AirBar();
-		//add( airBar );
-
 		level = new BitmapText( PixelScene.pixelFont);
 		level.hardlight( 0xFFEBA4 );
 		add( level );
@@ -162,6 +149,11 @@ public class StatusPane extends Component {
 		depth.hardlight( 0xCACFC2 );
 		depth.measure();
 		add( depth );
+
+		souls = new BitmapText(Integer.toString(Dungeon.hero.souls), PixelScene.pixelFont);
+		souls.hardlight(0xFFFFFF);
+		souls.measure();
+		add(souls);
 
 		danger = new DangerIndicator();
 		add( danger );
@@ -179,7 +171,7 @@ public class StatusPane extends Component {
 	@Override
 	protected void layout() {
 
-		height = 32;
+		height = 38;
 
 		bg.size( width, bg.height );
 
@@ -196,8 +188,10 @@ public class StatusPane extends Component {
 
 		stamina.y = 12;
 
-		air.x = 1;
-		air.y = 31;
+		souls.x = 2;
+		souls.y = 32;
+		souls.scale.set(PixelScene.align(0.5f));
+		PixelScene.align(souls);
 
 		bossHP.setPos( 6 + (width - bossHP.width())/2, 21);
 
@@ -251,7 +245,18 @@ public class StatusPane extends Component {
 		rawShielding.scale.x = shield/trueMax;
 		stamina.scale.x = staminaAmt/maxStamina;
 
-		air.scale.x = LimitedAir.percentage(Dungeon.hero);
+		if (Dungeon.hero.souls != lastSouls) {
+			if (lastSouls != -1) {
+				Emitter emitter = (Emitter)recycle( Emitter.class );
+				emitter.revive();
+				emitter.pos( souls.x+souls.width()/2, souls.y+souls.height()/2 );
+				emitter.burst( Speck.factory( Speck.WOOL ), 2 );
+			}
+			lastSouls = Dungeon.hero.souls;
+			souls.text(Integer.toString(Dungeon.hero.souls));
+			souls.measure();
+			PixelScene.align(souls);
+		}
 
 		if (Dungeon.hero.lvl != lastLvl) {
 
