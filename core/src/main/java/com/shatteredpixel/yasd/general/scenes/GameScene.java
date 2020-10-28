@@ -106,6 +106,7 @@ import com.shatteredpixel.yasd.general.windows.WndInfoPlant;
 import com.shatteredpixel.yasd.general.windows.WndInfoTrap;
 import com.shatteredpixel.yasd.general.windows.WndMessage;
 import com.shatteredpixel.yasd.general.windows.WndOptions;
+import com.shatteredpixel.yasd.general.windows.WndRetry;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Gizmo;
@@ -498,8 +499,12 @@ public class GameScene extends PixelScene {
 		}
 		
 		fadeIn();
-		AttackIndicator.updateState();
 
+		if (!Dungeon.hero.isAlive()) {
+			addToFront(new WndRetry());
+		}
+
+		layoutTags();
 	}
 
 	public static void checkKeyHold(){

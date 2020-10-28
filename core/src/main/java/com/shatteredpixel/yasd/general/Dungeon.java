@@ -627,7 +627,7 @@ public class Dungeon {
 	}
 	
 	public static void saveAll() throws IOException {
-		if (hero != null && hero.isAlive()) {
+		if (hero != null) {
 			
 			Actor.fixTime();
 			saveGame( GamesInProgress.curSlot );

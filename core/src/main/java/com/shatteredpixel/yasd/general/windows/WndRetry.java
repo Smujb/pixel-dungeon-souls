@@ -50,18 +50,12 @@ public class WndRetry extends Window {
             @Override
             protected void onClick() {
                 hide();
-                resurrect();
-                LevelHandler.lastBonfire(new Callback() {
-                    @Override
-                    public void call() {
-                        try {
-                            Dungeon.saveAll();
-                            PDSGame.switchScene(TitleScene.class);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
+                try {
+                    Dungeon.saveAll();
+                    PDSGame.switchScene(TitleScene.class);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         };
         btnNo.setRect( 0, btnYes.bottom() + GAP, WIDTH, BTN_HEIGHT );
