@@ -206,6 +206,11 @@ public class ItemSpriteSheet {
 		assignItemRect(BRONZE_KEY, 8, 14);
 	}
 
+	private static final int FLASK = xy(1, 8);
+
+	public static final int FLASK_FULL = FLASK+0;
+	public static final int FLASK_EMPTY = FLASK+1;
+
 
 	public static int adjustForTier(int image, int tier) {
 		return image + (tier-1) * WIDTH;

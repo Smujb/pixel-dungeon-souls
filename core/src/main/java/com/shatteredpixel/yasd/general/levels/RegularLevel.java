@@ -166,10 +166,7 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	public int nMobs() {
-		if (Dungeon.depth == 1) {//mobs are not randomly spawned on floor 1.
-			return 0;
-		}
-		return 3 + getScaleFactor() % Constants.CHAPTER_LENGTH + Random.Int(3);
+		return 12 + (getScaleFactor() % Constants.CHAPTER_LENGTH)*3 + Random.Int(8);
 	}
 	
 	@Override

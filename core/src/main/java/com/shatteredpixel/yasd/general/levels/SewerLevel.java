@@ -38,6 +38,7 @@ import com.shatteredpixel.yasd.general.actors.mobs.Thief;
 import com.shatteredpixel.yasd.general.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.yasd.general.effects.Ripple;
 import com.shatteredpixel.yasd.general.items.DewVial;
+import com.shatteredpixel.yasd.general.items.EstusFlask;
 import com.shatteredpixel.yasd.general.levels.painters.Painter;
 import com.shatteredpixel.yasd.general.levels.painters.SewerPainter;
 import com.shatteredpixel.yasd.general.levels.terrain.Terrain;
@@ -166,9 +167,9 @@ public class SewerLevel extends RegularLevel {
 
 	@Override
 	protected void createItems() {
-		if (!Dungeon.LimitedDrops.DEW_VIAL.dropped()) {
-			addItemToSpawn( new DewVial() );
-			Dungeon.LimitedDrops.DEW_VIAL.drop();
+		if (!Dungeon.LimitedDrops.ESTUS_FLASK.dropped()) {
+			addItemToSpawn( new EstusFlask() );
+			Dungeon.LimitedDrops.ESTUS_FLASK.drop();
 		}
 
 		Ghost.Quest.spawn( this );

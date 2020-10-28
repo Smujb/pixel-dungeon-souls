@@ -129,7 +129,7 @@ public class Dungeon {
 		GOLEM_EQUIP,
 
 		//containers
-		DEW_VIAL,
+		ESTUS_FLASK,
 		VELVET_POUCH,
 		SCROLL_HOLDER,
 		POTION_BANDOLIER,

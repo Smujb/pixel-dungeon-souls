@@ -10,6 +10,7 @@ import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
+import com.shatteredpixel.yasd.general.items.EstusFlask;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
@@ -60,6 +61,7 @@ public class Bonfire extends NPC {
                     public void afterCreate() {
                         if (lit()) {
                             ch.heal(ch.HT, false, true);
+                            EstusFlask.refill(ch);
                             PDSGame.runOnRenderThread(new Callback() {
                                 @Override
                                 public void call() {
