@@ -102,8 +102,9 @@ public class Bonfire extends NPC {
     }
 
     public static class WndBonfire extends WndOptions {
+
         public WndBonfire() {
-            super(Messages.get(Bonfire.class, "name"), Messages.get(Bonfire.class, "desc"), Messages.get(Bonfire.class, "level_up"), Messages.get(Bonfire.class, "repair_item"), Messages.get(Bonfire.class, "reverse_hollowing"));
+            super(Messages.get(Bonfire.class, "name"), Messages.get(Bonfire.class, "desc"), Messages.get(Bonfire.class, "level_up", Dungeon.hero.soulsToLevelUp()), Messages.get(Bonfire.class, "repair_item"), Messages.get(Bonfire.class, "reverse_hollowing"));
         }
 
         @Override

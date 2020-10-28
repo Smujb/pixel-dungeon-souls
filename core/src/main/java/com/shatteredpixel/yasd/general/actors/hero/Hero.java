@@ -1265,7 +1265,7 @@ public class Hero extends Char {
 	
 	@Contract(pure = true)
 	public static int soulsToLevelUp(int lvl ){
-		return 1750 + lvl * 250;
+		return 500 + lvl * 50;
 	}
 	
 	public boolean isStarving() {
