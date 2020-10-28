@@ -12,6 +12,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.items.EstusFlask;
 import com.shatteredpixel.yasd.general.items.Item;
+import com.shatteredpixel.yasd.general.items.souls.Humanity;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
 import com.shatteredpixel.yasd.general.sprites.BonfireSprite;
@@ -111,9 +112,9 @@ public class Bonfire extends NPC {
         protected void onSelect(int index) {
             super.onSelect(index);
             hide();
+            Hero h = Dungeon.hero;
             switch (index) {
                 case 0:
-                    Hero h = Dungeon.hero;
                     if (h.souls > h.soulsToLevelUp()) {
                         h.lvl++;
                         h.souls -= h.soulsToLevelUp();
@@ -131,10 +132,17 @@ public class Bonfire extends NPC {
                     return;
                 case 1:
                     GameScene.selectItem(listener, WndBag.Mode.REPAIRABLE, Messages.get(Bonfire.class, "choose_item_repair"));
-                    break;
+                    return;
                 case 2:
-                    GLog.n(Messages.get(Bonfire.class, "no_humanity"));
-                    break;
+                    Humanity humanity = h.belongings.getItem(Humanity.class);
+                    if (humanity != null) {
+                        Hollowing.regainHumanity(h);
+                        h.busy();
+                        h.sprite.operate(h.pos);
+                    } else {
+                        GLog.n(Messages.get(Bonfire.class, "no_humanity"));
+                    }
+                    return;
             }
         }
     }

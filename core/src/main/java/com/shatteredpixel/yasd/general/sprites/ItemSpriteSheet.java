@@ -206,6 +206,11 @@ public class ItemSpriteSheet {
 		assignItemRect(BRONZE_KEY, 8, 14);
 	}
 
+	private static final int SOULS = xy(1, 7);
+
+	public static final int SOUL_LOST_UNDEAD			= SOULS+0;
+	public static final int HUMANITY					= SOULS+1;
+
 	private static final int FLASK = xy(1, 8);
 
 	public static final int FLASK_FULL = FLASK+0;

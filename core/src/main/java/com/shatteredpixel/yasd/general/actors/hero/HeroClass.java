@@ -59,6 +59,9 @@ import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.yasd.general.items.souls.Humanity;
+import com.shatteredpixel.yasd.general.items.souls.Soul;
+import com.shatteredpixel.yasd.general.items.souls.SoulOfLostUndead;
 import com.shatteredpixel.yasd.general.items.spells.MagicalInfusion;
 import com.shatteredpixel.yasd.general.items.stones.StoneOfRepair;
 import com.shatteredpixel.yasd.general.items.wands.WandOfMagicMissile;
@@ -148,6 +151,8 @@ public enum HeroClass {
 		if (hero.belongings.getItem(MagicalHolster.class) == null) {
 			new MagicalHolster().collect();
 		}
+		new Humanity().collect();
+		new SoulOfLostUndead().collect();
 		new DeveloperItem().collect(hero.belongings.backpack, hero);
 		for (int i = 0; i < Belongings.BACKPACK_SIZE; i++) {
 			new ScrollOfUpgrade().collect();

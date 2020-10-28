@@ -51,6 +51,7 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.ui.Button;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.ColorMath;
+import com.watabou.utils.GameMath;
 
 public class StatusPane extends Component {
 
@@ -250,7 +251,7 @@ public class StatusPane extends Component {
 				Emitter emitter = (Emitter)recycle( Emitter.class );
 				emitter.revive();
 				emitter.pos( souls.x+souls.width()/2, souls.y+souls.height()/2 );
-				emitter.burst( Speck.factory( Speck.WOOL ), 2 );
+				emitter.burst( Speck.factory( Speck.WOOL ), (int) GameMath.gate(1, (Dungeon.hero.souls - lastSouls)/10f, 20));
 			}
 			lastSouls = Dungeon.hero.souls;
 			souls.text(Integer.toString(Dungeon.hero.souls));

@@ -47,6 +47,7 @@ import com.shatteredpixel.yasd.general.items.journal.DocumentPage;
 import com.shatteredpixel.yasd.general.items.potions.Potion;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfForbiddenKnowledge;
 import com.shatteredpixel.yasd.general.items.rings.RingOfWealth;
+import com.shatteredpixel.yasd.general.items.souls.Soul;
 import com.shatteredpixel.yasd.general.items.wands.Wand;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.sprites.ItemSprite;
@@ -103,6 +104,7 @@ public class Heap implements Bundlable {
 		case REMAINS:
 		case SKELETON:
 			CellEmitter.center( pos ).start(Speck.factory(Speck.RATTLE), 0.1f, 3);
+			Dungeon.level.drop(Soul.randomSoul(), pos).sprite.drop();
 			break;
 		default:
 		}

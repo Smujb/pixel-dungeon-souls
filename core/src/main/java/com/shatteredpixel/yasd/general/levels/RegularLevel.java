@@ -299,8 +299,11 @@ public abstract class RegularLevel extends Level {
 
 			Heap.Type type;
 			switch (Random.Int( 20 )) {
-				case 0: default:
+				default:
 					type = Heap.Type.HEAP;
+					break;
+				case 0:
+					type = Heap.Type.SKELETON;
 					break;
 				case 1:
 				case 2:
