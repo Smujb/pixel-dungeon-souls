@@ -115,9 +115,10 @@ public class Bonfire extends NPC {
             Hero h = Dungeon.hero;
             switch (index) {
                 case 0:
-                    if (h.souls > h.soulsToLevelUp()) {
+                    int reqSouls = h.soulsToLevelUp();
+                    if (h.souls >= reqSouls) {
                         h.lvl++;
-                        h.souls -= h.soulsToLevelUp();
+                        h.souls -= reqSouls;
                         GLog.newLine();
                         GLog.p(Messages.get(h, "new_level"), h.lvl);
                         h.sprite.showStatus(CharSprite.POSITIVE, Messages.get(h, "level_up"));
