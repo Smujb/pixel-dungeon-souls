@@ -57,7 +57,7 @@ public class Constants {
     //############################## CHAR/MOB STUFF ##############################
     //
     //Number of misc slots for char.
-    public static final int MISC_SLOTS = 5;
+    public static final int MISC_SLOTS = 3;
 
     //Want to mod YASD without morale? Go ahead.
     public static final boolean MORALE = true;

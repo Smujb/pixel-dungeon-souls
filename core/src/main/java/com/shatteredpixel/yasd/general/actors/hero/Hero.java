@@ -422,7 +422,7 @@ public class Hero extends Char {
 	}
 	
 	public int tier() {
-		return belongings.getArmors().size() == 0 ? 0 : belongings.getArmors().get(0).appearance();
+		return belongings.armor == null ? 0 : belongings.armor.appearance();
 	}
 
 	@Override

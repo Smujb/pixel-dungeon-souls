@@ -39,7 +39,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-abstract public class KindOfWeapon extends KindofMisc {
+abstract public class KindOfWeapon extends MainHandItem {
 
 	public String hitSound = Assets.Sounds.HIT;
 	public float hitSoundPitch = 1f;

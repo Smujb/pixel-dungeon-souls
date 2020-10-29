@@ -34,6 +34,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.MagicImmune;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
+import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.weapon.melee.Projectile;
 import com.shatteredpixel.yasd.general.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.yasd.general.messages.Messages;
@@ -42,6 +43,7 @@ import com.shatteredpixel.yasd.general.scenes.GameScene;
 import com.shatteredpixel.yasd.general.sprites.ItemSpriteSheet;
 import com.shatteredpixel.yasd.general.windows.WndBag;
 import com.shatteredpixel.yasd.general.windows.WndOptions;
+import com.sun.org.apache.bcel.internal.generic.DUP;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
@@ -101,8 +103,14 @@ public class Dart extends MissileWeapon {
 	
 	private static Projectile bow;
 	
-	private ArrayList<KindofMisc> getCrossbows(){
-		return Dungeon.hero.belongings.getEquippedItemsOFType( Projectile.class );
+	private ArrayList<Projectile> getCrossbows(){
+		ArrayList<Projectile> crossbows = new ArrayList<>();
+		for (MainHandItem item : Dungeon.hero.belongings.weapons) {
+			if (item instanceof Projectile) {
+				crossbows.add((Projectile) item);
+			}
+		}
+		return crossbows;
 	}
 
 	private Projectile getCrossbow() {

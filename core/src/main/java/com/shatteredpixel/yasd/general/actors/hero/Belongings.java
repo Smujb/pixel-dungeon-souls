@@ -43,6 +43,7 @@ import com.shatteredpixel.yasd.general.items.EquipableItem;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.KindOfWeapon;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
+import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.armor.Armor;
 import com.shatteredpixel.yasd.general.items.armor.curses.Bulk;
 import com.shatteredpixel.yasd.general.items.armor.glyphs.Brimstone;
@@ -79,8 +80,11 @@ public class Belongings implements Iterable<Item> {
 	private Char owner;
 	
 	public Bag backpack;
-	public int currentWeapon = 0;
+
+	public MainHandItem weapons[] = new MainHandItem[2];
+	public Armor armor = null;
 	public KindofMisc[] miscs = new KindofMisc[Constants.MISC_SLOTS];
+	public int currentWeapon = 0;
 
 	public Belongings( Char owner ) {
 		this.owner = owner;
@@ -129,29 +133,18 @@ public class Belongings implements Iterable<Item> {
 		return false;
 	}
 
-	public ArrayList<Armor> getArmors() {
-		ArrayList<Armor> armors = new ArrayList<>();
-		for (KindofMisc misc : miscs) {
-			if (misc instanceof Armor) {
-				armors.add((Armor) misc);
-			}
-		}
-		return armors;
-
-	}
-
 	public ArrayList<KindOfWeapon> getWeapons() {
 		ArrayList<KindOfWeapon> weapons = new ArrayList<>();
-		for (KindofMisc misc : miscs) {
-			if (misc instanceof MeleeWeapon) {
-				weapons.add((KindOfWeapon) misc);
+		for (MainHandItem item : this.weapons) {
+			if (item instanceof MeleeWeapon) {
+				weapons.add((KindOfWeapon) item);
 			}
 		}
 		return weapons;
 
 	}
 
-	public ArrayList<KindofMisc> getEquippedItemsOFType( Class type ) {//Find equipped items of a certain kind
+	public ArrayList<KindofMisc> getMiscsOfType(Class type ) {//Find equipped items of a certain kind
 		ArrayList<KindofMisc> items = new ArrayList<>();
 		for (KindofMisc misc : miscs) {
 			if (type.isInstance(misc)) {
@@ -187,11 +180,11 @@ public class Belongings implements Iterable<Item> {
 	public boolean shoot(Char enemy, MissileWeapon wep) {
 
 		//temporarily set the hero's weapon to the missile weapon being used
-		KindofMisc equipped = miscs[0];
-		miscs[0] = wep;
+		MainHandItem equipped = weapons[0];
+		weapons[0] = wep;
 		boolean hit = owner.attack(enemy);
 		Invisibility.dispel();
-		miscs[0] = equipped;
+		weapons[0] = equipped;
 
 		return hit;
 	}
@@ -224,8 +217,8 @@ public class Belongings implements Iterable<Item> {
 	        return null;
         }
 		resetWeapon();
-		if (miscs[0] instanceof MissileWeapon) {
-			return ((MissileWeapon) miscs[0]);
+		if (weapons[0] instanceof MissileWeapon) {
+			return ((MissileWeapon) weapons[0]);
 		}
 		return getWeapons().get(currentWeapon);
 	}
@@ -248,40 +241,23 @@ public class Belongings implements Iterable<Item> {
 	}
 
 	public float physicalDamageFactor() {
-		float resist = 1f;
-		for (Armor armor : getArmors()) {
-			resist *= armor.physicalDamageFactor;
-		}
-		return resist;
+		if (armor != null) return armor.physicalDamageFactor;
+		return 1f;
 	}
 
 	public float magicalDamageFactor() {
-		float resist = 1f;
-		for (Armor armor : getArmors()) {
-			resist *= armor.magicDamageFactor;
-		}
-		return resist;
+		if (armor != null) return armor.magicDamageFactor;
+		return 1f;
 	}
 
 	public float defenseRegen() {
-		float regen = 0;
-		ArrayList<Armor> armors = getArmors();
-		if (armors.size() > 0) {
-			for (int i = 0; i < armors.size(); i++) {
-				float armRegen = armors.get(i).defenseRegen();
-				if (armRegen > 0) regen += armRegen;
-			}
-		}
-		return regen;
+		if (armor != null) return armor.defenseRegen();
+		return 0;
 	}
 
 	public float poise() {
-		float poise = 0;
-		ArrayList<Armor> armors = getArmors();
-		for (Armor armor : armors) {
-			poise += armor.poise();
-		}
-		return poise;
+		if (armor != null) return armor.poise();
+		return 0;
 	}
 
 	public float impact() {
@@ -295,15 +271,12 @@ public class Belongings implements Iterable<Item> {
 
 	public int defense() {
 		int defense = 0;
-		ArrayList<Armor> Armors = getArmors();
-		if (Armors.size() > 0) {
-			for (int i = 0; i < Armors.size(); i++) {
-				int armDefense = Armors.get(i).defense();
-				if (owner.STR() < Armors.get(i).STRReq()) {
-					armDefense -= 2 * (Armors.get(i).STRReq() - owner.STR());
-				}
-				if (armDefense > 0) defense += armDefense;
+		if (armor != null) {
+			int armDefense = armor.defense();
+			if (owner.STR() < armor.STRReq()) {
+				armDefense -= 2 * (armor.STRReq() - owner.STR());
 			}
+			if (armDefense > 0) defense += armDefense;
 		}
 
 		ArrayList<KindOfWeapon> Weapons = getWeapons();
@@ -344,31 +317,13 @@ public class Belongings implements Iterable<Item> {
 		return owner.buff(Fury.class) != null ? (int) (dmg * 1.5f) : dmg;
 	}
 
-	public int getArmorSTRReq() {
-		ArrayList<Armor> armors = getArmors();
-		int TotalRequirement = 8;
-		int IndividualRequirement;
-		for (int i=0; i < armors.size(); i++) {
-			IndividualRequirement = armors.get(i).defaultSTRReq();
-			IndividualRequirement -= 8;
-			TotalRequirement += IndividualRequirement;
-
-
-		}
-		return TotalRequirement;
-	}
-
 	public int defenseProc(Char enemy, int damage) {
-		ArrayList<Armor> Armors = getArmors();//Proc all armours 1 by 1
-		for (int i=0; i < Armors.size(); i++) {
-			damage = Armors.get(i).proc(enemy, owner, damage);
-		}
+		if (armor != null) damage = armor.proc(enemy, owner, damage);
 		return damage;
 	}
 
 	public int attackProc(Char enemy, int damage) {
 		KindOfWeapon wep = getCurrentWeapon();
-
 		if (wep != null) damage = wep.proc(owner, enemy, damage);
 		return damage;
 	}
@@ -378,10 +333,7 @@ public class Belongings implements Iterable<Item> {
 	}
 
 	public int magicalDefenseProc(Char enemy, int damage) {
-		ArrayList<Armor> Armors = getArmors();//Proc all armours 1 by 1
-		for (int i=0; i < Armors.size(); i++) {
-			damage = Armors.get(i).magicalProc(enemy, owner, damage);
-		}
+		if (armor != null) damage = armor.magicalProc(enemy, owner, damage);
 		return damage;
 	}
 
@@ -421,10 +373,8 @@ public class Belongings implements Iterable<Item> {
 
 
 	public float affectEvasion(float evasion) {
-		ArrayList<Armor> Armors = getArmors();
-		//evasion *= _Unused.evasionMultiplier(owner);
-		for (int i=0; i < Armors.size(); i++) {
-			Armor CurArmour = Armors.get(i);
+		if (armor != null) {
+ 			Armor CurArmour = armor;
 			//evasion *= CurArmour.evasionMultiplier(ownerID);
 			if (CurArmour.hasGlyph(Stone.class, owner) && !((Stone) CurArmour.glyph).testingEvasion()) {
 				return 0;
@@ -446,10 +396,9 @@ public class Belongings implements Iterable<Item> {
 	}
 
 	public float affectSpeed(float speed) {
-		ArrayList<Armor> Armors = getArmors();
 		speed *= RingOfHaste.speedMultiplier(owner);
-		for (int i=0; i < Armors.size(); i++) {
-			Armor curArmor = Armors.get(i);
+		if (armor != null) {
+			Armor curArmor = armor;
 			//speed *= CurArmour.speedMultiplier(ownerID);
 			int aEnc = curArmor.STRReq() - owner.STR();
 			if (aEnc > 0) speed /= Math.pow(1.2, aEnc);
@@ -480,9 +429,8 @@ public class Belongings implements Iterable<Item> {
 	}
 
 	public float affectStealth(float stealth) {
-		ArrayList<Armor> Armors = getArmors();
-		for (int i=0; i < Armors.size(); i++) {
-			Armor CurArmour = Armors.get(i);
+		if (armor != null) {
+			Armor CurArmour = armor;
 			//sneakSkill *= CurArmour.stealthMultiplier(ownerID);
 
 			if (CurArmour.hasGlyph(Obfuscation.class, owner)){
@@ -507,14 +455,8 @@ public class Belongings implements Iterable<Item> {
 	}
 
 	public boolean isImmune(Class effect) {
-		//if *any* armour has Brimstone Glyph
-		ArrayList<Armor> Armors = getArmors();
-		for (int i=0; i < Armors.size(); i++) {
-			if (effect == Burning.class
-					&& Armors.get(i) != null
-					&& Armors.get(i).hasGlyph(Brimstone.class, owner)) {
-				return true;
-			}
+		if (armor != null) {
+			return effect == Burning.class && armor.hasGlyph(Brimstone.class, owner);
 		}
 		return false;
 	}
@@ -523,18 +465,23 @@ public class Belongings implements Iterable<Item> {
 	//####################### End of stuff for handling chars with belongings ######################
 	//##############################################################################################
 
-	private static final String ARMOR		= "getArmors";
+	private static final String ARMOR		= "armor";
+	private static final String WEAPONS		= "weapon";
 	private static final String MISC        = "misc";
 
 
 	public void storeInBundle( Bundle bundle ) {
 		
 		backpack.storeInBundle( bundle );
+
+		for (int i = 0; i < 2; i++) {
+			bundle.put(WEAPONS + i, weapons[i]);
+		}
+
+		bundle.put(ARMOR, armor);
+
 		for (int i = 0; i < Constants.MISC_SLOTS; i++) {//Store all miscs
 			bundle.put( MISC + i, miscs[i]);
-		}
-		if (getArmors().size() > 0) {
-			bundle.put(ARMOR, getArmors().get(0));//Used for previewing games.
 		}
 	}
 	
@@ -542,11 +489,18 @@ public class Belongings implements Iterable<Item> {
 		
 		backpack.clear();
 		backpack.restoreFromBundle( bundle );
-		for (int i = 0; i < Constants.MISC_SLOTS; i++) {//Restore all miscs
+
+		for (int i = 0; i < 2; i++) {
+			weapons[i] = ((MainHandItem)bundle.get(WEAPONS + i));
+			if (weapons[i] != null) weapons[i].activate(owner);
+		}
+
+		armor = (Armor) bundle.get(ARMOR);
+		if (armor != null) armor.activate(owner);
+
+		for (int i = 0; i < Constants.MISC_SLOTS; i++) {
 			miscs[i] = (KindofMisc)bundle.get(MISC + i);
-			if (miscs[i] != null) {
-				miscs[i].activate( owner );
-			}
+			if (miscs[i] != null) miscs[i].activate(owner);
 		}
 	}
 	
@@ -611,6 +565,18 @@ public class Belongings implements Iterable<Item> {
 	}
 	
 	public void observe() {
+		for (MainHandItem weapon : weapons) {//Restore all miscs
+			if (weapon != null) {
+				weapon.identify();
+				Badges.validateItemLevelAquired(weapon);
+			}
+		}
+
+		if (armor != null) {
+			armor.identify();
+			Badges.validateItemLevelAquired(armor);
+		}
+
 		for (int i = 0; i < Constants.MISC_SLOTS; i++) {//Restore all miscs
 			if (miscs[i] != null) {
 				miscs[i].identify();
@@ -626,7 +592,7 @@ public class Belongings implements Iterable<Item> {
 	}
 	
 	public void uncurseEquipped() {
-		ScrollOfRemoveCurse.uncurse( owner, miscs[0], miscs[1], miscs[2], miscs[3], miscs[4]);
+		ScrollOfRemoveCurse.uncurse( owner,weapons[0], weapons[1], armor, miscs[0], miscs[1], miscs[2]);
 	}
 	
 	public Item randomUnequipped() {
@@ -681,10 +647,10 @@ public class Belongings implements Iterable<Item> {
 
 		private int index = 0;
 		
-		private Iterator<Item> backpackIterator = backpack.iterator();
+		private final Iterator<Item> backpackIterator = backpack.iterator();
 		
-		private Item[] equipped = { miscs[0], miscs[1],  miscs[2], miscs[3], miscs[4]};
-		private int backpackIndex = equipped.length;
+		private final Item[] equipped = { weapons[0], weapons[1], armor, miscs[0], miscs[1],  miscs[2]};
+		private final int backpackIndex = equipped.length;
 		
 		@Override
 		public boolean hasNext() {
@@ -715,22 +681,22 @@ public class Belongings implements Iterable<Item> {
 		public void remove() {
 			switch (index) {
 				case 0:
-					equipped[0] = miscs[0] = null;
+					equipped[0] = weapons[0] = null;
 					break;
 				case 1:
-					equipped[1] = miscs[1] = null;
+					equipped[1] = weapons[1] = null;
 					break;
 				case 2:
-					equipped[2] = miscs[2] = null;
+					equipped[2] = armor = null;
 					break;
 				case 3:
-					equipped[3] = miscs[3] = null;
+					equipped[3] = miscs[0] = null;
 					break;
 				case 4:
-					equipped[4] = miscs[4] = null;
+					equipped[4] = miscs[1] = null;
 					break;
 				case 5:
-					equipped[5] = miscs[5] = null;
+					equipped[5] = miscs[2] = null;
 					break;
 				default:
 					backpackIterator.remove();

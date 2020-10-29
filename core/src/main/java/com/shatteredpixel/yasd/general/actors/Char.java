@@ -408,8 +408,8 @@ public abstract class Char extends Actor {
 			}
 
 			if (hasBelongings()) {
-				if (belongings.miscs[0] instanceof MissileWeapon) {//Missile Weapons are always equipped in slot 1
-					dmg = ((MissileWeapon) belongings.miscs[0]).damageRoll(this);
+				if (belongings.weapons[0] instanceof MissileWeapon) {//Missile Weapons are always equipped in slot 1
+					dmg = ((MissileWeapon) belongings.weapons[0]).damageRoll(this);
 				}
 			}
 			DamageSrc src = defaultSrc();

@@ -37,6 +37,7 @@ import com.shatteredpixel.yasd.general.items.Generator;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.KindOfWeapon;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
+import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.WeaponEditor;
 import com.shatteredpixel.yasd.general.items.alcohol.Beer;
 import com.shatteredpixel.yasd.general.items.armor.ChainArmor;
@@ -115,9 +116,9 @@ public enum HeroClass {
 				break;
 		}
 
-		for (KindofMisc misc : hero.belongings.miscs) {
-			if (misc != null) misc.activate(hero);
-		}
+		for (MainHandItem item : hero.belongings.weapons) if (item != null) item.activate(hero);
+		if (hero.belongings.armor != null) hero.belongings.armor.activate(hero);
+		for (KindofMisc misc : hero.belongings.miscs) if (misc != null) misc.activate(hero);
 	}
 
 	private static void initCommon( Hero hero ) {
@@ -178,8 +179,8 @@ public enum HeroClass {
 
 	private static void initWarrior( Hero hero ) {
 		RandomMeleeWeapon weapon = new RandomMeleeWeapon();
-		(hero.belongings.miscs[0] = weapon.matchProfile()).identify();
-		(hero.belongings.miscs[1] = new ChainArmor()).identify();
+		(hero.belongings.weapons[0] = weapon.matchProfile()).identify();
+		(hero.belongings.armor = new ChainArmor()).identify();
 		ThrowingStone stones = new ThrowingStone();
 		stones.quantity(3).collect();
 		Dungeon.quickslot.setSlot(0, stones);
@@ -200,8 +201,8 @@ public enum HeroClass {
 		
 		staff = new MagesStaff(new WandOfMagicMissile());
 
-		(hero.belongings.miscs[0] = staff).identify();
-		(hero.belongings.miscs[1] = new MageArmor()).identify();
+		(hero.belongings.weapons[0] = staff).identify();
+		(hero.belongings.armor = new MageArmor()).identify();
 		hero.belongings.getWeapons().get(0).activate(hero);
 
 		Dungeon.quickslot.setSlot(0, staff);
@@ -217,8 +218,8 @@ public enum HeroClass {
 	private static void initRogue( Hero hero ) {
 		RandomMeleeWeapon weapon = new RandomMeleeWeapon();
 		weapon.properties.add(KindOfWeapon.Property.SURPRISE_ATTK_BENEFIT);
-		(hero.belongings.miscs[0] = weapon.matchProfile()).identify();
-		(hero.belongings.miscs[1] = new RogueArmor()).identify();
+		(hero.belongings.weapons[0] = weapon.matchProfile()).identify();
+		(hero.belongings.armor = new RogueArmor()).identify();
 
 		WeaponEditor editor = new WeaponEditor();
 		editor.collect();
@@ -240,8 +241,8 @@ public enum HeroClass {
 	private static void initHuntress( Hero hero ) {
 		RandomMeleeWeapon weapon = new RandomMeleeWeapon();
 		weapon.DLY = 0.5f;
-		(hero.belongings.miscs[0] = weapon.matchProfile()).identify();
-		(hero.belongings.miscs[1] = new HuntressArmor()).identify();
+		(hero.belongings.weapons[0] = weapon.matchProfile()).identify();
+		(hero.belongings.armor = new HuntressArmor()).identify();
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
 

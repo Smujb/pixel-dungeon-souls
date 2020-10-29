@@ -28,6 +28,7 @@
 package com.shatteredpixel.yasd.general.actors.mobs.npcs;
 
 import com.shatteredpixel.yasd.general.Assets;
+import com.shatteredpixel.yasd.general.Dungeon;
 import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.blobs.CorrosiveGas;
@@ -185,10 +186,7 @@ public class PrismaticImage extends NPC {
 	@Override
 	public int defenseProc(Char enemy, int damage, DamageSrc src) {
 		damage = super.defenseProc(enemy, damage, src);
-		ArrayList<Armor> Armors = hero.belongings.getArmors();//Proc all armours 1 by 1
-		for (int i=0; i < Armors.size(); i++) {
-			damage = Armors.get(i).proc(enemy,this, damage);
-		}
+		if (hero.belongings.armor != null) hero.belongings.armor.proc(enemy, this, damage);
 		return damage;
 	}
 	
@@ -223,15 +221,10 @@ public class PrismaticImage extends NPC {
 	
 	@Override
 	public boolean isImmune(Class effect) {
-		ArrayList<Armor> Armors = hero.belongings.getArmors();
-		for (int i=0; i < Armors.size(); i++) {
-			if (effect == Burning.class
-					&& Armors.get(i) != null
-					&& Armors.get(i).hasGlyph(Brimstone.class, this)) {
-				return true;
-			}
+		Armor armor = Dungeon.hero.belongings.armor;
+		if (armor != null && effect == Burning.class && armor.hasGlyph(Brimstone.class, this)) {
+			return true;
 		}
-
 		return super.isImmune(effect);
 	}
 	

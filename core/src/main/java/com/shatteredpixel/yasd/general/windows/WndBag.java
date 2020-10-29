@@ -38,6 +38,7 @@ import com.shatteredpixel.yasd.general.items.EquipableItem;
 import com.shatteredpixel.yasd.general.items.Gold;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
+import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.Recipe;
 import com.shatteredpixel.yasd.general.items.armor.Armor;
 import com.shatteredpixel.yasd.general.items.artifacts.SandalsOfNature;
@@ -73,6 +74,8 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PlatformSupport;
+
+import org.jetbrains.annotations.NotNull;
 
 public class WndBag extends WndTabbed {
 	
@@ -239,8 +242,15 @@ public class WndBag extends WndTabbed {
 		
 		// Equipped items
 		Belongings stuff = Dungeon.hero.belongings;
-		for (KindofMisc item : stuff.miscs) {
-			placeItem(item != null ? item : new Placeholder( ItemSpriteSheet.RING_HOLDER ));
+
+		for (MainHandItem mainHandItem : stuff.weapons) {
+			placeItem(mainHandItem != null ? mainHandItem : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ));
+		}
+
+		placeItem(stuff.armor != null ? stuff.armor : new Placeholder( ItemSpriteSheet.ARMOR_HOLDER ));
+
+		for (KindofMisc misc : stuff.miscs) {
+			placeItem(misc != null ? misc : new Placeholder( ItemSpriteSheet.RING_HOLDER ));
 		}
 
 		//the container itself if it's not the root backpack
@@ -347,7 +357,7 @@ public class WndBag extends WndTabbed {
 		}
 		
 		@Override
-		public boolean isEquipped( Char hero ) {
+		public boolean isEquipped(@NotNull Char hero ) {
 			return true;
 		}
 	}

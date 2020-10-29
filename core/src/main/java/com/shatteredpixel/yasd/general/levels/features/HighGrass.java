@@ -118,13 +118,7 @@ public class HighGrass {
 				
 				//Camouflage
 				//FIXME doesn't work with sad ghost
-				boolean hasCamoflage = false;
-				ArrayList<Armor> Armors = hero.belongings.getArmors();
-				for (int i=0; i < Armors.size(); i++) {
-					if (Armors.get(i).hasGlyph(Camouflage.class, hero)) {
-						hasCamoflage = true;
-					}
-				}
+				boolean hasCamoflage = hero.belongings.armor != null && hero.belongings.armor.hasGlyph(Camouflage.class, hero);
 				if (hasCamoflage) {
 					Buff.prolong(hero, Invisibility.class, 4);
 					Sample.INSTANCE.play( Assets.Sounds.MELD );

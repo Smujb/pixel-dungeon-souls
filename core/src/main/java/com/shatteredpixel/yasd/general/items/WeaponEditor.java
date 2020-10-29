@@ -158,8 +158,8 @@ public class WeaponEditor extends Item {
 		if (ch.belongings.backpack.contains(weapon)) {
 			weapon.detach(ch.belongings.backpack);
 		} else {
-			for (int i = 0; i < ch.belongings.miscs.length; i++) {
-				if (ch.belongings.miscs[i] == weapon) {
+			for (int i = 0; i < ch.belongings.weapons.length; i++) {
+				if (ch.belongings.weapons[i] == weapon) {
 					ch.belongings.miscs[i] = null;
 					break;
 				}

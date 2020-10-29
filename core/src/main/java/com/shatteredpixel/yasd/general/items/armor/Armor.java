@@ -38,6 +38,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.ShieldBuff;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.effects.Speck;
 import com.shatteredpixel.yasd.general.items.BrokenSeal;
+import com.shatteredpixel.yasd.general.items.EquipableItem;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
 import com.shatteredpixel.yasd.general.items.armor.curses.AntiEntropy;
@@ -78,7 +79,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Armor extends KindofMisc {
+public class Armor extends EquipableItem {
 
 	public float EVA = 1f;
 	public float STE = 1f;
@@ -267,22 +268,52 @@ public class Armor extends KindofMisc {
 		return 0.2f*tier*regenFactor;
 	}
 
+
 	@Override
-	public boolean doEquip(Char ch) {
-		boolean equipped = super.doEquip(ch);
-		if (ch instanceof Hero) {
+	public boolean doEquip( Char ch ) {
+
+		detach(ch.belongings.backpack);
+
+		if (ch.belongings.armor == null || ch.belongings.armor.doUnequip( ch, true, false )) {
+
+			ch.belongings.armor = this;
+
+			cursedKnown = true;
+			if (cursed) {
+				equipCursed( ch );
+				GLog.n( Messages.get(Armor.class, "equip_cursed") );
+			}
+
 			((HeroSprite)ch.sprite).updateArmor();
+			activate(ch);
+			ch.spendAndNext( time2equip( ch ) );
+			return true;
+
+		} else {
+
+			collect( ch.belongings.backpack, ch );
+			return false;
+
 		}
-		return equipped;
 	}
 
 	@Override
-	public boolean doUnequip(Char ch, boolean collect, boolean single) {
-		boolean equipped = super.doUnequip(ch, collect, single);
-		if (ch instanceof Hero) {
+	public boolean doUnequip( Char ch, boolean collect, boolean single ) {
+		if (super.doUnequip( ch, collect, single )) {
+
+			ch.belongings.armor = null;
 			((HeroSprite)ch.sprite).updateArmor();
+
+			BrokenSeal.WarriorShield sealBuff = ch.buff(BrokenSeal.WarriorShield.class);
+			if (sealBuff != null) sealBuff.setArmor(null);
+
+			return true;
+
+		} else {
+
+			return false;
+
 		}
-		return equipped;
 	}
 
 	@Override
@@ -509,16 +540,8 @@ public class Armor extends KindofMisc {
 		return this;
 	}
 
-	public int defaultSTRReq() {
-		return Math.max(STRReq(level()),10);
-	}
-
 	public int STRReq() {
-		if (isEquipped(Dungeon.hero)) {
-			return Dungeon.hero.belongings.getArmorSTRReq();
-		} else {
-			return defaultSTRReq();
-		}
+		return STRReq(level());
 	}
 
 
@@ -791,7 +814,7 @@ public class Armor extends KindofMisc {
 		@Override
 		public int absorbDamage(int dmg, @NotNull Char.DamageSrc src) {
 			//Armour degrades when the shield absorbs damage
-			if (target.hasBelongings() && target.belongings.getArmors().size() > 0) target.belongings.getArmors().get(0).use();
+			if (target.hasBelongings() && target.belongings.armor != null) target.belongings.armor.use();
 
 			if (src.ignores()) {
 				return dmg;

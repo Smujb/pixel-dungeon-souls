@@ -36,12 +36,9 @@ import com.shatteredpixel.yasd.general.actors.hero.Belongings;
 import com.shatteredpixel.yasd.general.items.Ankh;
 import com.shatteredpixel.yasd.general.items.Generator;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
-import com.shatteredpixel.yasd.general.items.armor.Armor;
 import com.shatteredpixel.yasd.general.items.rings.Ring;
 import com.shatteredpixel.yasd.general.items.stones.StoneOfRepair;
 import com.shatteredpixel.yasd.general.items.wands.Wand;
-import com.shatteredpixel.yasd.general.items.weapon.Weapon.Enchantment;
-import com.shatteredpixel.yasd.general.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.yasd.general.journal.Notes;
 import com.shatteredpixel.yasd.general.mechanics.Ballistica;
 import com.shatteredpixel.yasd.general.sprites.CharSprite;
@@ -83,7 +80,7 @@ public class Statue extends Mob implements Callback {
 		super();
 
 		for (int i = 0; i < belongings.miscs.length; i++) {
-			belongings.miscs[i] = newItem();
+			belongings.miscs[i] = newMisc();
 			belongings.miscs[i].activate(this);
 		}
 
@@ -123,39 +120,23 @@ public class Statue extends Mob implements Callback {
 		}
 	}
 
-	private KindofMisc newItem() {
+	private KindofMisc newMisc() {
 		boolean con = false;
 		KindofMisc item;
 		do {
 			int type = Random.Int(4);
 			switch (type) {
 				default:
-					item = ((MeleeWeapon) Generator.random(Generator.Category.WEAPON));
-					if (((MeleeWeapon) item).hasCurseEnchant()) {
-						((MeleeWeapon) item).enchant(Enchantment.random());
-					}
-					if (belongings.getWeapons().size() < 3) {
-						con = true;
-					}
-					break;
 				case 1:
 					item = ((KindofMisc) Generator.random(Generator.Category.RING));
-					if (belongings.getEquippedItemsOFType(Ring.class).size() < 3) {
+					if (belongings.getMiscsOfType(Ring.class).size() < 3) {
 						con = true;
 					}
 					break;
 				case 2:
-					item = ((Armor) Generator.random(Generator.Category.ARMOR));
-					if (((Armor) item).hasCurseGlyph()) {
-						((Armor) item).inscribe(Armor.Glyph.random());
-					}
-					if (belongings.getEquippedItemsOFType(Armor.class).size() < 3) {
-						con = true;
-					}
-					break;
 				case 3:
 					item = ((KindofMisc) Generator.random(Generator.Category.WAND));
-					if (belongings.getEquippedItemsOFType(Wand.class).size() < 3) {
+					if (belongings.getMiscsOfType(Wand.class).size() < 3) {
 						con = true;
 					}
 					break;
@@ -197,16 +178,15 @@ public class Statue extends Mob implements Callback {
 	@Override
 	public CharSprite sprite() {
 		CharSprite sprite = super.sprite();
-		ArrayList<Armor> armors = belongings.getArmors();
-		if (armors.size() > 0) {
-			((StatueSprite) sprite).setArmor(armors.get(0).appearance());
+		if (belongings.armor != null) {
+			((StatueSprite) sprite).setArmor(belongings.armor.appearance());
 		}
 		return sprite;
 	}
 
 	private Wand wandToAttack(Char enemy) {
 		if (enemy != null ) {
-			ArrayList<KindofMisc> wands = belongings.getEquippedItemsOFType(Wand.class);
+			ArrayList<KindofMisc> wands = belongings.getMiscsOfType(Wand.class);
 			ArrayList<Wand> usableWands = new ArrayList<>();
 			for (int i = 0; i < wands.size(); i++) {
 				Wand wand = ((Wand) wands.get(i));
@@ -247,7 +227,7 @@ public class Statue extends Mob implements Callback {
 	protected boolean doAttack( Char enemy ) {
 		if (Dungeon.level.adjacent( pos, enemy.pos )) {
 			return super.doAttack( enemy );
-		} else if (belongings.getEquippedItemsOFType(Wand.class).size() > 0) {
+		} else if (belongings.getMiscsOfType(Wand.class).size() > 0) {
 			wandZap(enemy);
 			return true;
 		} else {
