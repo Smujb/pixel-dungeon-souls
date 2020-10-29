@@ -20,5 +20,9 @@ public class Humanity extends Soul {
     }
 
     @Override
-    protected void doUse(Hero hero) {}
+    public void doUse(Hero hero) {
+        Hollowing.regainHumanity(hero);
+        hero.busy();
+        hero.sprite.operate(hero.pos);
+    }
 }

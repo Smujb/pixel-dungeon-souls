@@ -12,7 +12,7 @@ public class SoulOfLostUndead extends Soul {
     protected int souls = 500;
 
     @Override
-    protected void doUse(Hero hero) {
+    public void doUse(Hero hero) {
         hero.gainSouls(souls, getClass());
     }
 }

@@ -145,9 +145,8 @@ public class Bonfire extends NPC {
                 case 2:
                     Humanity humanity = h.belongings.getItem(Humanity.class);
                     if (humanity != null) {
-                        Hollowing.regainHumanity(h);
-                        h.busy();
-                        h.sprite.operate(h.pos);
+                        humanity.doUse(h);
+                        humanity.detach(h.belongings.backpack);
                     } else {
                         GLog.n(Messages.get(Bonfire.class, "no_humanity"));
                     }

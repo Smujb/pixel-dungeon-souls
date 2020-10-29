@@ -41,10 +41,11 @@ public abstract class Soul extends Item {
         super.execute(hero, action);
         if (action.equals(AC_USE)) {
             doUse(hero);
+            detach(hero.belongings.backpack);
         }
     }
 
-    protected abstract void doUse(Hero hero);
+    public abstract void doUse(Hero hero);
 
     public static Item randomSoul() {
         if (Random.Int(10) == 0) return new Humanity();
