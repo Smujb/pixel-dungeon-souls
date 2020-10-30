@@ -174,6 +174,7 @@ public abstract class Char extends Actor {
 	}
 
 	public boolean shoot(Char enemy, MissileWeapon wep) {
+		if (stamina < REQ_STAMINA) return false;
 		return belongings.shoot(enemy, wep);
 	}
 
