@@ -170,6 +170,7 @@ public class Bonfire extends NPC {
     public static WndBag.Listener listener = new WndBag.Listener() {
         @Override
         public void onSelect(Item item) {
+            if (item == null) return;
             int reqSouls = item.price() * 10;
             if (Dungeon.hero.souls >= reqSouls) {
                 PDSGame.scene().addToFront(new WndOptions(Messages.get(Bonfire.class, "confirm_repair", reqSouls), "", Messages.get(Bonfire.class, "yes"), Messages.get(Bonfire.class, "no")) {
