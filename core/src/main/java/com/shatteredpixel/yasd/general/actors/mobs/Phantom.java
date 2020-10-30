@@ -1,6 +1,8 @@
 package com.shatteredpixel.yasd.general.actors.mobs;
 
 import com.shatteredpixel.yasd.general.Dungeon;
+import com.shatteredpixel.yasd.general.Element;
+import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.levels.Level;
@@ -15,6 +17,8 @@ public class Phantom extends Wraith {
         properties.add(Property.MINIBOSS);
 
         healthFactor = 1f;
+        evasionFactor = 0.5f;
+        resistances.remove(Element.PHYSICAL);
     }
 
     @Override
