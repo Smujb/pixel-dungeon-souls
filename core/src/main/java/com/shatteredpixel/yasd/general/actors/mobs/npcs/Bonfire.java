@@ -36,7 +36,19 @@ public class Bonfire extends NPC {
     private boolean lit = false;
 
     @Override
-    public void damage(int dmg, DamageSrc src) {}
+    public void damage(int dmg, DamageSrc src) {
+        light();
+    }
+
+    @Override
+    public void aggro(Char ch) {}
+
+    @Override
+    protected boolean act() {
+        throwItem();
+        spend(1f);
+        return true;
+    }
 
     @Override
     public int defenseSkill(Char enemy) {
