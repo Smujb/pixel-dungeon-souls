@@ -69,7 +69,7 @@ public class MainHandItem extends EquipableItem {
     public boolean doUnequip(Char ch, boolean collect, boolean single) {
         if (super.doUnequip(ch, collect, single)){
 
-            for (int i = 0; i < Constants.MISC_SLOTS; i++) {
+            for (int i = 0; i < ch.belongings.weapons.length; i++) {
                 if (ch.belongings.weapons[i] == this) {
                     ch.belongings.weapons[i] = null;
                 }
