@@ -189,7 +189,7 @@ public class Hero extends Char {
 	}
 
 	public int trueMaxHP() {
-		return 20 + 5*(lvl-1) + HTBoost;
+		return 30 + 5*(lvl-1) + HTBoost;
 	}
 
 	@Override

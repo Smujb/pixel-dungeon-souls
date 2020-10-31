@@ -31,6 +31,7 @@ import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.buffs.Amok;
 import com.shatteredpixel.yasd.general.actors.buffs.Awareness;
+import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.buffs.Light;
 import com.shatteredpixel.yasd.general.actors.buffs.MindVision;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
@@ -251,6 +252,7 @@ public class Dungeon {
 
 		Generator.reset();
 		hero = new Hero();
+		Hollowing.fullyHollow(hero);
 		hero.live();
 		
 		Badges.reset();
