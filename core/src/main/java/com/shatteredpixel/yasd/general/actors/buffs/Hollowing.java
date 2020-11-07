@@ -1,6 +1,7 @@
 package com.shatteredpixel.yasd.general.actors.buffs;
 
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
+import com.watabou.noosa.ui.Button;
 import com.watabou.utils.Bundle;
 
 public class Hollowing extends Buff {
@@ -26,6 +27,10 @@ public class Hollowing extends Buff {
         Buff.affect(hero, Hollowing.class).retrieveHumanity();
     }
 
+    public static float hollowingPercentage(Hero hero) {
+        return Buff.affect(hero, Hollowing.class).hollowingPercentage();
+    }
+
     private static final int FULL_HOLLOW = 20;
     private int level = 0;
 
@@ -35,7 +40,7 @@ public class Hollowing extends Buff {
     }
 
     private void die() {
-        level++;
+        if (level < FULL_HOLLOW) level++;
     }
 
     private void regainHumanity() {
@@ -43,11 +48,15 @@ public class Hollowing extends Buff {
     }
 
     private void fullyHollow() {
-        level = Math.max(level, FULL_HOLLOW);
+        level = FULL_HOLLOW;
     }
 
     private void retrieveHumanity() {
-        level = Math.min(FULL_HOLLOW-1, level-1);
+        if (level > 0) level--;
+    }
+
+    private float hollowingPercentage() {
+        return level/(float)FULL_HOLLOW;
     }
 
     @Override
@@ -67,6 +76,6 @@ public class Hollowing extends Buff {
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
-        level = bundle.getInt(LEVEL);
+        level = Math.min(FULL_HOLLOW, bundle.getInt(LEVEL));
     }
 }

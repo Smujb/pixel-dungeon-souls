@@ -90,10 +90,6 @@ public class Heap implements Bundlable {
 	public LinkedList<Item> items = new LinkedList<>();
 	
 	public void open( Hero hero ) {
-		String msg = type.openMsg(hero.morale < hero.MAX_MORALE*0.5f);
-		if (!msg.equals("")) {
-			GLog.n(msg);
-		}
 		switch (type) {
 		case MIMIC:
 			type = Type.CHEST;
@@ -397,18 +393,9 @@ public class Heap implements Bundlable {
 			case TOMB:
 				return Messages.get(this, "tomb_desc");
 			case SKELETON:
-				if (Dungeon.hero.morale > Dungeon.hero.MAX_MORALE/2) {
-					return Messages.get(this, "skeleton_desc");
-				} else {
-					return Messages.get(this, "skeleton_desc_low_morale");
-				}
+				return Messages.get(this, "skeleton_desc");
 			case REMAINS:
-				if (Dungeon.hero.morale > Dungeon.hero.MAX_MORALE/2) {
-					return Messages.get(this, "remains_desc");
-				} else {
-					return Messages.get(this, "remains_desc_low_morale");
-				}
-
+				return Messages.get(this, "remains_desc");
 			default:
 				return peek().info();
 		}

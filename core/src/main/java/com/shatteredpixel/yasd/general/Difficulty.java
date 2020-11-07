@@ -75,20 +75,6 @@ public enum Difficulty {
 	}
 
 	@Contract(pure = true)
-	public float moraleFactor() {
-		switch (this) {
-			case EASY:
-				return 2/3f;
-			case MEDIUM: default:
-				return 1f;
-			case HARD:
-				return 1 + 1/3f;
-			case IMPOSSIBLE:
-				return 2f;
-		}
-	}
-
-	@Contract(pure = true)
 	public int degradationAmount() {
 		switch (this) {
 			case EASY://Easy = 3 drop in durability per hit (200 hits until break)

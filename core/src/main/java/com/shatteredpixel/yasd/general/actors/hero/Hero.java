@@ -30,7 +30,6 @@ package com.shatteredpixel.yasd.general.actors.hero;
 import com.shatteredpixel.yasd.general.Assets;
 import com.shatteredpixel.yasd.general.Badges;
 import com.shatteredpixel.yasd.general.Challenges;
-import com.shatteredpixel.yasd.general.Constants;
 import com.shatteredpixel.yasd.general.Dungeon;
 import com.shatteredpixel.yasd.general.GamesInProgress;
 import com.shatteredpixel.yasd.general.LevelHandler;
@@ -134,9 +133,6 @@ public class Hero extends Char {
 		immunities.add(Amok.class);
 	}
 
-	public final float MAX_MORALE = 10f;
-	public float morale = MAX_MORALE;
-
 	public static final int STARTING_STR = 10;
 
 	private int Power      = 1;
@@ -203,21 +199,6 @@ public class Hero extends Char {
 
 	private static class Morale {}
 
-	public boolean lowMorale() {
-		return morale < MAX_MORALE * 0.5f;
-	}
-
-	public void gainMorale(float Amount) {
-		if (!Constants.MORALE) {
-			return;
-		}
-		morale += Amount;
-		morale = Math.min(morale, MAX_MORALE);
-		if (this.sprite != null) {
-			this.sprite.showStatus(CharSprite.NEUTRAL, Messages.get(Morale.class, "gain"));
-		}
-	}
-
 	public int getPower() {
 		return Power + RingOfPower.powerBonus(this);
 	}
@@ -279,7 +260,6 @@ public class Hero extends Char {
 	private static final String LEVEL		= "lvl";
 	private static final String SOULS		= "souls";
 	private static final String HTBOOST     = "htboost";
-	private static final String MORALE      = "morale";
 	private static final String POWER       = "power";
 	private static final String FOCUS       = "focus";
 	private static final String PERCEPTION  = "expertise";
@@ -303,10 +283,6 @@ public class Hero extends Char {
 		bundle.put(SOULS, souls );
 		
 		bundle.put( HTBOOST, HTBoost );
-
-		//Morale
-		bundle.put( MORALE, morale );
-
 
 		//Hero stats
 		bundle.put( POWER, Power );
@@ -332,9 +308,6 @@ public class Hero extends Char {
 		souls = bundle.getInt(SOULS);
 		
 		HTBoost = bundle.getInt(HTBOOST);
-
-		//Morale
-		morale = bundle.getFloat(MORALE);
 
 		//Hero stats
 		Power = bundle.getInt( POWER );
@@ -442,16 +415,13 @@ public class Hero extends Char {
 	@Override
 	public int attackSkill( Char target ) {
 		attackSkill = 7 + getPerception()*3;
-		float moraleMultiplier = (float) ((morale - MAX_MORALE) * 0.04);
-		return (int) (super.attackSkill(target)*(1+moraleMultiplier));
+		return super.attackSkill(target);
 	}
 
 	@Override
 	public int defenseSkill( Char enemy ) {
 		defenseSkill = 1 + getEvasion()*3;
-		float moraleMultiplier = (float) ((morale - MAX_MORALE) * 0.04);
-		//GLog.w(String.valueOf(evasion));
-		return (int) (super.defenseSkill(enemy)*(1+moraleMultiplier));
+		return super.defenseSkill(enemy);
 	}
 
 	@Override
@@ -952,7 +922,7 @@ public class Hero extends Char {
 		return damage;
 	}
 
-	private void damageMorale(int dmg) {
+	private void processShake(int dmg) {
 		dmg -= Armor.Defense.curShield(this);
 		if (dmg <= 0) {
 			return;
@@ -988,7 +958,7 @@ public class Hero extends Char {
 		//Ensures that the damage actually taken is what is measured, not the number given initially.
 		int damageTaken = preHP - postHP;
 		if (!src.ignores() && isAlive()) {
-			damageMorale(damageTaken);
+			processShake(damageTaken);
 		}
 	}
 	

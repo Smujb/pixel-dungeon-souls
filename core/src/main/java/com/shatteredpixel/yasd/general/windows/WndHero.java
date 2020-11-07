@@ -32,6 +32,7 @@ import com.shatteredpixel.yasd.general.Dungeon;
 import com.shatteredpixel.yasd.general.PDSGame;
 import com.shatteredpixel.yasd.general.Statistics;
 import com.shatteredpixel.yasd.general.actors.buffs.Buff;
+import com.shatteredpixel.yasd.general.actors.buffs.Hollowing;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
@@ -279,7 +280,7 @@ public class WndHero extends WndTabbed {
 			else statSlot( Messages.get(this, "health"), (hero.HP) + "/" + hero.HT );
 			statSlot( Messages.get(this, "exp"), hero.souls );
 
-			statSlot( Messages.get(this, "morale"), ((int) ((hero.morale / hero.MAX_MORALE)*100) + "%") );
+			statSlot( Messages.get(this, "hollow"), ((int) ((Hollowing.hollowingPercentage(Dungeon.hero))*100) + "%") );
 
 			pos += GAP;
 

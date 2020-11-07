@@ -55,7 +55,6 @@ public class WaterOfHealth extends WellWater {
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
 
 		hero.heal(hero.missingHP(), false, true);
-		hero.gainMorale(5f);
 		hero.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 4 );
 
 		PotionOfHealing.cure( hero );

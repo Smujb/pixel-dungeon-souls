@@ -29,9 +29,6 @@ package com.shatteredpixel.yasd.general.items;
 
 import com.shatteredpixel.yasd.general.Constants;
 import com.shatteredpixel.yasd.general.Dungeon;
-import com.shatteredpixel.yasd.general.items.alcohol.Alcohol;
-import com.shatteredpixel.yasd.general.items.alcohol.Beer;
-import com.shatteredpixel.yasd.general.items.alcohol.Whiskey;
 import com.shatteredpixel.yasd.general.items.armor.Armor;
 import com.shatteredpixel.yasd.general.items.armor.RandomArmor;
 import com.shatteredpixel.yasd.general.items.artifacts.AlchemistsToolkit;
@@ -54,6 +51,7 @@ import com.shatteredpixel.yasd.general.items.food.MysteryMeat;
 import com.shatteredpixel.yasd.general.items.food.Pasty;
 import com.shatteredpixel.yasd.general.items.potions.Potion;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfExperience;
+import com.shatteredpixel.yasd.general.items.potions.PotionOfForbiddenKnowledge;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfFrost;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfHaste;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfHealing;
@@ -63,7 +61,6 @@ import com.shatteredpixel.yasd.general.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfMindVision;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfPurity;
-import com.shatteredpixel.yasd.general.items.potions.PotionOfForbiddenKnowledge;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.yasd.general.items.rings.Ring;
 import com.shatteredpixel.yasd.general.items.rings.RingOfElements;
@@ -164,8 +161,6 @@ public class Generator {
 
 		FOOD(0, Food.class),
 
-		ALCOHOL(0, Alcohol.class),
-
 		POTION	( 16,   Potion.class ),
 		SEED	( 2,    Plant.Seed.class ),
 
@@ -205,12 +200,6 @@ public class Generator {
 			GOLD.classes = new Class<?>[]{
 					Gold.class};
 			GOLD.probs = new float[]{1};
-
-			ALCOHOL.classes = new Class<?>[]{
-					Whiskey.class,
-					Beer.class
-			};
-			ALCOHOL.probs = new float[]{1, 2};
 
 			POTION.classes = new Class<?>[]{
 					PotionOfForbiddenKnowledge.class,
