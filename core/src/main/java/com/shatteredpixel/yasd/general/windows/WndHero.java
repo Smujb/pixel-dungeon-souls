@@ -280,7 +280,7 @@ public class WndHero extends WndTabbed {
 			else statSlot( Messages.get(this, "health"), (hero.HP) + "/" + hero.HT );
 			statSlot( Messages.get(this, "exp"), hero.souls );
 
-			statSlot( Messages.get(this, "hollow"), ((int) ((Hollowing.hollowingPercentage(Dungeon.hero))*100) + "%") );
+			statSlot( Messages.get(this, "hollowing"), ((int) ((Hollowing.hollowingPercentage(Dungeon.hero))*100) + "%") );
 
 			pos += GAP;
 
