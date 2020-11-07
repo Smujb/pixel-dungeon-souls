@@ -338,8 +338,8 @@ public class GameScene extends PixelScene {
 		add( dive );
 
 		icons = new AttackIcon[2];
-		icons[0] = new AttackIcon(0, 0);
-		icons[1] = new AttackIcon(0, 1);
+		icons[0] = new AttackIcon(0, true);
+		icons[1] = new AttackIcon(1, true);
 		float top = scene.toolbar.top() - 10;
 		for (AttackIcon icon : icons) {
 			float xPos;
