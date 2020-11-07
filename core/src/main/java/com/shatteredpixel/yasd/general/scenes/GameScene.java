@@ -52,6 +52,7 @@ import com.shatteredpixel.yasd.general.effects.SpellSprite;
 import com.shatteredpixel.yasd.general.items.Heap;
 import com.shatteredpixel.yasd.general.items.Honeypot;
 import com.shatteredpixel.yasd.general.items.Item;
+import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.artifacts.DriedRose;
 import com.shatteredpixel.yasd.general.items.bags.MagicalHolster;
 import com.shatteredpixel.yasd.general.items.bags.PotionBandolier;
@@ -94,6 +95,7 @@ import com.shatteredpixel.yasd.general.ui.TargetHealthIndicator;
 import com.shatteredpixel.yasd.general.ui.Toast;
 import com.shatteredpixel.yasd.general.ui.Toolbar;
 import com.shatteredpixel.yasd.general.ui.Window;
+import com.shatteredpixel.yasd.general.ui.attack.AttackIcon;
 import com.shatteredpixel.yasd.general.utils.GLog;
 import com.shatteredpixel.yasd.general.windows.WndBag;
 import com.shatteredpixel.yasd.general.windows.WndBag.Mode;
@@ -166,11 +168,12 @@ public class GameScene extends PixelScene {
 	private Toolbar toolbar;
 	private Toast prompt;
 
-	private AttackIndicator attack;
 	private LootIndicator loot;
 	private ActionIndicator action;
 	private ResumeIndicator resume;
 	private DiveIndicator dive;
+
+	private AttackIcon[] icons;
 
 	public static String messageOnEnter = null;
 
@@ -317,10 +320,6 @@ public class GameScene extends PixelScene {
 		toolbar.camera = uiCamera;
 		toolbar.setRect( 0,uiCamera.height - toolbar.height(), uiCamera.width, toolbar.height() );
 		add( toolbar );
-		
-		attack = new AttackIndicator();
-		attack.camera = uiCamera;
-		add( attack );
 
 		loot = new LootIndicator();
 		loot.camera = uiCamera;
@@ -337,6 +336,22 @@ public class GameScene extends PixelScene {
 		dive = new DiveIndicator();
 		dive.camera = uiCamera;
 		add( dive );
+
+		icons = new AttackIcon[2];
+		icons[0] = new AttackIcon(0, 0);
+		icons[1] = new AttackIcon(0, 1);
+		float top = scene.toolbar.top() - 10;
+		for (AttackIcon icon : icons) {
+			float xPos;
+			if (icon.getSlot() == MainHandItem.MAIN_HAND) {
+				xPos = uiCamera.width-icon.width();
+			} else {
+				xPos = 0;
+			}
+			icon.setPos(xPos, top - icon.height());
+			icon.camera = uiCamera;
+			add(icon);
+		}
 
 		log = new GameLog();
 		log.camera = uiCamera;
@@ -611,20 +626,17 @@ public class GameScene extends PixelScene {
 			log.newLine();
 		}
 
-		if (tagAttack != attack.active ||
-				tagLoot != loot.visible ||
+		if ( tagLoot != loot.visible ||
 				tagAction != action.visible ||
 				tagDive != dive.visible ||
 				tagResume != resume.visible) {
 
 			//we only want to change the layout when new tags pop in, not when existing ones leave.
-			boolean tagAppearing = (attack.active && !tagAttack) ||
-									(loot.visible && !tagLoot) ||
+			boolean tagAppearing = 	(loot.visible && !tagLoot) ||
 									(action.visible && !tagAction) ||
 									(dive.visible && !tagDive) ||
 									(resume.visible && !tagResume);
 
-			tagAttack = attack.active;
 			tagLoot = loot.visible;
 			tagAction = action.visible;
 			tagResume = resume.visible;
@@ -641,7 +653,6 @@ public class GameScene extends PixelScene {
 		toDestroy.clear();
 	}
 
-	private boolean tagAttack    = false;
 	private boolean tagLoot      = false;
 	private boolean tagAction    = false;
 	private boolean tagResume    = false;
@@ -651,12 +662,12 @@ public class GameScene extends PixelScene {
 
 		if (scene == null) return;
 
-		float tagLeft = PPDSettings.flipTags() ? 0 : uiCamera.width - scene.attack.width();
+		float tagLeft = PPDSettings.flipTags() ? 0 : uiCamera.width - scene.loot.width();
 
 		if (PPDSettings.flipTags()) {
-			scene.log.setRect(scene.attack.width(), scene.toolbar.top()-2, uiCamera.width - scene.attack.width(), 0);
+			scene.log.setRect(scene.loot.width(), scene.toolbar.top()-2, uiCamera.width - scene.loot.width(), 0);
 		} else {
-			scene.log.setRect(0, scene.toolbar.top()-2, uiCamera.width - scene.attack.width(),  0 );
+			scene.log.setRect(0, scene.toolbar.top()-2, uiCamera.width - scene.loot.width(),  0 );
 		}
 
 		float pos = scene.toolbar.top();
@@ -665,12 +676,6 @@ public class GameScene extends PixelScene {
 			scene.dive.setPos( tagLeft, pos - scene.dive.height());
 			scene.dive.flip(tagLeft == 0);
 			pos = scene.dive.top();
-		}
-
-		if (scene.tagAttack){
-			scene.attack.setPos( tagLeft, pos - scene.attack.height());
-			scene.attack.flip(tagLeft == 0);
-			pos = scene.attack.top();
 		}
 
 		if (scene.tagLoot) {

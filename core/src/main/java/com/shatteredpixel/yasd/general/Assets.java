@@ -79,18 +79,19 @@ public class Assets {
 		public static final String BADGES	= "interfaces/badges.png";
 		public static final String LOCKED	= "interfaces/locked_badge.png";
 
-		public static final String CHROME	= "interfaces/chrome.png";
-		public static final String ICONS	= "interfaces/icons.png";
-		public static final String STATUS	= "interfaces/status_pane.png";
-		public static final String MENU		= "interfaces/menu_button.png";
-		public static final String HP_BAR	= "interfaces/hp_bar.png";
+		public static final String CHROME	 = "interfaces/chrome.png";
+		public static final String ICONS	 = "interfaces/icons.png";
+		public static final String STATUS	 = "interfaces/status_pane.png";
+		public static final String MENU		 = "interfaces/menu_button.png";
+		public static final String HP_BAR	 = "interfaces/hp_bar.png";
 		public static final String STAMINA_BAR = "interfaces/stamina_bar.png";
-		public static final String HP_FG 	= "interfaces/health_fg.png";
-		public static final String SHLD_BAR = "interfaces/shield_bar.png";
-		public static final String XP_BAR	= "interfaces/exp_bar.png";
-		public static final String TOOLBAR	= "interfaces/toolbar.png";
-		public static final String SHADOW   = "interfaces/shadow.png";
-		public static final String BOSSHP   = "interfaces/boss_hp.png";
+		public static final String HP_FG 	 = "interfaces/health_fg.png";
+		public static final String SHLD_BAR  = "interfaces/shield_bar.png";
+		public static final String XP_BAR	 = "interfaces/exp_bar.png";
+		public static final String TOOLBAR	 = "interfaces/toolbar.png";
+		public static final String SHADOW    = "interfaces/shadow.png";
+		public static final String BOSSHP    = "interfaces/boss_hp.png";
+		public static final String ATTK_ICON = "interfaces/attack_icons.png";
 
 		public static final String SURFACE	= "interfaces/surface.png";
 

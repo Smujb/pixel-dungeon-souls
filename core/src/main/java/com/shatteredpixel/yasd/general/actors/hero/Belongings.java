@@ -154,29 +154,6 @@ public class Belongings implements Iterable<Item> {
 		return items;
 	}
 
-	public int getWeaponSTRReq() {
-		ArrayList<KindOfWeapon> weapons = getWeapons();
-		int totalRequirement = 8;
-		int individualRequirement;
-		for (int i=0; i < weapons.size(); i++) {
-			if (weapons.get(i) instanceof MeleeWeapon) {
-				int penalty = ((MeleeWeapon) weapons.get(i)).tier;
-				if (weapons.size() > 1) {
-					if  (((MeleeWeapon) weapons.get(i)).properties.contains(KindOfWeapon.Property.DUAL_HANDED)) {//If the weapon has a dual wield penalty and it is being used with another weapon, increase total requirement.
-						totalRequirement += penalty;
-					} else if (((MeleeWeapon) weapons.get(i)).properties.contains(KindOfWeapon.Property.SINGLE_HANDED)) {
-						totalRequirement -= penalty;
-					}
-				}
-				individualRequirement = ((MeleeWeapon)weapons.get(i)).defaultSTRReq();
-				individualRequirement -= 8;
-				totalRequirement += individualRequirement;
-			}
-
-		}
-		return totalRequirement;
-	}
-
 	public boolean shoot(Char enemy, MissileWeapon wep) {
 
 		//temporarily set the hero's weapon to the missile weapon being used
@@ -360,7 +337,6 @@ public class Belongings implements Iterable<Item> {
 
 	public float attackDelay() {
 		float multiplier = 1f;
-		multiplier /= numberOfWeapons();
 		if (numberOfWeapons() > 0) {
 			return getCurrentWeapon().speedFactor(owner) * multiplier;//Two weapons = 1/2 attack speed
 		} else {

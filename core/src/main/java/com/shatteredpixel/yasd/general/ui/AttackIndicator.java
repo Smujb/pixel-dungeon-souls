@@ -197,12 +197,12 @@ public class AttackIndicator extends Tag {
 	}
 	
 	public static void target( Char target ) {
-		synchronized (instance) {
+		/*synchronized (instance) {
 			instance.lastTarget = (Mob) target;
 			instance.updateImage();
 
 			TargetHealthIndicator.instance.target(target);
-		}
+		}*/
 	}
 	
 	public static void updateState() {

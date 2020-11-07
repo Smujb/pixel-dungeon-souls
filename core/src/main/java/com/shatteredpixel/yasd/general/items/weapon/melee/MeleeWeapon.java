@@ -148,19 +148,6 @@ public class MeleeWeapon extends Weapon {
 		return multiplier;
 	}
 
-	public int defaultSTRReq() {
-		return Math.max(super.STRReq(),10);
-	}
-
-	@Override
-	public int STRReq() {
-		if (isEquipped(Dungeon.hero)) {
-			return Dungeon.hero.belongings.getWeaponSTRReq();
-		} else {
-			return defaultSTRReq();
-		}
-	}
-
 	@Override
 	public void use(float amount, boolean override) {
 		super.use(amount*DLY*degradeFactor, override);
