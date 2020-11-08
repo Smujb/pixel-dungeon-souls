@@ -131,10 +131,8 @@ public class SpiritBow extends Weapon {
 	}
 	
 	@Override
-	public int STRReq(int lvl) {
-		lvl = Math.max(0, lvl);
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return 10 - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+	public int STRReq() {
+		return 10;
 	}
 	
 	@Override
@@ -260,8 +258,8 @@ public class SpiritBow extends Weapon {
 		}
 		
 		@Override
-		public int STRReq(int lvl) {
-			return SpiritBow.this.STRReq(lvl);
+		public int STRReq() {
+			return SpiritBow.this.STRReq();
 		}
 		
 		@Override

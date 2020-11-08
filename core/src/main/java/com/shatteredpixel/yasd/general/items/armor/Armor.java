@@ -40,7 +40,6 @@ import com.shatteredpixel.yasd.general.effects.Speck;
 import com.shatteredpixel.yasd.general.items.BrokenSeal;
 import com.shatteredpixel.yasd.general.items.EquipableItem;
 import com.shatteredpixel.yasd.general.items.Item;
-import com.shatteredpixel.yasd.general.items.KindofMisc;
 import com.shatteredpixel.yasd.general.items.armor.curses.AntiEntropy;
 import com.shatteredpixel.yasd.general.items.armor.curses.Bulk;
 import com.shatteredpixel.yasd.general.items.armor.curses.Corrosion;
@@ -427,9 +426,9 @@ public class Armor extends EquipableItem {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {
-			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, defense(0), new DecimalFormat("#.##").format(defenseRegen()), STRReq(0));
+			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, defense(0), new DecimalFormat("#.##").format(defenseRegen()), STRReq());
 
-			if (STRReq(0) > Dungeon.hero.STR()) {
+			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
 			}
 		}
@@ -541,15 +540,7 @@ public class Armor extends EquipableItem {
 	}
 
 	public int STRReq() {
-		return STRReq(level());
-	}
-
-
-	public int STRReq(int lvl){
-		lvl = Math.max(0, lvl);
-
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return (7 + Math.round(tier * 3)) - lvl;
+		return (7 + Math.round(tier * 3));
 	}
 	
 	@Override

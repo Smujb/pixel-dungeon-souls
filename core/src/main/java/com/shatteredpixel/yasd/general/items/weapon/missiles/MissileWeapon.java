@@ -124,14 +124,13 @@ abstract public class MissileWeapon extends Weapon {
 		return Math.max(0, max( level() + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) ));
 	}
 	
-	public int STRReq(int lvl){
-		lvl = Math.max(0, lvl);
+	public int STRReq(){
 		//strength req decreases at +1,+3,+6,+10,etc.
 		int strPerTier = 3;
 		if (Dungeon.hero.heroClass == HeroClass.HUNTRESS) {
 			strPerTier = 2;
 		}
-		return (6 + tier * strPerTier) - lvl;
+		return (6 + tier * strPerTier);
 	}
 	
 	@Override

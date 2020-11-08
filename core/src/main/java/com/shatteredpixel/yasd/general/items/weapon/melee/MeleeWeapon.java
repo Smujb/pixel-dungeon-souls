@@ -78,10 +78,8 @@ public class MeleeWeapon extends Weapon {
 		return (0.6f + 0.1f * level() * tier) * DLY * impactFactor;
 	}
 
-	public int STRReq(int lvl){
-		lvl = Math.max(0, lvl);
-		//Str req is 7 + tier * 3, so 10 for T1, 13 for T2, 16 for T3, etc, and is decreased by 1 per upgrade.
-		return  (7 + Math.round(tier * 3)) - lvl;
+	public int STRReq(){
+		return  (7 + Math.round(tier * 3));
 	}
 
 	@Override
@@ -166,8 +164,8 @@ public class MeleeWeapon extends Weapon {
 				info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 			}
 		} else {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-			if (STRReq(0) > Dungeon.hero.STR()) {
+			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq());
+			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
 		}

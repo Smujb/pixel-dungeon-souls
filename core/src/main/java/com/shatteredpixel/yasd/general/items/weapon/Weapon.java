@@ -233,11 +233,7 @@ abstract public class Weapon extends KindOfWeapon {
 		return hasEnchant(Projecting.class, owner) ? RCH+1 : RCH;
 	}
 
-	public int STRReq(){
-		return STRReq(level());
-	}
-
-	public abstract int STRReq(int lvl);
+	public abstract int STRReq();
 	
 	@Override
 	public int level() {

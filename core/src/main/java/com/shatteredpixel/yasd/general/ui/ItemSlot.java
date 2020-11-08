@@ -215,7 +215,7 @@ public class ItemSlot extends Button {
 					extra.resetColor();
 				}
 			} else {
-				int str = item instanceof Weapon ? ((Weapon)item).STRReq(0) : ((Armor)item).STRReq(0);
+				int str = item instanceof Weapon ? ((Weapon)item).STRReq() : ((Armor)item).STRReq();
 				extra.text( Messages.format( TXT_TYPICAL_STR, str ) );
 				extra.hardlight( WARNING );
 			}

@@ -83,7 +83,7 @@ public class Pickaxe extends Weapon {
 	}
 
 	@Override
-	public int STRReq(int lvl) {
+	public int STRReq() {
 		return 14;  //tier 3
 	}
 
