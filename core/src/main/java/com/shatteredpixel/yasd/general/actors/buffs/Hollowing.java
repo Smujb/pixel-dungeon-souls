@@ -37,7 +37,7 @@ public class Hollowing extends Buff {
 
     //-2% HP each death, down to a maximum reduction of 40%.
     private float hpFactor() {
-        return Math.max(0.6f, 1f - 0.02f*(level-RingOfBinding.hollowingReduction(target)));
+        return Math.max(0.6f, 1f - 0.02f*Math.max(0, level-RingOfBinding.hollowingReduction(target)));
     }
 
     private void die() {
