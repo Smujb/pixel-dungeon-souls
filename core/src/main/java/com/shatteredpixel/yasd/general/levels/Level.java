@@ -69,7 +69,6 @@ import com.shatteredpixel.yasd.general.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.yasd.general.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.yasd.general.items.food.SmallRation;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfLevitation;
-import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.yasd.general.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.yasd.general.items.stones.StoneOfIntuition;
 import com.shatteredpixel.yasd.general.levels.features.Chasm;
@@ -123,7 +122,6 @@ import com.shatteredpixel.yasd.general.plants.Swiftthistle;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
 import com.shatteredpixel.yasd.general.sprites.ItemSprite;
 import com.shatteredpixel.yasd.general.tiles.CustomTilemap;
-import com.shatteredpixel.yasd.general.tiles.DungeonTileSheet;
 import com.shatteredpixel.yasd.general.utils.BArray;
 import com.shatteredpixel.yasd.general.utils.GLog;
 import com.watabou.noosa.Game;
@@ -583,6 +581,7 @@ public abstract class Level implements Bundlable {
 		createAreas();
 
 		Random.popGenerator();
+		onReset();
 	}
 	
 	public void setSize(int w, int h){
@@ -617,8 +616,13 @@ public abstract class Level implements Bundlable {
 				mobs.remove( mob );
 			}
 		}
+		onReset();
 		createMobs();
 		invalidateCaches();
+	}
+
+	public void onReset() {
+		Dungeon.keysNoReset.add(this.key);
 	}
 	
 	@Override
@@ -727,6 +731,10 @@ public abstract class Level implements Bundlable {
 				heaps.remove(h.pos);
 				mobs.add(Mimic.spawnAt(h.pos, h.items, Mimic.class, this));
 			}
+		}
+
+		if (!Dungeon.keysNoReset.contains(key)) {
+			reset();
 		}
 	}
 	

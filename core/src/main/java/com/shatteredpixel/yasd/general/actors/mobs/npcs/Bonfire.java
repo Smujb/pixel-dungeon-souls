@@ -74,6 +74,7 @@ public class Bonfire extends NPC {
                 Actor.fixTime();
                 Actor.clear();
                 Dungeon.level.reset();
+                Dungeon.keysNoReset.clear();
                 Actor.init();
                 light();
                 Statistics.lastBonfireDepth = Dungeon.depth;

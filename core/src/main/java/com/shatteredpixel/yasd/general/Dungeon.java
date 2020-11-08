@@ -95,6 +95,7 @@ import org.jetbrains.annotations.Contract;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -182,6 +183,8 @@ public class Dungeon {
 	public static int depth;
 	public static String key;
 
+	public static ArrayList<String> keysNoReset;
+
 	public static boolean underwater = false;
 	public static int gold;
 
@@ -233,6 +236,7 @@ public class Dungeon {
 		
 		depth = 1;
 		key = keyForDepth();
+		keysNoReset = new ArrayList<>();
 		underwater = false;
 
 		gold = 0;
@@ -492,36 +496,6 @@ public class Dungeon {
 		dropped.add( item );
 	}
 
-	public static boolean posNeeded() {
-		//2 POS each floor set
-		int posLeftThisSet = 2 - (LimitedDrops.STRENGTH_POTIONS.count - (depth / Constants.CHAPTER_LENGTH) * 2);
-		if (posLeftThisSet <= 0) return false;
-
-		int floorThisSet = (depth % 5);
-
-		//pos drops every two floors, (numbers 1-2, and 3-4) with a 50% chance for the earlier one each time.
-		int targetPOSLeft = 2 - floorThisSet/2;
-		if (floorThisSet % 2 == 1 && Random.Int(2) == 0) targetPOSLeft --;
-
-		return targetPOSLeft < posLeftThisSet;
-
-	}
-	
-	public static boolean souNeeded() {
-		int souLeftThisSet;
-		//3 SOU each floor set, 1.5 (rounded) on forbidden runes challenge
-		if (isChallenged(Challenges.NO_SCROLLS)){
-			return false;
-		} else {
-			souLeftThisSet = 3 - (LimitedDrops.UPGRADE_SCROLLS.count - (depth / Constants.CHAPTER_LENGTH) * Constants.SOU_PER_CHAPTER);
-		}
-		if (souLeftThisSet <= 0) return false;
-
-		int floorThisSet = (depth % 5);
-		//chance is floors left / scrolls left
-		return Random.Int(5 - floorThisSet) < souLeftThisSet;
-	}
-	
 	public static boolean esNeeded() {
 		//1 AS each floor set
 		int asLeftThisSet = 1 - (LimitedDrops.ENCHANT_STONE.count - (depth / Constants.CHAPTER_LENGTH));
@@ -567,6 +541,7 @@ public class Dungeon {
 			bundle.put( UNDERWATER, underwater );
 			bundle.put( DIFFICULTY, difficulty );
 			bundle.put( TESTING, testing );
+			bundle.put( LEVELSLOADED, keysNoReset.toArray(new String[0]) );
 
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
@@ -659,7 +634,12 @@ public class Dungeon {
 		key = bundle.contains(KEY) ? bundle.getString(KEY) : keyForDepth();
 
 		underwater = bundle.getBoolean(UNDERWATER);
-		//xPos = bundle.contains(XPOS) ? bundle.getInt(XPOS) : 0;
+
+		if (bundle.contains(LEVELSLOADED)) {
+			keysNoReset = new ArrayList<>(Arrays.asList(bundle.getStringArray(LEVELSLOADED)));
+		} else {
+			keysNoReset = new ArrayList<>();
+		}
 
 		Actor.restoreNextID( bundle );
 

@@ -210,8 +210,8 @@ public class SewerBossLevel extends SewerLevel {
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
 		stairs = (Entrance) bundle.get( STAIRS );
 		roomExit = roomEntrance;
+		super.restoreFromBundle( bundle );
 	}
 }

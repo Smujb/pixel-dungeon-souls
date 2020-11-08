@@ -469,8 +469,6 @@ public abstract class RegularLevel extends Level {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		
 		rooms = new ArrayList<>( (Collection<Room>) ((Collection<?>) bundle.getCollection( "rooms" )) );
 		for (Room r : rooms) {
 			r.onLevelLoad( this );
@@ -480,6 +478,7 @@ public abstract class RegularLevel extends Level {
 				roomExit = r;
 			}
 		}
+		super.restoreFromBundle( bundle );
 	}
 	
 }

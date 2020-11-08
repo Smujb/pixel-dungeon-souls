@@ -111,6 +111,7 @@ import com.shatteredpixel.yasd.general.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.tweeners.Delayer;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
@@ -1316,10 +1317,19 @@ public class Hero extends Char {
 		if (cause.getCause() instanceof Hero.Doom) {
 			((Hero.Doom)cause.getCause()).onDeath();
 		}
-		PDSGame.runOnRenderThread(new Callback() {
+
+		//Delay the restart prompt for effect
+		PDSGame.scene().add(new Delayer(2f) {
 			@Override
-			public void call() {
-				PDSGame.scene().addToFront(new WndRetry());
+			protected void updateValues(float progress) {
+				if (progress >= 1f) {
+					PDSGame.runOnRenderThread(new Callback() {
+						@Override
+						public void call() {
+							PDSGame.scene().addToFront(new WndRetry());
+						}
+					});
+				}
 			}
 		});
 	}

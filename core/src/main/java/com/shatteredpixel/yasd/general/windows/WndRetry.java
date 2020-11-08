@@ -21,6 +21,7 @@ public class WndRetry extends Window {
         Dungeon.hero.updateHT(false);
         Dungeon.hero.HP = Dungeon.hero.HT;
         Dungeon.hero.live();
+        Dungeon.keysNoReset.clear();
     }
 
     public WndRetry() {
