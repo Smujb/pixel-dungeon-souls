@@ -43,8 +43,8 @@ allprojects {
         appName = 'Pixel Dungeon Souls'
         appPackageName = 'com.smujamesb.soulpd'
 
-        appVersionCode = 455
-        appVersionName = '0.1.0'
+        appVersionCode = 456
+        appVersionName = '0.1.0a'
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
         appAndroidCompileSDK = 29
