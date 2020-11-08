@@ -670,7 +670,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void showSleep() {
 		synchronized (EmoIcon.class) {
-			if (!(emo instanceof EmoIcon.Sleep)) {
+			if (ch != null && !(emo instanceof EmoIcon.Sleep)) {
 				if (emo != null) {
 					emo.killAndErase();
 				}
@@ -683,7 +683,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void hideSleep() {
 		synchronized (EmoIcon.class) {
-			if (emo instanceof EmoIcon.Sleep) {
+			if (ch != null && emo instanceof EmoIcon.Sleep) {
 				emo.killAndErase();
 				emo = null;
 			}
@@ -692,7 +692,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void showAlert() {
 		synchronized (EmoIcon.class) {
-			if (!(emo instanceof EmoIcon.Alert)) {
+			if (ch != null && !(emo instanceof EmoIcon.Alert)) {
 				if (emo != null) {
 					emo.killAndErase();
 				}
@@ -704,7 +704,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void hideAlert() {
 		synchronized (EmoIcon.class) {
-			if (emo instanceof EmoIcon.Alert) {
+			if (ch != null && emo instanceof EmoIcon.Alert) {
 				emo.killAndErase();
 				emo = null;
 			}
@@ -713,7 +713,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void showLost() {
 		synchronized (EmoIcon.class) {
-			if (!(emo instanceof EmoIcon.Lost)) {
+			if (ch != null && !(emo instanceof EmoIcon.Lost)) {
 				if (emo != null) {
 					emo.killAndErase();
 				}
@@ -725,7 +725,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void hideLost() {
 		synchronized (EmoIcon.class) {
-			if (emo instanceof EmoIcon.Lost) {
+			if (ch != null && emo instanceof EmoIcon.Lost) {
 				emo.killAndErase();
 				emo = null;
 			}
@@ -734,7 +734,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 
 	public void hideEmo() {
 		synchronized (EmoIcon.class) {
-			if (emo != null) {
+			if (ch != null && emo != null) {
 				emo.killAndErase();
 				emo = null;
 			}
