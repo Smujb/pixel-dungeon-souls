@@ -36,6 +36,8 @@ import com.shatteredpixel.yasd.general.items.Generator;
 import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.items.potions.Potion;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfHealing;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteShard;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteSlab;
 import com.shatteredpixel.yasd.general.sprites.AcidicSprite;
 import com.shatteredpixel.yasd.general.sprites.ScorpioSprite;
 import com.watabou.utils.Random;
@@ -49,14 +51,13 @@ public class Scorpio extends Mob {
 		accuracyFactor = 1.2f;
 		healthFactor = 0.8f;
 		damageFactor = 1.3f;
-		//HP = HT = 95;
 		range = viewDistance = Light.DISTANCE;
 		hasMeleeAttack = false;
 
         baseSpeed = 0.8f;
 
-		loot = Generator.Category.POTION;
-		lootChance = 0.5f;
+		loot = new TitaniteSlab();
+		lootChance = 0.05f;
 
 		properties.add(Property.DEMONIC);
 	}

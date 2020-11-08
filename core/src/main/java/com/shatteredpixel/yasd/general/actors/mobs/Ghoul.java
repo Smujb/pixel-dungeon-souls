@@ -35,6 +35,8 @@ import com.shatteredpixel.yasd.general.actors.buffs.Buff;
 import com.shatteredpixel.yasd.general.actors.buffs.Corruption;
 import com.shatteredpixel.yasd.general.effects.Pushing;
 import com.shatteredpixel.yasd.general.items.Gold;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteChunk;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteShard;
 import com.shatteredpixel.yasd.general.levels.features.Chasm;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
 import com.shatteredpixel.yasd.general.sprites.GhoulSprite;
@@ -58,8 +60,8 @@ public class Ghoul extends Mob {
 		WANDERING = new Wandering();
 		state = SLEEPING;
 
-		loot = Gold.class;
-		lootChance = 0.2f;
+		loot = new TitaniteChunk();
+		lootChance = 0.1f;
 
 		properties.add(Property.UNDEAD);
 	}

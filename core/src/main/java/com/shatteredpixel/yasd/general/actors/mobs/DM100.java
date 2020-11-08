@@ -29,6 +29,7 @@ package com.shatteredpixel.yasd.general.actors.mobs;
 
 import com.shatteredpixel.yasd.general.Element;
 import com.shatteredpixel.yasd.general.items.Generator;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteShard;
 import com.shatteredpixel.yasd.general.mechanics.Ballistica;
 import com.shatteredpixel.yasd.general.sprites.DM100Sprite;
 
@@ -46,7 +47,7 @@ public class DM100 extends Mob {
 		range = -1;
 		shotType = Ballistica.MAGIC_BOLT;
 
-        loot = Generator.Category.SCROLL;
+		loot = new TitaniteShard();
 		lootChance = 0.25f;
 		
 		properties.add(Property.ELECTRIC);

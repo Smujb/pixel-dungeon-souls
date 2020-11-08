@@ -34,6 +34,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.Poison;
 import com.shatteredpixel.yasd.general.items.Generator;
 import com.shatteredpixel.yasd.general.items.Gold;
 import com.shatteredpixel.yasd.general.items.Item;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteShard;
 import com.shatteredpixel.yasd.general.sprites.BanditSprite;
 import com.shatteredpixel.yasd.general.sprites.ThiefSprite;
 import com.watabou.utils.Random;
@@ -47,8 +48,8 @@ public class Thief extends Mob {
 		impactFactor = 0.7f;
 		range = 3;
 
-        loot = Gold.class;
-		lootChance = 0.25f;
+        loot = new TitaniteShard();
+		lootChance = 0.2f;
 
 		properties.add(Property.UNDEAD);
 	}

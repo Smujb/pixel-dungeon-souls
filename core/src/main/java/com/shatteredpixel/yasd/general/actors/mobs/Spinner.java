@@ -36,6 +36,8 @@ import com.shatteredpixel.yasd.general.actors.buffs.Buff;
 import com.shatteredpixel.yasd.general.actors.buffs.Poison;
 import com.shatteredpixel.yasd.general.actors.buffs.Terror;
 import com.shatteredpixel.yasd.general.items.food.MysteryMeat;
+import com.shatteredpixel.yasd.general.items.titanite.LargeTitaniteShard;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteShard;
 import com.shatteredpixel.yasd.general.mechanics.Ballistica;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
 import com.shatteredpixel.yasd.general.sprites.SpinnerSprite;
@@ -53,8 +55,8 @@ public class Spinner extends Mob {
 
 		healthFactor = 0.6f;
 
-        loot = Reflection.newInstance(MysteryMeat.class);
-		lootChance = 0.125f;
+		loot = new LargeTitaniteShard();
+		lootChance = 0.15f;
 
 		FLEEING = new  Fleeing();
 	}
