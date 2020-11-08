@@ -508,11 +508,6 @@ public abstract class Level implements Bundlable {
 				addItemToSpawn( new Torch() );
 			}
 
-			if (Dungeon.souNeeded()) {
-				addItemToSpawn( new ScrollOfUpgrade() );
-				Dungeon.LimitedDrops.UPGRADE_SCROLLS.count++;
-			}
-
 			if (Dungeon.esNeeded()) {
 				addItemToSpawn( new StoneOfEnchantment() );
 				Dungeon.LimitedDrops.ENCHANT_STONE.count++;

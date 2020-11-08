@@ -52,6 +52,7 @@ import com.shatteredpixel.yasd.general.items.potions.PotionOfHealing;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfMindVision;
+import com.shatteredpixel.yasd.general.items.rings.RingOfBinding;
 import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfMagicMapping;
@@ -148,6 +149,7 @@ public enum HeroClass {
 			new ScrollOfUpgrade().collect();
 			new MagicalInfusion().collect();
 		}
+		new RingOfBinding().collect();
 		Generator.randomWand().identify().collect();
 	}
 

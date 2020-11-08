@@ -63,6 +63,7 @@ import com.shatteredpixel.yasd.general.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfPurity;
 import com.shatteredpixel.yasd.general.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.yasd.general.items.rings.Ring;
+import com.shatteredpixel.yasd.general.items.rings.RingOfBinding;
 import com.shatteredpixel.yasd.general.items.rings.RingOfElements;
 import com.shatteredpixel.yasd.general.items.rings.RingOfEvasion;
 import com.shatteredpixel.yasd.general.items.rings.RingOfFocus;
@@ -327,7 +328,7 @@ public class Generator {
 
 			RING.classes = new Class<?>[]{
 					RingOfPerception.class,
-					//_Unused.class,
+					RingOfBinding.class,
 					RingOfElements.class,
 					RingOfEvasion.class,
 					RingOfFuror.class,
@@ -337,7 +338,7 @@ public class Generator {
 					RingOfSharpshooting.class,
 					RingOfTenacity.class,
 					RingOfWealth.class};
-			RING.probs = new float[]{1, /*1,*/ 1, 1, 1, 1, 1, 1, 1, 1, 1};
+			RING.probs = new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
 			ARTIFACT.classes = new Class<?>[]{
 					CapeOfThorns.class,

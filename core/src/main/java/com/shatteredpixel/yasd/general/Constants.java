@@ -44,7 +44,7 @@ public class Constants {
     public static final int CURSE_INFUSION_BONUS_AMT = 1;
 
     //Default Upgrade Limit. Set to -1 to remove the limit.
-    public static final int UPGRADE_LIMIT = 3;
+    public static final int UPGRADE_LIMIT = 10;
 
     //Wand charges cap.
     public static final int WAND_CHARGE_CAP = 10;

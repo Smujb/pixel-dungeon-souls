@@ -1,7 +1,8 @@
 package com.shatteredpixel.yasd.general.actors.buffs;
 
+import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
-import com.watabou.noosa.ui.Button;
+import com.shatteredpixel.yasd.general.items.rings.RingOfBinding;
 import com.watabou.utils.Bundle;
 
 public class Hollowing extends Buff {
@@ -34,17 +35,22 @@ public class Hollowing extends Buff {
     private static final int FULL_HOLLOW = 20;
     private int level = 0;
 
-    //-2% HP each death, down to a maximum reduction of 40%
+    //-2% HP each death, down to a maximum reduction of 40%.
     private float hpFactor() {
-        return Math.max(0.6f, 1f - 0.02f*level);
+        return Math.max(0.6f, 1f - 0.02f*(level-RingOfBinding.hollowingReduction(target)));
     }
 
     private void die() {
-        if (level < FULL_HOLLOW) level++;
+        level++;
+        processCap();
     }
 
     private void regainHumanity() {
         level = 0;
+    }
+
+    private void processCap() {
+        if (level > FULL_HOLLOW) level = FULL_HOLLOW;
     }
 
     private void fullyHollow() {
@@ -76,6 +82,6 @@ public class Hollowing extends Buff {
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
-        level = Math.min(FULL_HOLLOW, bundle.getInt(LEVEL));
+        level = bundle.getInt(LEVEL);
     }
 }

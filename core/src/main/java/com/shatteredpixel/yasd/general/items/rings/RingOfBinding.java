@@ -28,12 +28,13 @@
 package com.shatteredpixel.yasd.general.items.rings;
 
 import com.shatteredpixel.yasd.general.actors.Char;
+import com.shatteredpixel.yasd.general.items.Item;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.sprites.ItemSpriteSheet;
 
 import java.text.DecimalFormat;
 
-public class _Unused extends Ring {
+public class RingOfBinding extends Ring {
 
 	{
 		icon = ItemSpriteSheet.Icons.RING_FORCE;
@@ -41,21 +42,61 @@ public class _Unused extends Ring {
 	
 	public String statsInfo() {
 		if (isIdentified()){
-			return Messages.get(this, "stats", new DecimalFormat("#.##").format(100f * (Math.pow(1.15f, soloBonus()) - 1f)));
+			return Messages.get(this, "stats", soloBonus()*2 + "%");
 		} else {
-			return Messages.get(this, "typical_stats", new DecimalFormat("#.##").format(15f));
+			return Messages.get(this, "typical_stats", "2%");
 		}
 	}
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Evasion();
+		return new HollowReduce();
 	}
 	
-	public static float evasionMultiplier( Char target ){
-		return (float) Math.pow( 1.15, getBonus(target, Evasion.class));
+	public static int hollowingReduction( Char target ){
+		return getBonus(target, HollowReduce.class);
 	}
 
-	public class Evasion extends RingBuff {
+	@Override
+	public Item upgrade() {
+		super.upgrade();
+		updateTargetHT();
+		return this;
+	}
+
+	@Override
+	public Item level(int value) {
+		super.level(value);
+		updateTargetHT();
+		return this;
+	}
+
+	@Override
+	public boolean doEquip(Char ch) {
+		if (super.doEquip(ch)){
+			ch.updateHT( false );
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean doUnequip(Char ch, boolean collect, boolean single) {
+		if (super.doUnequip(ch, collect, single)){
+			ch.updateHT( false );
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void updateTargetHT(){
+		if (buff != null && buff.target != null) {
+			buff.target.updateHT( false );
+		}
+	}
+
+	public class HollowReduce extends RingBuff {
 	}
 }
