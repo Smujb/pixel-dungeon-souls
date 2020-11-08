@@ -40,7 +40,7 @@ public abstract class Titanite extends Item {
         int level = item.trueLevel();
         Titanite titanite = hero.belongings.getItem(titaniteReq(level));
         int amt = titaniteReqAmt(level);
-        return titanite.quantity >= amt;
+        return titanite != null && titanite.quantity >= amt;
     }
 
     //NOTE: this function assumes canUpgradeItem has already been called for speed, and doesn't check it. May cause bugs if triggered without checking.
