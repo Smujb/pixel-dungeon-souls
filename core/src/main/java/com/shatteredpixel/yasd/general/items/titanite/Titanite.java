@@ -36,7 +36,7 @@ public abstract class Titanite extends Item {
 
     //Checks if an item can be upgraded by the Titanite the hero has
     public static boolean canUpgradeItem(Hero hero, Item item) {
-        if (!hero.belongings.contains(item)) return false;
+        if (!hero.belongings.contains(item) || !item.isUpgradable()) return false;
         int level = item.trueLevel();
         Titanite titanite = hero.belongings.getItem(titaniteReq(level));
         int amt = titaniteReqAmt(level);
