@@ -61,6 +61,10 @@ import com.shatteredpixel.yasd.general.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.yasd.general.items.souls.Humanity;
 import com.shatteredpixel.yasd.general.items.souls.SoulOfLostUndead;
 import com.shatteredpixel.yasd.general.items.spells.MagicalInfusion;
+import com.shatteredpixel.yasd.general.items.titanite.LargeTitaniteShard;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteChunk;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteShard;
+import com.shatteredpixel.yasd.general.items.titanite.TitaniteSlab;
 import com.shatteredpixel.yasd.general.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.yasd.general.items.weapon.SpiritBow;
 import com.shatteredpixel.yasd.general.items.weapon.melee.MagesStaff;
@@ -150,6 +154,10 @@ public enum HeroClass {
 			new MagicalInfusion().collect();
 		}
 		new RingOfBinding().collect();
+		new TitaniteShard().collect();
+		new LargeTitaniteShard().collect();
+		new TitaniteChunk().collect();
+		new TitaniteSlab().collect();
 		Generator.randomWand().identify().collect();
 	}
 

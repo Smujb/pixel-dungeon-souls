@@ -216,6 +216,13 @@ public class ItemSpriteSheet {
 	public static final int FLASK_FULL = FLASK+0;
 	public static final int FLASK_EMPTY = FLASK+1;
 
+	private static final int TITANITE = xy(1, 9);
+
+	public static final int TITANITE_SHARD			= TITANITE+0;
+	public static final int LARGE_TITANITE_SHARD	= TITANITE+1;
+	public static final int TITANITE_CHUNK			= TITANITE+2;
+	public static final int TITANITE_SLAB			= TITANITE+3;
+
 
 	public static int adjustForTier(int image, int tier) {
 		return image + (tier-1) * WIDTH;
