@@ -120,7 +120,9 @@ public abstract class Mob extends Char {
 	protected int target = -1;
 
 	public int souls() {
-		return 40 + level * 5;
+		int souls = 40 + level * 5;
+		if (properties().contains(Property.BOSS)) souls *= 50;
+		return souls;
 	}
 
 	protected Char enemy;
