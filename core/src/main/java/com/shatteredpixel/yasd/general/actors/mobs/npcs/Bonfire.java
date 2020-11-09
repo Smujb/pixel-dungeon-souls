@@ -73,6 +73,7 @@ public class Bonfire extends NPC {
                 super.run();
                 Actor.fixTime();
                 Actor.clear();
+                GameScene.endActorThread();
                 Dungeon.level.reset();
                 Dungeon.keysNoReset.clear();
                 Actor.init();
