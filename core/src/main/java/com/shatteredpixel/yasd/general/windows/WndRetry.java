@@ -3,6 +3,7 @@ package com.shatteredpixel.yasd.general.windows;
 import com.shatteredpixel.yasd.general.Dungeon;
 import com.shatteredpixel.yasd.general.LevelHandler;
 import com.shatteredpixel.yasd.general.PDSGame;
+import com.shatteredpixel.yasd.general.items.EstusFlask;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.PixelScene;
 import com.shatteredpixel.yasd.general.scenes.TitleScene;
@@ -19,6 +20,7 @@ public class WndRetry extends Window {
 
     private static void resurrect() {
         Dungeon.hero.updateHT(false);
+        EstusFlask.refill(Dungeon.hero);
         Dungeon.hero.HP = Dungeon.hero.HT;
         Dungeon.hero.live();
         Dungeon.keysNoReset.clear();
