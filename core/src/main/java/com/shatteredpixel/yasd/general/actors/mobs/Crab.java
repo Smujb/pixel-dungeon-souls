@@ -40,9 +40,8 @@ public class Crab extends Mob {
 	{
 		spriteClass = CrabSprite.class;
 
-		healthFactor = 0.5f;
-		baseSpeed = 2f;
-		damageFactor = 2f;
+		healthFactor = 0.7f;
+		baseSpeed = 1.5f;
 		perceptionFactor = 2f;
 		stealthFactor = 0.5f;
 		poiseFactor = 0.5f;
