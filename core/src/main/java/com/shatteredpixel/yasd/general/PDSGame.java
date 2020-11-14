@@ -93,6 +93,9 @@ public class PDSGame extends Game {
 	public static final int v0_4_10  = 453;
 	public static final int v0_4_11  = 454;
 	public static final int v0_4_12  = 455;
+
+
+	public static final int v0_1_1  = 457;
 	
 	public PDSGame(PlatformSupport platform ) {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
