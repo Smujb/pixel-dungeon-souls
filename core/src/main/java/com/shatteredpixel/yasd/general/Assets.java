@@ -91,7 +91,7 @@ public class Assets {
 		public static final String TOOLBAR	 = "interfaces/toolbar.png";
 		public static final String SHADOW    = "interfaces/shadow.png";
 		public static final String BOSSHP    = "interfaces/boss_hp.png";
-		public static final String ATTK_ICON = "interfaces/attack_icons.png";
+		public static final String ACTION_ICON = "interfaces/attack_icons.png";
 
 		public static final String SURFACE	= "interfaces/surface.png";
 

@@ -6,17 +6,12 @@ import com.shatteredpixel.yasd.general.actors.hero.HeroAction;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.scenes.CellSelector;
 import com.shatteredpixel.yasd.general.scenes.GameScene;
-import com.shatteredpixel.yasd.general.ui.IconButton;
 import com.watabou.noosa.Image;
 
-public class RollIcon extends IconButton {
-
-    private static final String ICONS = Assets.Interfaces.ATTK_ICON;
-
-    private static final int SIZE = 16;
+public class RollIcon extends ActionIcon {
 
     public RollIcon() {
-        super(new Image(ICONS, 0, 0, 16, 16));
+        super(ROLL);
         width = height = SIZE;
     }
 

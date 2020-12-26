@@ -52,7 +52,6 @@ import com.shatteredpixel.yasd.general.effects.SpellSprite;
 import com.shatteredpixel.yasd.general.items.Heap;
 import com.shatteredpixel.yasd.general.items.Honeypot;
 import com.shatteredpixel.yasd.general.items.Item;
-import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.artifacts.DriedRose;
 import com.shatteredpixel.yasd.general.items.bags.MagicalHolster;
 import com.shatteredpixel.yasd.general.items.bags.PotionBandolier;
@@ -81,7 +80,6 @@ import com.shatteredpixel.yasd.general.tiles.RaisedTerrainTilemap;
 import com.shatteredpixel.yasd.general.tiles.TerrainFeaturesTilemap;
 import com.shatteredpixel.yasd.general.tiles.WallBlockingTilemap;
 import com.shatteredpixel.yasd.general.ui.ActionIndicator;
-import com.shatteredpixel.yasd.general.ui.AttackIndicator;
 import com.shatteredpixel.yasd.general.ui.Banner;
 import com.shatteredpixel.yasd.general.ui.BusyIndicator;
 import com.shatteredpixel.yasd.general.ui.CharHealthIndicator;
@@ -95,6 +93,8 @@ import com.shatteredpixel.yasd.general.ui.TargetHealthIndicator;
 import com.shatteredpixel.yasd.general.ui.Toast;
 import com.shatteredpixel.yasd.general.ui.Toolbar;
 import com.shatteredpixel.yasd.general.ui.Window;
+import com.shatteredpixel.yasd.general.ui.attack.ActionIcon;
+import com.shatteredpixel.yasd.general.ui.attack.ActionFrame;
 import com.shatteredpixel.yasd.general.ui.attack.AttackIcon;
 import com.shatteredpixel.yasd.general.ui.attack.RollIcon;
 import com.shatteredpixel.yasd.general.utils.GLog;
@@ -342,23 +342,15 @@ public class GameScene extends PixelScene {
 		icons = new AttackIcon[2];
 		icons[0] = new AttackIcon(0, true);
 		icons[1] = new AttackIcon(1, true);
-		float top = scene.toolbar.top() - 10;
-		for (AttackIcon icon : icons) {
-			float xPos;
-			if (icon.getSlot() == MainHandItem.MAIN_HAND) {
-				xPos = uiCamera.width-icon.width();
-			} else {
-				xPos = 0;
-			}
-			icon.setPos(xPos, top - icon.height());
-			icon.camera = uiCamera;
-			add(icon);
-		}
+		float top = uiCamera.height/2f;
+		ActionFrame left = new ActionFrame(0, top, icons);
+		left.camera = uiCamera;
+		add(left);
 
 		roll = new RollIcon();
-		roll.setPos(0, icons[0].bottom());
-		roll.camera = uiCamera;
-		add(roll);
+		ActionFrame right = new ActionFrame(uiCamera.width-24, top, new ActionIcon[]{roll});
+		right.camera = uiCamera;
+		add(right);
 
 		log = new GameLog();
 		log.camera = uiCamera;

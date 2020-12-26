@@ -9,10 +9,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class AttackIcon extends IconButton {
-
-    private static final String ICONS = Assets.Interfaces.ATTK_ICON;
-    private static final int SIZE = 16;
+public class AttackIcon extends ActionIcon {
 
     private final int slot;
     private final boolean basic;
@@ -22,17 +19,16 @@ public class AttackIcon extends IconButton {
 
     //imageIndex decides the icon, slot decides the weapon slot it's for (0 or 1) and basic whether the indicator triggers the basic attack or secondary
     public AttackIcon(int slot, boolean basic) {
-        super(null);
+        super(0);
         int imageIndex;
         if (basic) {
-            imageIndex = 0;
+            imageIndex = BASIC_ATTACK;
         } else {
-            imageIndex = 1;
+            imageIndex = STAB_ATTACK;
         }
-        icon(new Image(ICONS, SIZE*imageIndex, 0, SIZE+SIZE*imageIndex, SIZE));
         this.slot = slot;
         this.basic = basic;
-        width = height = SIZE;
+        setImageIndex(imageIndex);
     }
 
     //Get the slot this indicator activates
