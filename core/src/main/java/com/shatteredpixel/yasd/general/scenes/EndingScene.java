@@ -31,9 +31,10 @@ import com.shatteredpixel.yasd.general.Assets;
 import com.shatteredpixel.yasd.general.Dungeon;
 import com.shatteredpixel.yasd.general.GamesInProgress;
 import com.shatteredpixel.yasd.general.LevelHandler;
+import com.shatteredpixel.yasd.general.actors.hero.Hero;
+import com.shatteredpixel.yasd.general.actors.mobs.npcs.FirstFlame;
 import com.shatteredpixel.yasd.general.effects.Flare;
 import com.shatteredpixel.yasd.general.effects.Speck;
-import com.shatteredpixel.yasd.general.items.Amulet;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.ui.RedButton;
 import com.shatteredpixel.yasd.general.ui.RenderedTextBlock;
@@ -42,7 +43,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.utils.Random;
 
-public class AmuletScene extends PixelScene {
+public class EndingScene extends PixelScene {
 	
 	private static final int WIDTH			= 120;
 	private static final int BTN_HEIGHT		= 18;
@@ -51,7 +52,7 @@ public class AmuletScene extends PixelScene {
 	
 	public static boolean noText = false;
 	
-	private Image amulet;
+	private Image flame;
 	
 	@Override
 	public void create() {
@@ -64,15 +65,13 @@ public class AmuletScene extends PixelScene {
 			add( text );
 		}
 		
-		amulet = new Image( Assets.Sprites.AMULET );
-		add( amulet );
+		flame = new Image( Assets.Sprites.BONFIRE, 0, 0, 16, 16 );
+		add( flame );
 		
 		RedButton btnExit = new RedButton( Messages.get(this, "exit") ) {
 			@Override
 			protected void onClick() {
-				if (!Dungeon.testing) {
-					Dungeon.win(Amulet.class);
-				}
+				Dungeon.win(Hero.class);
 				Dungeon.deleteGame( GamesInProgress.curSlot, true );
 				Game.switchScene( RankingsScene.class );
 			}
@@ -83,7 +82,9 @@ public class AmuletScene extends PixelScene {
 		RedButton btnStay = new RedButton( Messages.get(this, "stay") ) {
 			@Override
 			protected void onClick() {
-				onBackPressed();
+				Dungeon.win(FirstFlame.class);
+				Dungeon.deleteGame( GamesInProgress.curSlot, true );
+				Game.switchScene( RankingsScene.class );
 			}
 		};
 		btnStay.setSize( WIDTH, BTN_HEIGHT );
@@ -91,30 +92,29 @@ public class AmuletScene extends PixelScene {
 		
 		float height;
 		if (noText) {
-			height = amulet.height + LARGE_GAP + btnExit.height() + SMALL_GAP + btnStay.height();
+			height = flame.height + LARGE_GAP + btnExit.height() + SMALL_GAP + btnStay.height();
 			
-			amulet.x = (Camera.main.width - amulet.width) / 2;
-			amulet.y = (Camera.main.height - height) / 2;
-			align(amulet);
+			flame.x = (Camera.main.width - flame.width) / 2;
+			flame.y = (Camera.main.height - height) / 2;
+			align(flame);
 
-			btnExit.setPos( (Camera.main.width - btnExit.width()) / 2, amulet.y + amulet.height + LARGE_GAP );
-			btnStay.setPos( btnExit.left(), btnExit.bottom() + SMALL_GAP );
-			
+			btnExit.setPos( (Camera.main.width - btnExit.width()) / 2, flame.y + flame.height + LARGE_GAP );
+
 		} else {
-			height = amulet.height + LARGE_GAP + text.height() + LARGE_GAP + btnExit.height() + SMALL_GAP + btnStay.height();
+			height = flame.height + LARGE_GAP + text.height() + LARGE_GAP + btnExit.height() + SMALL_GAP + btnStay.height();
 			
-			amulet.x = (Camera.main.width - amulet.width) / 2;
-			amulet.y = (Camera.main.height - height) / 2;
-			align(amulet);
+			flame.x = (Camera.main.width - flame.width) / 2;
+			flame.y = (Camera.main.height - height) / 2;
+			align(flame);
 
-			text.setPos((Camera.main.width - text.width()) / 2, amulet.y + amulet.height + LARGE_GAP);
+			text.setPos((Camera.main.width - text.width()) / 2, flame.y + flame.height + LARGE_GAP);
 			align(text);
 			
 			btnExit.setPos( (Camera.main.width - btnExit.width()) / 2, text.top() + text.height() + LARGE_GAP );
-			btnStay.setPos( btnExit.left(), btnExit.bottom() + SMALL_GAP );
 		}
+		btnStay.setPos( btnExit.left(), btnExit.bottom() + SMALL_GAP );
 
-		new Flare( 8, 48 ).color( 0xFFDDBB, true ).show( amulet, 0 ).angularSpeed = +30;
+		new Flare( 8, 48 ).color( 0xFFDDBB, true ).show(flame, 0 ).angularSpeed = +30;
 		
 		fadeIn();
 	}
@@ -134,7 +134,7 @@ public class AmuletScene extends PixelScene {
 			timer = Random.Float( 0.5f, 5f );
 			
 			Speck star = (Speck)recycle( Speck.class );
-			star.reset( 0, amulet.x + 10.5f, amulet.y + 5.5f, Speck.DISCOVER );
+			star.reset( 0, flame.x + 10.5f, flame.y + 5.5f, Speck.DISCOVER );
 			add( star );
 		}
 	}

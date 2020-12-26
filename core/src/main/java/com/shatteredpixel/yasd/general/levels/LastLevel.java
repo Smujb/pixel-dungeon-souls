@@ -33,6 +33,7 @@ import com.shatteredpixel.yasd.general.Statistics;
 import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.mobs.Mob;
+import com.shatteredpixel.yasd.general.actors.mobs.npcs.FirstFlame;
 import com.shatteredpixel.yasd.general.items.Amulet;
 import com.shatteredpixel.yasd.general.levels.painters.Painter;
 import com.shatteredpixel.yasd.general.levels.terrain.KindOfTerrain;
@@ -163,6 +164,9 @@ public class LastLevel extends Level {
 	
 	@Override
 	protected void createMobs() {
+		FirstFlame flame = new FirstFlame();
+		flame.pos = getExitPos();
+		mobs.add(flame);
 	}
 
 	public Actor respawner() {
@@ -170,9 +174,7 @@ public class LastLevel extends Level {
 	}
 
 	@Override
-	protected void createItems() {
-		drop( new Amulet(), getExitPos() );
-	}
+	protected void createItems() {}
 
 	@Override
 	public int randomRespawnCell(Char ch) {

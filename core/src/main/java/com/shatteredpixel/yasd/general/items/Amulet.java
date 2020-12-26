@@ -34,7 +34,7 @@ import com.shatteredpixel.yasd.general.Statistics;
 import com.shatteredpixel.yasd.general.actors.Actor;
 import com.shatteredpixel.yasd.general.actors.Char;
 import com.shatteredpixel.yasd.general.actors.hero.Hero;
-import com.shatteredpixel.yasd.general.scenes.AmuletScene;
+import com.shatteredpixel.yasd.general.scenes.EndingScene;
 import com.shatteredpixel.yasd.general.sprites.ItemSpriteSheet;
 import com.watabou.noosa.Game;
 
@@ -97,8 +97,8 @@ public class Amulet extends Item {
 	private void showAmuletScene( boolean showText ) {
 		try {
 			Dungeon.saveAll();
-			AmuletScene.noText = !showText;
-			Game.switchScene( AmuletScene.class );
+			EndingScene.noText = !showText;
+			Game.switchScene( EndingScene.class );
 		} catch (IOException e) {
 			PDSGame.reportException(e);
 		}

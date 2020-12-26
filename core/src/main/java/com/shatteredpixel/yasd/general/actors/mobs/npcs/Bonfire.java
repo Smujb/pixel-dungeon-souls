@@ -2,6 +2,7 @@ package com.shatteredpixel.yasd.general.actors.mobs.npcs;
 
 import com.shatteredpixel.yasd.general.Assets;
 import com.shatteredpixel.yasd.general.Badges;
+import com.shatteredpixel.yasd.general.Chrome;
 import com.shatteredpixel.yasd.general.Dungeon;
 import com.shatteredpixel.yasd.general.PDSGame;
 import com.shatteredpixel.yasd.general.Statistics;
@@ -36,14 +37,10 @@ public class Bonfire extends NPC {
     private boolean lit = false;
 
     @Override
-    public void damage(int dmg, DamageSrc src) {
-        light();
-    }
+    public void damage(int dmg, DamageSrc src) {}
 
     @Override
-    public void add(Buff buff) {
-        light();
-    }
+    public void add(Buff buff) {}
 
     @Override
     public void aggro(Char ch) {}
@@ -71,36 +68,7 @@ public class Bonfire extends NPC {
             @Override
             public void run() {
                 super.run();
-                Actor.fixTime();
-                Actor.clear();
-                GameScene.endActorThread();
-                Dungeon.level.reset();
-                Dungeon.keysNoReset.clear();
-                Actor.init();
-                light();
-                Statistics.lastBonfireDepth = Dungeon.depth;
-                PDSGame.seamlessResetScene(new Game.SceneChangeCallback() {
-                    @Override
-                    public void beforeCreate() {
-
-                    }
-
-                    @Override
-                    public void afterCreate() {
-                        if (lit()) {
-                            ch.heal(ch.HT, false, true);
-                            EstusFlask.refill(ch);
-                            PDSGame.runOnRenderThread(new Callback() {
-                                @Override
-                                public void call() {
-                                    PDSGame.scene().addToFront(new WndBonfire());
-                                }
-                            });
-                        } else {
-                            sprite.showStatus(CharSprite.POSITIVE, Messages.get(Bonfire.this, "bonfire_lit"));
-                        }
-                    }
-                });
+                light(ch);
             }
         }.start();
 
@@ -111,8 +79,37 @@ public class Bonfire extends NPC {
         return lit;
     }
 
-    public void light() {
+    public void light(Char ch) {
+        Actor.fixTime();
+        Actor.clear();
+        GameScene.endActorThread();
+        Dungeon.level.reset();
+        Dungeon.keysNoReset.clear();
+        Actor.init();
         lit = true;
+        Statistics.lastBonfireDepth = Dungeon.depth;
+        PDSGame.seamlessResetScene(new Game.SceneChangeCallback() {
+            @Override
+            public void beforeCreate() {
+
+            }
+
+            @Override
+            public void afterCreate() {
+                if (lit()) {
+                    ch.heal(ch.HT, false, true);
+                    EstusFlask.refill(ch);
+                    PDSGame.runOnRenderThread(new Callback() {
+                        @Override
+                        public void call() {
+                            PDSGame.scene().addToFront(new WndBonfire());
+                        }
+                    });
+                } else {
+                    sprite.showStatus(CharSprite.POSITIVE, Messages.get(Bonfire.this, "bonfire_lit"));
+                }
+            }
+        });
     }
 
     public static final String LIT = "lit";

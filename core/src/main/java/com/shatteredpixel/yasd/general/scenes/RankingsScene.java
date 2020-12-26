@@ -31,6 +31,7 @@ import com.shatteredpixel.yasd.general.Assets;
 import com.shatteredpixel.yasd.general.PDSGame;
 import com.shatteredpixel.yasd.general.Rankings;
 import com.shatteredpixel.yasd.general.actors.hero.HeroClass;
+import com.shatteredpixel.yasd.general.actors.mobs.npcs.FirstFlame;
 import com.shatteredpixel.yasd.general.effects.Flare;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.sprites.ItemSprite;
@@ -197,7 +198,8 @@ public class RankingsScene extends PixelScene {
 			int odd = pos % 2;
 			
 			if (rec.win) {
-				shield.view( ItemSpriteSheet.AMULET, null );
+				if (rec.cause == FirstFlame.class) shield.view( ItemSpriteSheet.BONFIRE_LIT, null );
+				else shield.view( ItemSpriteSheet.BONFIRE_UNLIT, null );
 				position.hardlight( TEXT_WIN[odd] );
 				desc.hardlight( TEXT_WIN[odd] );
 				depth.hardlight( TEXT_WIN[odd] );
