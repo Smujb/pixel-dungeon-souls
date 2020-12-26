@@ -103,4 +103,10 @@ public class HeroAction {
 			this.target = target;
 		}
 	}
+
+	public static class Roll extends HeroAction {
+		public Roll(int pos) {
+			this.dst = pos;
+		}
+	}
 }

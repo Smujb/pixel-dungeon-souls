@@ -70,6 +70,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.Paralysis;
 import com.shatteredpixel.yasd.general.actors.buffs.Poison;
 import com.shatteredpixel.yasd.general.actors.buffs.Preparation;
 import com.shatteredpixel.yasd.general.actors.buffs.Regeneration;
+import com.shatteredpixel.yasd.general.actors.buffs.RollBuff;
 import com.shatteredpixel.yasd.general.actors.buffs.ShieldBuff;
 import com.shatteredpixel.yasd.general.actors.buffs.Slow;
 import com.shatteredpixel.yasd.general.actors.buffs.Speed;
@@ -497,7 +498,7 @@ public abstract class Char extends Actor {
 
 		//if accuracy or evasion are large enough, treat them as infinite.
 		//note that infinite evasion beats infinite accuracy
-		if (defStat >= INFINITE_EVASION){
+		if (defStat >= INFINITE_EVASION || defender.buff(RollBuff.class) != null){
 			return false;
 		} else if (acuStat >= INFINITE_ACCURACY){
 			return true;

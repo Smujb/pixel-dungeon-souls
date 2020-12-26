@@ -96,6 +96,7 @@ import com.shatteredpixel.yasd.general.ui.Toast;
 import com.shatteredpixel.yasd.general.ui.Toolbar;
 import com.shatteredpixel.yasd.general.ui.Window;
 import com.shatteredpixel.yasd.general.ui.attack.AttackIcon;
+import com.shatteredpixel.yasd.general.ui.attack.RollIcon;
 import com.shatteredpixel.yasd.general.utils.GLog;
 import com.shatteredpixel.yasd.general.windows.WndBag;
 import com.shatteredpixel.yasd.general.windows.WndBag.Mode;
@@ -174,6 +175,7 @@ public class GameScene extends PixelScene {
 	private DiveIndicator dive;
 
 	private AttackIcon[] icons;
+	private RollIcon roll;
 
 	public static String messageOnEnter = null;
 
@@ -352,6 +354,11 @@ public class GameScene extends PixelScene {
 			icon.camera = uiCamera;
 			add(icon);
 		}
+
+		roll = new RollIcon();
+		roll.setPos(0, icons[0].bottom());
+		roll.camera = uiCamera;
+		add(roll);
 
 		log = new GameLog();
 		log.camera = uiCamera;

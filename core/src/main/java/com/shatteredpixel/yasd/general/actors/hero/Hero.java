@@ -52,6 +52,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.MindVision;
 import com.shatteredpixel.yasd.general.actors.buffs.Momentum;
 import com.shatteredpixel.yasd.general.actors.buffs.Paralysis;
 import com.shatteredpixel.yasd.general.actors.buffs.Preparation;
+import com.shatteredpixel.yasd.general.actors.buffs.RollBuff;
 import com.shatteredpixel.yasd.general.actors.buffs.SnipersMark;
 import com.shatteredpixel.yasd.general.actors.buffs.Vertigo;
 import com.shatteredpixel.yasd.general.actors.mobs.Mob;
@@ -526,7 +527,10 @@ public class Hero extends Char {
 				actResult = actAlchemy( (HeroAction.Alchemy)curAction );
 
 			} else if (curAction instanceof HeroAction.InteractCell) {
-				actResult = actInteractCell( (HeroAction.InteractCell)curAction );
+				actResult = actInteractCell((HeroAction.InteractCell) curAction);
+
+			} else if (curAction instanceof HeroAction.Roll) {
+				actResult = actRoll((HeroAction.Roll) curAction);
 
 			} else {
 				actResult = false;
@@ -861,6 +865,30 @@ public class Hero extends Char {
 				return false;
 			}
 
+		}
+	}
+
+	private boolean actRoll( @NotNull HeroAction.Roll action ) {
+		//If trying to roll more than 2 tiles, move instead
+		if (Dungeon.level.distance(pos, action.dst) > 2 || Dungeon.level.solid(action.dst) || Actor.findChar(action.dst) != null || !canOccupy(Dungeon.level, action.dst)) {
+			ready();
+			return true;
+		} else {
+			Buff.affect(this, RollBuff.class);
+			spend(RollBuff.ROLL_DURATION);
+			sprite.jump(pos, action.dst, new Callback() {
+				@Override
+				public void call() {
+					//Move to destination
+					move(action.dst);
+					Dungeon.level.pressCell(action.dst);
+					Dungeon.observe();
+					GameScene.updateFog();
+					Sample.INSTANCE.play(Assets.Sounds.MASTERY);
+					ready();
+				}
+			});
+			return false;
 		}
 	}
 
