@@ -174,9 +174,6 @@ public class GameScene extends PixelScene {
 	private ResumeIndicator resume;
 	private DiveIndicator dive;
 
-	private AttackIcon[] icons;
-	private RollIcon roll;
-
 	public static String messageOnEnter = null;
 
 	@Override
@@ -339,16 +336,20 @@ public class GameScene extends PixelScene {
 		dive.camera = uiCamera;
 		add( dive );
 
-		icons = new AttackIcon[2];
-		icons[0] = new AttackIcon(0, true);
-		icons[1] = new AttackIcon(1, true);
-		float top = uiCamera.height/2f;
-		ActionFrame left = new ActionFrame(0, top, icons);
+		float top = uiCamera.height/3f;
+
+		ActionIcon[] leftIcons = new ActionIcon[2];
+		leftIcons[0] = new AttackIcon(0, true);
+		leftIcons[1] = new AttackIcon(0, false);
+		ActionFrame left = new ActionFrame(0, top, leftIcons);
 		left.camera = uiCamera;
 		add(left);
 
-		roll = new RollIcon();
-		ActionFrame right = new ActionFrame(uiCamera.width-24, top, new ActionIcon[]{roll});
+		ActionIcon[] rightIcons = new ActionIcon[3];
+		rightIcons[0] = new AttackIcon(1, true);
+		rightIcons[1] = new AttackIcon(1, false);
+		rightIcons[2] = new RollIcon();
+		ActionFrame right = new ActionFrame(uiCamera.width-24, top, rightIcons);
 		right.camera = uiCamera;
 		add(right);
 

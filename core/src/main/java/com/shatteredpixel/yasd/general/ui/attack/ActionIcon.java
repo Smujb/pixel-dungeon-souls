@@ -26,7 +26,7 @@ public class ActionIcon extends IconButton {
     }
 
     protected void setImageIndex(int imageIndex) {
-        icon(new Image(ICONS, SIZE*imageIndex, 0, SIZE+SIZE*imageIndex, SIZE));
+        icon(new Image(ICONS, SIZE*imageIndex, 0, SIZE, SIZE));
         width = height = SIZE;
     }
 }
