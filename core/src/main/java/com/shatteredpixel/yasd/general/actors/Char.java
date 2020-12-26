@@ -206,6 +206,14 @@ public abstract class Char extends Actor {
 		return STR;
 	}
 
+	public boolean useStamina(float amt) {
+		if (stamina >= amt) {
+			stamina -= amt;
+			return true;
+		}
+		else return false;
+	}
+
 	public Element elementalType() {
 		return Element.PHYSICAL;
 	}
@@ -383,9 +391,7 @@ public abstract class Char extends Actor {
 			belongings.nextWeapon();
 		}
 
-		stamina -= REQ_STAMINA;
-
-		if (enemy == null || enemy == this) return false;
+		if (enemy == null || enemy == this || !useStamina(REQ_STAMINA)) return false;
 
 		boolean visibleFight = Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[enemy.pos];
 

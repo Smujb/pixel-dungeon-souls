@@ -12,7 +12,7 @@ public class StaminaRegen extends Buff {
 	@Override
 	public boolean act() {
 		if (target.isAlive()) {
-			float increase = 1f;
+			float increase = 0.1f;
 			if (target instanceof Hero && ((Hero) target).isStarving()) {
 				increase /= 2f;
 			}
@@ -21,7 +21,7 @@ public class StaminaRegen extends Buff {
 				target.stamina = Math.min(max, target.stamina + increase);
 			}
 		}
-		spend(3f);
+		spend(0.3f);
 		return true;
 	}
 }

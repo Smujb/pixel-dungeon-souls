@@ -870,7 +870,7 @@ public class Hero extends Char {
 
 	private boolean actRoll( @NotNull HeroAction.Roll action ) {
 		//If trying to roll more than 2 tiles, move instead
-		if (Dungeon.level.distance(pos, action.dst) > 2 || Dungeon.level.solid(action.dst) || Actor.findChar(action.dst) != null || !canOccupy(Dungeon.level, action.dst)) {
+		if (Dungeon.level.distance(pos, action.dst) > 2 || Dungeon.level.solid(action.dst) || Actor.findChar(action.dst) != null || !canOccupy(Dungeon.level, action.dst) || !useStamina(2f)) {
 			ready();
 			return true;
 		} else {
@@ -884,6 +884,7 @@ public class Hero extends Char {
 					Dungeon.level.pressCell(action.dst);
 					Dungeon.observe();
 					GameScene.updateFog();
+					//TODO proper sound effect
 					Sample.INSTANCE.play(Assets.Sounds.MASTERY);
 					ready();
 				}
