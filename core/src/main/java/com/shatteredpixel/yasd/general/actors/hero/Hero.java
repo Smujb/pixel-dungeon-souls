@@ -142,7 +142,7 @@ public class Hero extends Char {
 	private int Evasion    = 1;
 	public  int DistributionPoints = 0;
 
-	private static final float TIME_TO_REST		    = 1f;
+	private static final float TIME_TO_REST		    = 0.1f;
 	private static final float TIME_TO_SEARCH	    = 2f;
 	private static final float HUNGER_FOR_SEARCH	= 6f;
 	
@@ -487,7 +487,7 @@ public class Hero extends Char {
 		if (curAction == null) {
 			
 			if (resting) {
-				spend( TIME_TO_REST );
+				spend( TIME_TO_REST*10 );
 				next();
 			} else {
 				ready();
@@ -871,11 +871,12 @@ public class Hero extends Char {
 	}
 	
 	public void rest( boolean fullRest ) {
-		spendAndNext( TIME_TO_REST );
-		if (!fullRest) {
+		if (fullRest) {
 			sprite.showStatus( CharSprite.DEFAULT, Messages.get(this, "wait") );
+			spendAndNext( TIME_TO_REST*10 );
+		} else {
+			spendAndNext( TIME_TO_REST );
 		}
-		resting = fullRest;
 	}
 	
 	@Override
