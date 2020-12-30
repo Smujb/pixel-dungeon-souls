@@ -326,7 +326,6 @@ public abstract class Char extends Actor {
 	}
 
 	public void live() {
-		if (buff(Armor.Defense.class) == null) Buff.affect(this, Armor.Defense.class).setToMax(this);
 		if (buff(Regeneration.class) == null) Buff.affect(this, Regeneration.class);
 		if (buff(StaminaRegen.class) == null) Buff.affect(this, StaminaRegen.class);
 	}
@@ -568,14 +567,6 @@ public abstract class Char extends Actor {
 		return 0;
 	}
 
-	public float defenseRegen() {
-		if (hasBelongings()) {
-			return belongings.defenseRegen();
-		} else {
-			return defense()/20f;
-		}
-	}
-
 	public float poise() {
 		if (hasBelongings()) {
 			return belongings.poise();
@@ -801,6 +792,10 @@ public abstract class Char extends Actor {
 		if(src.getCause() != null && isInvulnerable(src.getCause().getClass())){
 			sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "invulnerable"));
 			return;
+		}
+
+		if (!src.ignores()) {
+			dmg = Armor.processDamage(dmg, defense());
 		}
 
 		if (this.buff(Drowsy.class) != null && dmg > 0) {

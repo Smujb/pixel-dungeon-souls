@@ -38,6 +38,8 @@ import com.shatteredpixel.yasd.general.sprites.ItemSpriteSheet;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.text.DecimalFormat;
+
 public class MeleeWeapon extends Weapon {
 	{
 		image = ItemSpriteSheet.Weapons.SWORD;
@@ -74,8 +76,12 @@ public class MeleeWeapon extends Weapon {
 				lvl*(tier*2))*damageMultiplier);   //level scaling
 	}
 
-	public float impact() {
+	public float impact(float lvl) {
 		return (0.6f + 0.1f * level() * tier) * DLY * impactFactor;
+	}
+
+	public final float impact() {
+		return impact(level());
 	}
 
 	public int STRReq(){
@@ -157,14 +163,14 @@ public class MeleeWeapon extends Weapon {
 		String info = desc();
 
 		if (levelKnown) {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), new DecimalFormat("#.##").format(impact()), STRReq());
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Weapon.class, "too_heavy");
 			} else if (Dungeon.hero.STR() > STRReq()){
 				info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 			}
 		} else {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq());
+			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), new DecimalFormat("#.##").format(impact(0)), STRReq());
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
@@ -184,12 +190,6 @@ public class MeleeWeapon extends Weapon {
 				info += "\n" + Messages.get(MeleeWeapon.class, "degrade_increase", Math.round((degradeFactor-1f)*100));
 			} else if (degradeFactor < 1f) {
 				info += "\n" + Messages.get(MeleeWeapon.class, "degrade_decrease", Math.round((1f-degradeFactor)*100));
-			}
-
-			if (impactFactor > 1f) {
-				info += "\n" + Messages.get(MeleeWeapon.class, "impact_increase", Math.round((impactFactor-1f)*100));
-			} else if (impactFactor < 1f) {
-				info += "\n" + Messages.get(MeleeWeapon.class, "impact_decrease", Math.round((1f-impactFactor)*100));
 			}
 
 			if (ACC > 1f) {

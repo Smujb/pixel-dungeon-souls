@@ -187,8 +187,12 @@ public class Armor extends EquipableItem {
 		seal = null;
 	}
 
-	public float poise() {
-		return (0.2f + 0.03f * level() * tier) * poiseFactor;
+	public float poise(int lvl) {
+		return (0.2f + 0.03f * lvl * tier) * poiseFactor;
+	}
+
+	public final float poise() {
+		return poise(level());
 	}
 
 	@Override
@@ -260,13 +264,9 @@ public class Armor extends EquipableItem {
 	}
 
 	public int defense(int lvl) {
-		return Math.round(((tier * 2) + (tier * lvl)) * getDefenseFactor());
+		return (int) ((2*(tier+1) +    //base
+				lvl*tier)*getDefenseFactor());   //level scaling
 	}
-
-	public float defenseRegen() {
-		return 0.2f*tier*regenFactor;
-	}
-
 
 	@Override
 	public boolean doEquip( Char ch ) {
@@ -420,13 +420,13 @@ public class Armor extends EquipableItem {
 		String info = desc();
 		
 		if (levelKnown) {
-			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, defense(), new DecimalFormat("#.##").format(defenseRegen()), STRReq());
+			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, defense(), new DecimalFormat("#.##").format(poise()), STRReq());
 			
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {
-			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, defense(0), new DecimalFormat("#.##").format(defenseRegen()), STRReq());
+			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, defense(0), new DecimalFormat("#.##").format(poise(0)), STRReq());
 
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
@@ -457,12 +457,6 @@ public class Armor extends EquipableItem {
 				info += "\n" + Messages.get(Armor.class, "physical_weak", Math.round((physicalDamageFactor -1f)*100));
 			} else if (physicalDamageFactor < 1f) {
 				info += "\n" + Messages.get(Armor.class, "physical_resist", Math.round((1f- physicalDamageFactor)*100));
-			}
-
-			if (poiseFactor > 1f) {
-				info += "\n" + Messages.get(Armor.class, "poise_increase", Math.round((poiseFactor-1f)*100));
-			} else if (poiseFactor < 1f) {
-				info += "\n" + Messages.get(Armor.class, "poise_decrease", Math.round((1f-poiseFactor)*100));
 			}
 
 			if (EVA > 1f) {
@@ -741,98 +735,10 @@ public class Armor extends EquipableItem {
 
 	}
 
-	public static class Defense extends ShieldBuff {
-
-		{
-			type = buffType.POSITIVE;
-		}
-
-		private float magicalDamageFactor() {
-			return target.magicalDamageFactor();
-		}
-
-		private float physicalDamageFactor() {
-			return target.physicalDamageFactor();
-		}
-
-		@Override
-		protected int shieldCap() {
-			return target == null ? -1 : target.defense();
-		}
-
-		private float regenPerTurn() {
-			return target.defenseRegen();
-		}
-
-		public void setToMax(Char ch) {
-			setShield(ch.defense());
-		}
-
-		public static int curShield(Char ch) {
-			Defense defense = ch.buff(Defense.class);
-			if (defense != null) {
-				return defense.shielding();
-			} else {
-				return 0;
-			}
-		}
-
-		private float partialRegen = 0f;
-
-		private static final String PARTIAL_REGEN = "partial_regen";
-
-		@Override
-		public boolean act() {
-			//Round regen to a whole number and add it
-			int roundedRegen = (int) regenPerTurn();
-			if (roundedRegen > 0) {
-				incShield(roundedRegen);
-			}
-
-			//If regen isn't a whole number, add the rest to a partial regen which builds up to +1 shield.
-			partialRegen += regenPerTurn() - roundedRegen;
-			if (partialRegen > 1f) {
-				//Decrease instead of set to 0 as it may overflow above 1.
-				partialRegen--;
-				incShield();
-			}
-
-			spend(TICK);
-
-			return true;
-		}
-
-		@Override
-		public int absorbDamage(int dmg, @NotNull Char.DamageSrc src) {
-			//Armour degrades when the shield absorbs damage
-			if (target.hasBelongings() && target.belongings.armor != null) target.belongings.armor.use();
-
-			if (src.ignores()) {
-				return dmg;
-			}
-
-			if (src.getElement().isMagical()) {
-				dmg *= magicalDamageFactor();
-			} else {
-				dmg *= physicalDamageFactor();
-			}
-			return super.absorbDamage(dmg, src);
-		}
-
-		@Override
-		public void storeInBundle(Bundle bundle) {
-			super.storeInBundle(bundle);
-			bundle.put(PARTIAL_REGEN, partialRegen);
-		}
-
-		@Override
-		public void restoreFromBundle(Bundle bundle) {
-			super.restoreFromBundle(bundle);
-			partialRegen = bundle.getFloat(PARTIAL_REGEN);
-		}
-
-		//Don't detach at zero - this buff regenerates.
-		@Override
-		protected void onZeroShield() {}
+	public static int processDamage(int attack, int defense) {
+		//Speed up 0-def calculations and prevent division by zero in rare cases where attk and def are 0
+		if (defense == 0) return attack;
+		float factor = attack/(float)(attack+defense);
+		return (int) (attack * factor);
 	}
 }

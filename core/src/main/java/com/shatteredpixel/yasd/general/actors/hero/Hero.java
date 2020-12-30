@@ -954,7 +954,6 @@ public class Hero extends Char {
 	}
 
 	private void processShake(int dmg) {
-		dmg -= Armor.Defense.curShield(this);
 		if (dmg <= 0) {
 			return;
 		}

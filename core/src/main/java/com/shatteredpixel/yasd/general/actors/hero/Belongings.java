@@ -227,11 +227,6 @@ public class Belongings implements Iterable<Item> {
 		return 1f;
 	}
 
-	public float defenseRegen() {
-		if (armor != null) return armor.defenseRegen();
-		return 0;
-	}
-
 	public float poise() {
 		if (armor != null) return armor.poise();
 		return 0;

@@ -38,9 +38,11 @@ import com.shatteredpixel.yasd.general.items.KindOfWeapon;
 import com.shatteredpixel.yasd.general.items.KindofMisc;
 import com.shatteredpixel.yasd.general.items.MainHandItem;
 import com.shatteredpixel.yasd.general.items.WeaponEditor;
+import com.shatteredpixel.yasd.general.items.armor.Armor;
 import com.shatteredpixel.yasd.general.items.armor.ChainArmor;
 import com.shatteredpixel.yasd.general.items.armor.HuntressArmor;
 import com.shatteredpixel.yasd.general.items.armor.MageArmor;
+import com.shatteredpixel.yasd.general.items.armor.RandomArmor;
 import com.shatteredpixel.yasd.general.items.armor.RogueArmor;
 import com.shatteredpixel.yasd.general.items.bags.MagicalHolster;
 import com.shatteredpixel.yasd.general.items.bags.PotionBandolier;
@@ -158,6 +160,7 @@ public enum HeroClass {
 		new LargeTitaniteShard().collect();
 		new TitaniteChunk().collect();
 		new TitaniteSlab().collect();
+		new RandomArmor().rollStats().random().collect();
 		Generator.randomWand().identify().collect();
 	}
 
