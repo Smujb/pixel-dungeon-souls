@@ -67,6 +67,7 @@ import com.shatteredpixel.yasd.general.actors.buffs.MindVision;
 import com.shatteredpixel.yasd.general.actors.buffs.Momentum;
 import com.shatteredpixel.yasd.general.actors.buffs.Ooze;
 import com.shatteredpixel.yasd.general.actors.buffs.Paralysis;
+import com.shatteredpixel.yasd.general.actors.buffs.PoiseRegen;
 import com.shatteredpixel.yasd.general.actors.buffs.Poison;
 import com.shatteredpixel.yasd.general.actors.buffs.Preparation;
 import com.shatteredpixel.yasd.general.actors.buffs.Regeneration;
@@ -120,6 +121,8 @@ import java.util.HashSet;
 
 public abstract class Char extends Actor {
 
+	public static final float POISE_STAGGER_TIME = 1.5f;
+
 	public int pos = 0;
 
 	public CharSprite sprite;
@@ -138,6 +141,7 @@ public abstract class Char extends Actor {
 
 	public int HT;
 	public int HP;
+	public float poise = maxPoise();
 	public float stamina = maxStamina();
 	public static final float REQ_STAMINA = 1f;
 
@@ -212,6 +216,18 @@ public abstract class Char extends Actor {
 			return true;
 		}
 		else return false;
+	}
+
+	//Returns whether the target was staggered
+	public boolean damagePoise(float amt) {
+		poise -= amt;
+		if (poise <= 0) {
+			poise = maxPoise();
+			spend(POISE_STAGGER_TIME);
+			sprite.showStatus(CharSprite.NEGATIVE, Messages.get(this, "stagger"));
+			return true;
+		}
+		return false;
 	}
 
 	public Element elementalType() {
@@ -326,8 +342,9 @@ public abstract class Char extends Actor {
 	}
 
 	public void live() {
-		if (buff(Regeneration.class) == null) Buff.affect(this, Regeneration.class);
-		if (buff(StaminaRegen.class) == null) Buff.affect(this, StaminaRegen.class);
+		Buff.affect(this, Regeneration.class);
+		Buff.affect(this, StaminaRegen.class);
+		Buff.affect(this, PoiseRegen.class);
 	}
 
 	protected static final String POS = "pos";
@@ -433,8 +450,7 @@ public abstract class Char extends Actor {
 
 			//"Stagger" the enemy, i.e. make them spend some time
 			float stagger = impact();
-			stagger -= enemy.poise();
-			if (stagger > 0) enemy.spend(stagger);
+			enemy.damagePoise(stagger);
 
 			//Actually damage the enemy.
 			enemy.damage( dmg, src );
@@ -567,9 +583,9 @@ public abstract class Char extends Actor {
 		return 0;
 	}
 
-	public float poise() {
+	public float maxPoise() {
 		if (hasBelongings()) {
-			return belongings.poise();
+			return belongings.maxPoise();
 		} else {
 			return 0f;
 		}

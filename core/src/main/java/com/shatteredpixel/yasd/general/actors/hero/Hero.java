@@ -391,9 +391,7 @@ public class Hero extends Char {
 	@Override
 	public void live() {
 		super.live();
-		if (buff(Hunger.class) == null) {
-			Buff.affect(this, Hunger.class);
-		}
+		Buff.affect(this, Hunger.class);
 	}
 	
 	public int tier() {

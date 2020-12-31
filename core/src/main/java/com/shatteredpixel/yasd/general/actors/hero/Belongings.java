@@ -227,7 +227,7 @@ public class Belongings implements Iterable<Item> {
 		return 1f;
 	}
 
-	public float poise() {
+	public float maxPoise() {
 		if (armor != null) return armor.poise();
 		return 0;
 	}

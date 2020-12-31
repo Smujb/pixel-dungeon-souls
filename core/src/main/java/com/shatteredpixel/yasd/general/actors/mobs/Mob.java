@@ -56,7 +56,6 @@ import com.shatteredpixel.yasd.general.items.rings.RingOfWealth;
 import com.shatteredpixel.yasd.general.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.yasd.general.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.yasd.general.levels.Level;
-import com.shatteredpixel.yasd.general.levels.features.Chasm;
 import com.shatteredpixel.yasd.general.mechanics.Ballistica;
 import com.shatteredpixel.yasd.general.messages.Messages;
 import com.shatteredpixel.yasd.general.plants.Swiftthistle;
@@ -250,7 +249,7 @@ public abstract class Mob extends Char {
 	}
 
 	private static float normalPoise(int level) {
-		return 0.2f + 0.025f*level;
+		return 2f + 0.25f*level;
 	}
 
 	private static float normalImpact(int level) {
@@ -352,9 +351,9 @@ public abstract class Mob extends Char {
 	}
 
 	@Override
-	public float poise() {
+	public float maxPoise() {
 		if (hasBelongings()) {
-			return super.poise();
+			return super.maxPoise();
 		} else {
 			return normalPoise(level) * poiseFactor;
 		}

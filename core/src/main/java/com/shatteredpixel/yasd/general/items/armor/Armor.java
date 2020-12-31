@@ -188,7 +188,7 @@ public class Armor extends EquipableItem {
 	}
 
 	public float poise(int lvl) {
-		return (0.2f + 0.03f * lvl * tier) * poiseFactor;
+		return (2f + 0.3f * lvl * tier) * poiseFactor;
 	}
 
 	public final float poise() {
