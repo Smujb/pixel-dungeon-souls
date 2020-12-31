@@ -45,57 +45,18 @@ import com.watabou.utils.PlatformSupport;
 
 public class PDSGame extends Game {
 
-	//Shattered Pixel Dungeon
+	//Shattered Pixel Dungeon (old)
 	public static final int v0_6_5c = 264;
 
-	//Powered Pixel Dungeon
-	public static final int v0_2_0  = 400;
-	public static final int v0_2_1  = 401;
-	public static final int v0_2_2  = 402;
-	public static final int v0_2_3  = 403;
-	public static final int v0_2_4  = 404;
-	public static final int v0_2_5  = 405;
-	public static final int v0_2_6  = 406;
-	public static final int v0_2_7  = 407;
-	public static final int v0_2_8  = 409;
-	public static final int v0_2_10  = 411;
-	public static final int v0_2_11  = 412;
-	public static final int v0_2_12  = 413;
-	public static final int v0_2_13  = 414;
-	public static final int v0_2_14  = 415;
-	public static final int v0_2_15  = 416;
-	public static final int v0_2_16  = 417;
-	public static final int v0_2_17  = 418;
-	public static final int v0_2_18  = 419;
-	public static final int v0_2_19  = 422;
-	public static final int v0_2_20  = 423;
-	public static final int v0_2_21  = 424;
-	public static final int v0_2_22  = 426;
-
-	public static final int v0_3_0  = 427;
-	public static final int v0_3_1  = 428;
-	public static final int v0_3_2  = 429;
-	public static final int v0_3_3  = 430;
-	public static final int v0_3_4  = 431;
-	public static final int v0_3_5  = 432;
-	public static final int v0_3_6  = 433;
-
-	public static final int v0_4_0  = 434;
-	public static final int v0_4_1  = 435;
+	//Powered Pixel Dungeon (old)
 	public static final int v0_4_2  = 437;
-	public static final int v0_4_3  = 439;
-	public static final int v0_4_4  = 442;
-	public static final int v0_4_5  = 443;
-	public static final int v0_4_6  = 446;
+
 	public static final int v0_4_7  = 449;
 	public static final int v0_4_8  = 450;
-	public static final int v0_4_9  = 452;
-	public static final int v0_4_10  = 453;
-	public static final int v0_4_11  = 454;
-	public static final int v0_4_12  = 455;
 
-
+	//Pixel Dungeon Souls
 	public static final int v0_1_1  = 457;
+	public static final int v0_1_2  = 458;
 	
 	public PDSGame(PlatformSupport platform ) {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
