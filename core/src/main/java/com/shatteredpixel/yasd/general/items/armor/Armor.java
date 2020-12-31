@@ -154,23 +154,22 @@ public class Armor extends EquipableItem {
 	@Override
 	public void restoreFromBundle(  Bundle bundle ) {
 		super.restoreFromBundle(bundle);
-		usesLeftToID = bundle.getInt( USES_LEFT_TO_ID );
-		availableUsesToID = bundle.getInt( AVAILABLE_USES );
+		usesLeftToID = bundle.getInt(USES_LEFT_TO_ID);
+		availableUsesToID = bundle.getInt(AVAILABLE_USES);
 		inscribe((Glyph) bundle.get(GLYPH));
-		curseInfusionBonus = bundle.getBoolean( CURSE_INFUSION_BONUS );
-		seal = (BrokenSeal)bundle.get(SEAL);
-		
+		curseInfusionBonus = bundle.getBoolean(CURSE_INFUSION_BONUS);
+		seal = (BrokenSeal) bundle.get(SEAL);
+
 		//pre-0.7.2 saves
-		if (bundle.contains( "unfamiliarity" )){
-			usesLeftToID = bundle.getInt( "unfamiliarity" );
-			availableUsesToID = USES_TO_ID/2f;
+		if (bundle.contains("unfamiliarity")) {
+			usesLeftToID = bundle.getInt("unfamiliarity");
+			availableUsesToID = USES_TO_ID / 2f;
 		}
-		
+
 		augment = bundle.getEnum(AUGMENT, Augment.class);
 
-		if (Dungeon.version >= PDSGame.v0_2_0) {//Support older saves
-			tier = bundle.getInt(TIER);
-		}
+		tier = bundle.getInt(TIER);
+
 	}
 
 	@Override
